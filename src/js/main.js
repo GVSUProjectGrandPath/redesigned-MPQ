@@ -28,10 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('restart-button').addEventListener('click', restartQuiz);
 
+    function MobileDevice() {
+        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
     // Sets up event listeners for answer buttons
     document.querySelectorAll('.answer-button').forEach(button => {
         button.addEventListener('click', function () {
             recordAnswer(this.value);
+
+            if (MobileDevice()) {
+                button.classList.remove("mobile-click")
+                void button.offsetWidth
+                button.classList.add("mobile-click")
+            }
         });
     });
 
