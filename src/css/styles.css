@@ -498,7 +498,7 @@ body::-webkit-scrollbar {
 
 #description-image {
   position: absolute; /* Make it independent */
-  left: 43%; /* Center it horizontally */
+  left: calc(50% - 65px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   transform: scaleX(-1);
   height: auto; /* Maintain aspect ratio */
@@ -507,7 +507,7 @@ body::-webkit-scrollbar {
 }
 #advantages-image {
   position: absolute; /* Make it independent */
-  left: 45%; /* Center it horizontally */
+  left: calc(50% - 32px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   height: auto; /* Maintain aspect ratio */
   z-index: 1; /* Ensure it's above the line */
@@ -515,7 +515,7 @@ body::-webkit-scrollbar {
 }
 #disadvantages-image {
   position: absolute; /* Make it independent */
-  left: 43%; /* Center it horizontally */
+  left: calc(50% - 65px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   transform: scaleX(-1);
   height: auto; /* Maintain aspect ratio */
@@ -524,7 +524,7 @@ body::-webkit-scrollbar {
 }
 #motivators-image {
   position: absolute; /* Make it independent */
-  left: 45%; /* Center it horizontally */
+  left: calc(50% - 32px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   height: auto; /* Maintain aspect ratio */
   z-index: 1; /* Ensure it's above the line */
@@ -532,7 +532,7 @@ body::-webkit-scrollbar {
 }
 #demotivators-image {
   position: absolute; /* Make it independent */
-  left: 43%; /* Center it horizontally */
+  left: calc(50% - 65px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   transform: scaleX(-1);
   height: auto; /* Maintain aspect ratio */
