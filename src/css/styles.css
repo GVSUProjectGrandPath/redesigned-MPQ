@@ -649,9 +649,6 @@ body::-webkit-scrollbar {
     width: 90%; 
   }
 
-/*   .answer-button:hover {
-    background-color:  #5bc2e7;
-  } */
   .answer-button:active {
     background-color: #5bc2e7
      ; /* for mobile tap */
@@ -670,15 +667,7 @@ body::-webkit-scrollbar {
     animation: changeColor 0.3s forwards;
   }
 
-  .feedback-button:hover {
-    background-color: #5bc2e7; /* Same hover color as answer buttons */
-  }
-  .restart-button:hover {
-    background-color: #5bc2e7; /* Same hover color as answer buttons */
-  }
-
   
-
   
   #detailed-results{
   position: relative;
