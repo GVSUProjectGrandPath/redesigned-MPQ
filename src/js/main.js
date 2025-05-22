@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const animalName = personalitiesData.descriptions[type].animal;
 
             const buttonWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
-            const activeSymbol = '⚫';
+            const activeSymbol = '●';
             const inactiveSymbol = '↓';
 
             const button = document.createElement('button');
@@ -359,5 +359,3 @@ document.addEventListener('DOMContentLoaded', () => {
         location.reload(); // Placeholder - need to just reset quiz like how I am trying above, but it screws up formatting, FIX
     }
 });
-
-
