@@ -616,7 +616,6 @@ body::-webkit-scrollbar {
   #answers {
     flex-direction: column;
     align-items: center;
-    width: 100%;
     max-width: 800px;
     z-index: 1; /* Ensure it’s behind the progress bar */
 
