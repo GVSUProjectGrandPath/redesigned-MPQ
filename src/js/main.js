@@ -358,4 +358,33 @@ document.addEventListener('DOMContentLoaded', () => {
         loadQuestion(currentQuestionIndex);
         location.reload(); // Placeholder - need to just reset quiz like how I am trying above, but it screws up formatting, FIX
     }
+
+    // Keyboard shortcut to instantly finish quiz
+    let pressedKeys = {};
+
+    document.addEventListener('keydown', (event) => {
+    pressedKeys[event.key] = true;
+    // Check for specific key combinations
+    if (pressedKeys['s'] && pressedKeys['k']) {
+        if (welcomeScreen.style.display !== 'none') {
+            welcomeScreen.style.display = 'none';
+            quizContainer.style.display = 'flex';
+        }
+        totalPoints = {
+            "saver": 10,
+            "spender": 7,
+            "investor": 5,
+            "compulsive": 4,
+            "gambler": 3,
+            "debtor": 2,
+            "shopper": 1,
+            "indifferent": 1
+        };
+        showResults();
+    }
+    });
+
+    document.addEventListener('keyup', (event) => {
+    delete pressedKeys[event.key];
+    });
 });
