@@ -10,7 +10,7 @@ html, body {
   color: #ffffff;
 
   overflow-y: scroll; /* Enable vertical scrolling */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-x: scroll; /* Prevent horizontal scrolling */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
   scrollbar-width: none; /* Firefox: Hide scrollbars */
 }
@@ -31,6 +31,7 @@ body::-webkit-scrollbar {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  /* object-fit: cover; */
   z-index: -1; /* Make sure video is behind other content */
 }
 
@@ -42,7 +43,7 @@ body::-webkit-scrollbar {
 
 #quiz-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   height: 100vh; /* Full viewport height */
@@ -75,14 +76,11 @@ body::-webkit-scrollbar {
 }
 
 #logo-image {
-  position: absolute;
-  top: 30px; /* Adjust as needed */
-  left: 51%;
-  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
   width: 150px; /* Adjust width/height to fit your design */
-  height: 80px; /* Example height */
   border-radius: 20px;
- background-color: white;
+  background-color: white;
 }
 
 #hero-text{
@@ -194,6 +192,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-self: center;
   width: 100%;
   max-width: 800px;
   z-index: 1; /* Ensure it’s behind the progress bar */
@@ -371,7 +370,7 @@ body::-webkit-scrollbar {
 #result-animal-image {
   display: block;
   margin: 0 auto; /* Centers the image horizontally */
-  max-width: 50%; /* Adjust the size of the image */
+  max-width: 46%; /* Adjust the size of the image */
   height: auto; /* Maintains the aspect ratio */
   padding-top: 20px; /* Adds some space above the image */
 }
@@ -383,6 +382,7 @@ body::-webkit-scrollbar {
   width: 100%; /* Ensure container takes full width */
   box-sizing: border-box; /* Include padding in width calculation */
   margin-left: 30px;
+  gap: 10px;
 }
 
 /* Detailed Results Button Styles */
@@ -394,18 +394,68 @@ body::-webkit-scrollbar {
   padding: 5px 20px;
   border: none;
   text-align: left;
-  margin: 5px 0 2px 30%; /* Add left margin */
+  margin: 5px 0 2px 30%;
+  /* margin: 5px 0 2px 30%; /* Add left margin */
   border-radius: 20px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
   width: auto; /* Adjust width based on content */
   min-width: 100px; /* Ensure minimum width */
+  /* box-shadow: 18px 0px 15px rgba(84, 201, 205, 1); */
+  /* box-shadow: 0px 0px 0px rgba(84, 201, 205, 1); */
+  /* box-shadow: 0px 0px 18px rgba(84, 201, 205, 1); */
+  /* animation: pulseGlowEffect3 2s infinite ease-in-out; */
 }
 
 #detailed-results button.active {
   background-color: #54c9cd !important; /* Change to your desired color */
+  animation: none;
 }
+
+#detailed-results button:nth-of-type(2) {
+  animation: pulseGlowEffect1 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlowEffect1 {
+  /* 0% {
+    transform: translateX(-50%) translateY(0);
+  } */
+  50% {
+    box-shadow: 0px 11px 10px rgb(0, 247, 255);
+  }
+  100% {
+    box-shadow: 0px 0px 0px rgba(84, 201, 205, 1);
+  }
+}
+
+@keyframes pulseGlowEffect2 {
+  /* 0% {
+    transform: translateX(-50%) translateY(0);
+  } */
+  50% {
+    box-shadow: 0px 0px 18px rgba(84, 201, 205, 1);
+  }
+  100% {
+    box-shadow: 0px 0px 0px rgba(84, 201, 205, 1);
+  }
+}
+
+@keyframes pulseGlowEffect3 {
+  /* 0% {
+    transform: translateX(-50%) translateY(0);
+  } */
+  50% {
+    box-shadow: 18px 0px 9px rgba(84, 201, 205, 1);
+  }
+  100% {
+    box-shadow: 0px 0px 0px rgba(84, 201, 205, 1);
+  }
+}
+
+/* .click-indication-container {
+  
+} */
 
 /* Detailed Results Text Styles */
 #personality-details {
@@ -560,6 +610,31 @@ body::-webkit-scrollbar {
   z-index: 50;
 }
 
+.resultButton-arrowContainer {
+  display: flex;
+  /* flex-direction: row; */
+  /* flex: 1; */
+  flex-direction: row;
+}
+
+.horizontal-arrow {
+  font-size: 3.5vh;
+  color: #FEDB04;
+  text-shadow: 
+    -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), /* Text shadow effect */
+    1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
+    -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
+    1.5px 1.5px 3px rgba(46, 101, 103, 0.5); 
+  bottom: 0%;
+  left: 50%;
+  position: inherit;
+  /* transform: translateX(-50%); */
+  animation: move-horizontalArrow 2s infinite ease-in-out;
+  z-index: 50;
+  /* display: 'flex'; */
+  /* flex-direction: 'flex-end'; */
+}
+
 @keyframes moveArrow {
   0% {
     transform: translateX(-50%) translateY(0);
@@ -572,7 +647,38 @@ body::-webkit-scrollbar {
   }
 }
 
+@keyframes move-horizontalArrow {
+  0% {
+    transform: translateX(-50%) translateX(0);
+  }
+  50% {
+    transform: translateX(-50%) translateX(10px);
+  }
+  100% {
+    transform: translateX(-50%) translateX(0);
+  }
+}
+
+@media (orientation: landscape) {
+  /* body {
+    flex-direction: row;
+  } */
+   /* Current thing to work on */
+  #welcome-screen {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+    padding: 10px;
+    object-fit: cover;
+  }
+}
+
 @media (orientation: portrait) {
+  /* body { */
+    /* top: 0 */
+    /* flex-direction: column; */
+  /* } */
   #welcome-image {
     position: absolute;
     top: 100px; /* Adjust as needed */
@@ -591,7 +697,6 @@ body::-webkit-scrollbar {
   }
 
 
-  
   #welcome-text {
     margin-top: 20px;
     font-size: 1.6rem;
@@ -623,6 +728,7 @@ body::-webkit-scrollbar {
     justify-items: center;
     display: flex;
     width: 90%;
+    /* font-weight: 700; */
   }
   .answer-button {
     background-color: #5bc2e7;
@@ -636,6 +742,8 @@ body::-webkit-scrollbar {
     transition: background-color 0.3s ease;
     width: 100%; /* Full width for mobile */
     max-width: none;
+    text-shadow: 0 0 0.75px rgba(0, 0, 0, 0.6);
+    /* font-weight: 700; */
   }
   #answer-a {
     width: 90%; 
@@ -648,8 +756,9 @@ body::-webkit-scrollbar {
   }
 
   .answer-button:active {
-    background-color: #5bc2e7
-     ; /* for mobile tap */
+    background-color: #5bc2e7;
+    /* font-weight: bold; */
+     /* for mobile tap */
   } 
 
   @keyframes changeColor {
@@ -683,9 +792,19 @@ body::-webkit-scrollbar {
   .restart-button, .feedback-button {
     font-size: .8rem;
   }
-  #question-text, #result, #detailed-results, #result-text {
+  #question-text, #detailed-results, #result-text {
+    font-size: 1.3rem;
+    /* font-weight: bold; */
+  }
+
+  #result {
     font-size: 1.3rem;
   }
+
+  #question-text, #result {
+    text-shadow: 0 0 1px rgb(255, 255, 255) /* trick to make text bold */
+  }
+
   #detailed-results {
     width: 50%; /* Ensure container takes full width */
     margin-left: 0px;
@@ -698,7 +817,7 @@ body::-webkit-scrollbar {
 
   #result-animal-image {
     margin: 0 auto; /* Centers the image horizontally */
-    max-width: 75%; /* Adjust the size of the image */
+    max-width: 48%; /* Adjust the size of the image */
     height: auto; /* Maintains the aspect ratio */
     padding-top: 20px; /* Adds some space above the image */
   }
@@ -726,3 +845,7 @@ body::-webkit-scrollbar {
     background-color: #e97c17; /* Color for the middle line */
   }
 }
+
+/* @media (orientation: portrait) {
+
+} */

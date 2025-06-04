@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.getElementById('start-button');
     const progressContainer = document.getElementById('progress-container');
     const progressBar = document.getElementById('progress-bar');
+    const bodyElement = document.body;
 
     const totalQuestions = questions.length;
 
@@ -30,6 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function MobileDevice() {
         return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    if (MobileDevice()) {
+        bodyElement.style.backgroundColor = 'black';
     }
 
     // Sets up event listeners for answer buttons
@@ -126,21 +131,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const additionalLength = 100;
         const scalingFactor = 3;
 
+        // Code for inserting horizontal arrow next to result buttons!
+        // const horizArrow = document.createElement('div')
+        // horizArrow.classList.add('horizontal-arrow')
+        // horizArrow.innerHTML = " &#8594; "
+        // resultsContainer.appendChild(horizArrow)
+
         // Create buttons for each personality type
         sortedTypes.forEach(({ type, percentage }) => {
             const animalName = personalitiesData.descriptions[type].animal;
+            // const button_arrow_Container = document.createElement('div')
+            // button_arrow_Container.classList.add('resultButton-arrowContainer')
+            // Code for inserting horizontal arrow next to result buttons!
+            // const horizArrow = document.createElement('div')
+            // horizArrow.classList.add('horizontal-arrow')
+            // horizArrow.innerHTML = " &#8594; "
 
             const buttonWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
-            const activeSymbol = '●';
+            // const button_arrowWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
+            // button_arrow_Container.style.width = `${button_arrowWidth}px`;
+            const activeSymbol = '⚫';
             const inactiveSymbol = '↓';
 
             const button = document.createElement('button');
             button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
             button.style.width = `${buttonWidth}px`;
+
             button.onclick = () => {
                 showPersonalityDetails(type);
                 for (const btn of resultsContainer.children){
                     btn.classList.remove('active');
+                    btn.style.animation = "none";
 
                     btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
                 }
@@ -153,7 +174,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
             }
 
-            resultsContainer.appendChild(button);
+            // button_arrow_Container.appendChild(button)
+            // button_arrow_Container.appendChild(horizArrow)
+            // button_arrow_Container.appendChild(button)
+            // resultsContainer.appendChild(button_arrow_Container);
+            resultsContainer.appendChild(button)
+            // resultsContainer.appendChild(horizArrow)
+
         });
 
         showPersonalityDetails(personalityType);
@@ -305,6 +332,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (animalImages[personalityType]) {
                     resultAnimalImage.src = animalImages[personalityType];
+                    // resultAnimalImage.src = "/src/assets/animal_pngs/panda.png" // for testing purposes
+                    if (MobileDevice()) {
+                        resultAnimalImage.style.maxWidth = "76%"
+                        // const resultText = document.getElementById('result')
+                        document.getElementById('result').style.fontSize = "1.1rem"
+                    }
+
                     resultAnimalImage.style.display = "block";
                 } else {
                     resultAnimalImage.style.display = "none";
@@ -358,4 +392,35 @@ document.addEventListener('DOMContentLoaded', () => {
         loadQuestion(currentQuestionIndex);
         location.reload(); // Placeholder - need to just reset quiz like how I am trying above, but it screws up formatting, FIX
     }
+
+    // Keyboard shortcut to instantly finish quiz
+    let pressedKeys = {};
+
+    document.addEventListener('keydown', (event) => {
+    pressedKeys[event.key] = true;
+    // Check for specific key combinations
+    if (pressedKeys['s'] && pressedKeys['k']) {
+        if (welcomeScreen.style.display !== 'none') {
+            welcomeScreen.style.display = 'none';
+            quizContainer.style.display = 'flex';
+        }
+        totalPoints = {
+            "saver": 10,
+            "spender": 7,
+            "investor": 5,
+            "compulsive": 4,
+            "gambler": 3,
+            "debtor": 2,
+            "shopper": 1,
+            "indifferent": 1
+        };
+        showResults();
+    }
+    });
+
+    document.addEventListener('keyup', (event) => {
+    delete pressedKeys[event.key];
+    });
 });
+
+
