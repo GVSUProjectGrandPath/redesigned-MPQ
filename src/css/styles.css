@@ -65,12 +65,12 @@ body::-webkit-scrollbar {
   position: relative; /* Ensure children can be absolutely positioned */
   text-align: center;
   z-index: 1; /* Ensure content is above the video */
-  
 }
 
 #logo-image {
   height: 15vh;
   width: auto;
+  
   border-radius: 4vh;
   background-color: white;
 }
@@ -345,7 +345,6 @@ body::-webkit-scrollbar {
   height: 100vh; /* Ensure it takes the full viewport height */
   position: relative; /* Make sure it stays within its parent */
   color: #ffffff;
-
 }
 
 #result-text {
@@ -600,6 +599,29 @@ body::-webkit-scrollbar {
     width: auto; /* Adjust width/height to fit your design */
     height: 110px; /* Example height */
   }
+
+  #logo-image {
+    height: 15vw;
+    width: auto;
+    border-radius: 4vw;
+  }
+  #hero-text{
+    font-size: 10vw;
+  }
+  #welcome-text {
+    font-size: 7vw;
+  }
+  .start-button { 
+    border-top: 1vw solid #FEDB04;    /* Small border on the top */
+    border-right: 2vw solid #FEDB04;  /* Same size border on the right */
+    border-bottom: 4vw solid #FEDB04; /* Larger border on the bottom */
+    border-left: 2vw solid #FEDB04;   /* Same size border on the left */
+    border-radius: 4vw;             /* Optional: rounded corners */
+    font-size: 6vw;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    z-index: 1; /* Ensure button is above the GIF background */
+  }
    
   #question-container {
     top: 40%;
@@ -662,15 +684,10 @@ body::-webkit-scrollbar {
     animation: changeColor 0.3s forwards;
   }
 
-  
-  
   #detailed-results{
-  position: relative;
-  
+    position: relative;
   }
 
-  
-  
   #detailed-results button {
     margin: 5px 0 2px 20%; /* Add left margin */
   }
