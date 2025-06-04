@@ -51,7 +51,6 @@ body::-webkit-scrollbar {
   padding: 20px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  max-width: 800px;
   margin: auto;
   color: #ffffff; 
   z-index: 1; /* Ensure content is above the video */
@@ -60,35 +59,27 @@ body::-webkit-scrollbar {
 #welcome-screen {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-items: center;
   align-items: center;
-  height: 65vh; /* Full viewport height */
-  width: 65vw; /* Full viewport width */
-  padding: 20px;
   /*background: transparent url('../assets/island.png') center center no-repeat; /* Background GIF */
-  background-size: cover; /* Cover the entire screen */
   position: relative; /* Ensure children can be absolutely positioned */
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
   text-align: center;
   z-index: 1; /* Ensure content is above the video */
+  
 }
 
 #logo-image {
-  position: absolute;
-  top: 30px; /* Adjust as needed */
-  left: 51%;
-  transform: translateX(-50%);
-  width: 150px; /* Adjust width/height to fit your design */
-  height: 80px; /* Example height */
-  border-radius: 20px;
- background-color: white;
+  height: 15vh;
+  width: auto;
+  border-radius: 4vh;
+  background-color: white;
 }
 
 #hero-text{
-  width:100%;
+  width: 100%;
   margin-bottom: 0px; 
-  font-size:3.5rem;
+  margin-top: 15px;
+  font-size: 10vh;
   font-weight: bold;
   color: #FEDB04;
   text-shadow: 
@@ -96,12 +87,10 @@ body::-webkit-scrollbar {
     1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
     -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
     1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
-
 }
 
-
 #welcome-text {
-  font-size: 2rem;
+  font-size: 7vh;
   font-weight: bold;
   color: #FEDB04;
   text-shadow: 
@@ -113,26 +102,24 @@ body::-webkit-scrollbar {
   width: 70%; /* Set the width to 30% */
   text-align: center;
   word-wrap: break-word; /* Ensure long words wrap to the next line */
-  max-width: 1000px;
 }
 
 .start-button { 
-  margin-top:10px;
+  margin-top: 10px;
   background-color: #5bc2e7;
   color: black;
   font-family: 'Jura', sans-serif; /* or 'Audiowide', sans-serif */
   font-weight: bold;
-  padding: 10px 10px;
-  border-top: 1px solid #FEDB04;    /* Small border on the top */
-  border-right: 2px solid #FEDB04;  /* Same size border on the right */
-  border-bottom: 10px solid #FEDB04; /* Larger border on the bottom */
-  border-left: 2px solid #FEDB04;   /* Same size border on the left */
-  border-radius: 10px;             /* Optional: rounded corners */
-  font-size: 1.2rem;
+  padding: 2% 2%;
+  border-top: 1vh solid #FEDB04;    /* Small border on the top */
+  border-right: 2vh solid #FEDB04;  /* Same size border on the right */
+  border-bottom: 4vh solid #FEDB04; /* Larger border on the bottom */
+  border-left: 2vh solid #FEDB04;   /* Same size border on the left */
+  border-radius: 4vh;             /* Optional: rounded corners */
+  font-size: 6vh;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
   z-index: 1; /* Ensure button is above the GIF background */
-
 }
 
 .start-button:hover {
@@ -148,7 +135,6 @@ body::-webkit-scrollbar {
 #progress-container {
   position: fixed;
   top: 10%;
-  max-width: 800px;
   width: 90%;
   background-color:#5BC2E7;
   border-radius: 20px;
@@ -172,14 +158,13 @@ body::-webkit-scrollbar {
   text-align: center; /* Center text within container */
   z-index: 1; /* Ensure it’s behind the progress bar */
   width: 90%; /* Adjust this value as needed */
-  max-width: 800px;
+  margin-bottom: 40vh;
 }
 
 #question-text, #result {
-  font-size: 1.8rem;
+  font-size: 5vh;
   color: #ffffff;
   font-weight: bold;
-  
 }
 
 #detailed-results {
@@ -187,16 +172,15 @@ body::-webkit-scrollbar {
   color: black;
 }
 
-
 #answers {
   position: fixed;
-  bottom: 10%; /* Distance from bottom */
+  bottom: 0%; /* Distance from bottom */
   display: flex;
   align-items: center;
   justify-content: center;
   justify-self: center;
   width: 100%;
-  max-width: 800px;
+  height: 35%;
   z-index: 1; /* Ensure it’s behind the progress bar */
 }
 
@@ -204,16 +188,17 @@ body::-webkit-scrollbar {
   background-color: #5bc2e7;
   font-family: 'Jura', sans-serif;
   color: black;
-  padding: 25px;
-  margin: 5px;
+  margin: 1%;
   border: none;
-  border-radius: 20px;
-  font-size: 1.2rem;
+  border-radius: 2vw;
+  padding: 3vh;
+  font-size: 2vw;
   font-weight: bolder;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 100%; /* Set width automatically based on content */
-  max-width: 140px; /* Maximum width for buttons */
+  text-align: center;
+  width: 20vw;
+  word-spacing: 100vw;
 }
 
 .answer-button:hover {
@@ -389,7 +374,7 @@ body::-webkit-scrollbar {
 /* Detailed Results Button Styles */
 #detailed-results button {
   background-color: #FEDB04;
-  font-weight:bold ;
+  font-weight: normal;
   font-family: 'Jura', sans-serif;
   color: black;
   padding: 5px 20px;
@@ -402,10 +387,19 @@ body::-webkit-scrollbar {
   transition: background-color 0.3s ease, border-color 0.3s ease;
   width: auto; /* Adjust width based on content */
   min-width: 100px; /* Ensure minimum width */
+  animation: none;
 }
 
 #detailed-results button.active {
   background-color: #54c9cd !important; /* Change to your desired color */
+  padding-right: 11rem;
+  font-weight: bold;
+}
+#detailed-results button:hover {
+  background-color: #5bc2e7; 
+}
+#detailed-results button:nth-of-type(2) {
+  animation: hintAnim 3s infinite ease-in-out;
 }
 
 /* Detailed Results Text Styles */
@@ -498,7 +492,7 @@ body::-webkit-scrollbar {
 
 #description-image {
   position: absolute; /* Make it independent */
-  left: 43%; /* Center it horizontally */
+  left: calc(50% - 65px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   transform: scaleX(-1);
   height: auto; /* Maintain aspect ratio */
@@ -507,7 +501,7 @@ body::-webkit-scrollbar {
 }
 #advantages-image {
   position: absolute; /* Make it independent */
-  left: 45%; /* Center it horizontally */
+  left: calc(50% - 32px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   height: auto; /* Maintain aspect ratio */
   z-index: 1; /* Ensure it's above the line */
@@ -515,7 +509,7 @@ body::-webkit-scrollbar {
 }
 #disadvantages-image {
   position: absolute; /* Make it independent */
-  left: 43%; /* Center it horizontally */
+  left: calc(50% - 65px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   transform: scaleX(-1);
   height: auto; /* Maintain aspect ratio */
@@ -524,7 +518,7 @@ body::-webkit-scrollbar {
 }
 #motivators-image {
   position: absolute; /* Make it independent */
-  left: 45%; /* Center it horizontally */
+  left: calc(50% - 32px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   height: auto; /* Maintain aspect ratio */
   z-index: 1; /* Ensure it's above the line */
@@ -532,7 +526,7 @@ body::-webkit-scrollbar {
 }
 #demotivators-image {
   position: absolute; /* Make it independent */
-  left: 43%; /* Center it horizontally */
+  left: calc(50% - 65px); /* Center it horizontally */
   width: 100px; /* Scale down the image width */
   transform: scaleX(-1);
   height: auto; /* Maintain aspect ratio */
@@ -560,6 +554,23 @@ body::-webkit-scrollbar {
   animation: moveArrow 2s infinite ease-in-out;
   z-index: 50;
 }
+#left-arrow {
+  position: sticky;
+  bottom: 5%;
+  float: left;
+  left: 10px;
+}
+#right-arrow {
+  position: sticky;
+  bottom: 5%;
+  float: right;
+  right: 10px;
+  left: none;
+}
+#scroll-down-text {
+  font-size: 1.5rem;
+  color: #FEDB04;
+}
 
 @keyframes moveArrow {
   0% {
@@ -573,6 +584,13 @@ body::-webkit-scrollbar {
   }
 }
 
+@keyframes hintAnim {
+  0% {transform: scaleX(100%); background-color:#FEDB04;}
+  50% {transform: scaleX(110%) translateX(5%); background-color: #5BC2E7;}
+  100% {transform: scaleX(100%); background-color: #FEDB04;}
+}
+
+
 @media (orientation: portrait) {
   #welcome-image {
     position: absolute;
@@ -582,42 +600,17 @@ body::-webkit-scrollbar {
     width: auto; /* Adjust width/height to fit your design */
     height: 110px; /* Example height */
   }
-   #logo-image {
-    position: absolute;
-    top: 20px; /* Adjust as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px; /* Adjust width/height to fit your design */
-    height: 75px; /* Example height */
-  }
-
-
-  
-  #welcome-text {
-    margin-top: 20px;
-    font-size: 1.6rem;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #FEDB04;
-    text-shadow: 
-      -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), /* Slight blur and transparency */
-      1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
-      -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
-      1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
-    z-index: 1; /* Ensure text is above the GIF background */
-    width: 90%;
-    text-align: center; /* Center align the text within its container */
-    word-wrap: break-word; /* Ensure long words wrap to the next line */
-    max-width: 550px;
-  }
+   
   #question-container {
     top: 40%;
+  }
+  #question-text {
+    font-size: 3vmax;
   }
   #answers {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 800px;
     z-index: 1; /* Ensure it’s behind the progress bar */
 
     bottom: 5%; /* Remove fixed bottom position */
@@ -630,14 +623,16 @@ body::-webkit-scrollbar {
     background-color: #5bc2e7;
     font-family: 'Jura', sans-serif;
     color: black;
-    padding: 10px 5px;
-    margin-top: 10px;
+    padding: 1.2vh;
+    margin-top: 1vh;
     
-    font-size: 0.8rem;
+    font-size: 2vmax;
     cursor: pointer;
+    border-radius: 5vmax;
     transition: background-color 0.3s ease;
     width: 100%; /* Full width for mobile */
     max-width: none;
+    word-spacing: normal;
   }
   #answer-a {
     width: 90%; 
@@ -649,23 +644,25 @@ body::-webkit-scrollbar {
     width: 90%; 
   }
 
-  .answer-button:hover {
-    background-color:  #5bc2e7;
-  }
   .answer-button:active {
     background-color: #5bc2e7
      ; /* for mobile tap */
   } 
 
-  .feedback-button:hover {
-    background-color: #5bc2e7; /* Same hover color as answer buttons */
+  @keyframes changeColor {
+    50% {
+      background-color: #FEDB04;
+    }
+    100% {
+      background-color: #5bc2e7;
+    }
   }
-  .restart-button:hover {
-    background-color: #5bc2e7; /* Same hover color as answer buttons */
+
+  .answer-button.mobile-click {
+    animation: changeColor 0.3s forwards;
   }
 
   
-
   
   #detailed-results{
   position: relative;
@@ -683,7 +680,7 @@ body::-webkit-scrollbar {
   .restart-button, .feedback-button {
     font-size: .8rem;
   }
-  #question-text, #result, #detailed-results, #result-text {
+  #result, #detailed-results, #result-text {
     font-size: 1.3rem;
   }
   #detailed-results {

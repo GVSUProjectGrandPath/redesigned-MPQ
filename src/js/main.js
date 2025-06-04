@@ -28,10 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('restart-button').addEventListener('click', restartQuiz);
 
+    function MobileDevice() {
+        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
     // Sets up event listeners for answer buttons
     document.querySelectorAll('.answer-button').forEach(button => {
         button.addEventListener('click', function () {
             recordAnswer(this.value);
+
+            if (MobileDevice()) {
+                button.classList.remove("mobile-click")
+                void button.offsetWidth
+                button.classList.add("mobile-click")
+            }
         });
     });
 
@@ -121,8 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const animalName = personalitiesData.descriptions[type].animal;
 
             const buttonWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
-            const activeSymbol = '⚫';
-            const inactiveSymbol = '↓';
+            const activeSymbol = '👁';
+            const inactiveSymbol = '';
 
             const button = document.createElement('button');
             button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
@@ -131,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showPersonalityDetails(type);
                 for (const btn of resultsContainer.children){
                     btn.classList.remove('active');
-
+                    btn.style.animation = 'none';
                     btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
                 }
                 button.classList.add('active');
@@ -348,6 +358,35 @@ document.addEventListener('DOMContentLoaded', () => {
         loadQuestion(currentQuestionIndex);
         location.reload(); // Placeholder - need to just reset quiz like how I am trying above, but it screws up formatting, FIX
     }
-});
 
+    // Keyboard shortcut to instantly finish quiz
+    let pressedKeys = {};
+
+    document.addEventListener('keydown', (event) => {
+    pressedKeys[event.key] = true;
+    // Check for specific key combinations
+    if (pressedKeys['s'] && pressedKeys['k']) {
+        if (welcomeScreen.style.display !== 'none') {
+            welcomeScreen.style.display = 'none';
+            quizContainer.style.display = 'flex';
+        }
+        totalPoints = {
+            "saver": 10,
+            "spender": 7,
+            "investor": 5,
+            "compulsive": 4,
+            "gambler": 3,
+            "debtor": 2,
+            "shopper": 1,
+            "indifferent": 1
+        };
+        showResults();
+    }
+    });
+
+    document.addEventListener('keyup', (event) => {
+    delete pressedKeys[event.key];
+    });
+    
+});
 
