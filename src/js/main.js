@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // These can all be changed to adjust the buttons on the results page
         const maxButtonWidth = 400;
-        const additionalLength = 200;
+        const additionalLength = 150;
         const scalingFactor = 3;
 
         // Code for inserting horizontal arrow next to result buttons!
