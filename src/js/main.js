@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // These can all be changed to adjust the buttons on the results page
         const maxButtonWidth = 400;
-        const additionalLength = 100;
+        const additionalLength = 200;
         const scalingFactor = 3;
 
         // Code for inserting horizontal arrow next to result buttons!
@@ -150,8 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const buttonWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
             // const button_arrowWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
             // button_arrow_Container.style.width = `${button_arrowWidth}px`;
-            const activeSymbol = '⚫';
-            const inactiveSymbol = '↓';
+            const activeSymbol = '<i class="fa-solid fa-eye"></i>';
+            const inactiveSymbol = '<i class="fa-solid fa-eye-slash"></i>';
 
             const button = document.createElement('button');
             button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
@@ -178,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // button_arrow_Container.appendChild(horizArrow)
             // button_arrow_Container.appendChild(button)
             // resultsContainer.appendChild(button_arrow_Container);
+            // button.appendChild(activeSymbol)
             resultsContainer.appendChild(button)
             // resultsContainer.appendChild(horizArrow)
 
