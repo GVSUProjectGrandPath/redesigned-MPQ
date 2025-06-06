@@ -130,13 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
         sortedTypes.forEach(({ type, percentage }) => {
             const animalName = personalitiesData.descriptions[type].animal;
 
-            const buttonWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
-            const activeSymbol = '👁';
-            const inactiveSymbol = '';
+            const buttonWidth = Math.max(35  + ((percentage / 100) * 65));
+            const activeSymbol = '<i class="fa-solid fa-eye"></i>';
+            const inactiveSymbol = '<i class="fa-solid fa-eye-slash"></i>';
 
             const button = document.createElement('button');
             button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
-            button.style.width = `${buttonWidth}px`;
+            button.style.width = `${buttonWidth}vw`;
             button.onclick = () => {
                 showPersonalityDetails(type);
                 for (const btn of resultsContainer.children){
