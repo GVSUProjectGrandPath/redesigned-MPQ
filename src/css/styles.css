@@ -136,10 +136,10 @@ body::-webkit-scrollbar {
   position: fixed;
   top: 10%;
   width: 90%;
+  height: 2.5%;
   background-color:#5BC2E7;
-  border-radius: 20px;
+  border-radius: 2vh;
   overflow: hidden;
-  height: 20px;
   z-index: 2; /* Ensure it's on top */
 }
 
@@ -299,10 +299,9 @@ body::-webkit-scrollbar {
   color: black;
   font-weight: bold;
   padding: 15px;
-  margin: 10px 0;
   border: none;
   border-radius: 4vmin;
-  font-size: 4vh;
+  font-size: 3vh;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -322,10 +321,11 @@ body::-webkit-scrollbar {
   font-weight: bold;
   font-weight: bold;
   padding: 15px;
-  margin: 10px 0;
+  margin-top: 5vh;
+  margin-left: 1vw;
   border: none;
   border-radius: 4vmin;
-  font-size: 4vh;
+  font-size: 3vh;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -381,11 +381,11 @@ body::-webkit-scrollbar {
   text-align: left;
   margin: 5px 0 2px 30%; /* Add left margin */
   border-radius: 4vh;
-  font-size: 3vw;
+  font-size: 2vw;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
   width: auto; /* Adjust width based on content */
-  min-width: 35vw; /* Ensure minimum width */
+  min-width: 30vw; /* Ensure minimum width */
   max-width: 75vw;
   animation: none;
 }
@@ -456,40 +456,31 @@ body::-webkit-scrollbar {
   padding-bottom: 20px;
 }
 
-#personality-details::before {
-  content: '';
+.details-tree {
   position: absolute;
-  top: 1.5%;
-  bottom: 0;
+  top: 1%;
   align-self: center;
   width: .5%;
   background-color: #FEDB04; /* Color for the middle line */
   height: 97%;
 }
-
 #topper-for-line {
-  position: absolute; /* Make it independent */
-  left: 50%; /* Center it horizontally */
-  transform: translateX(-50%); /* Adjust for centering */
-  top: 0%; /* Adjust to position it slightly above the line */
-  width: 5vh; /* Scale down the image width */
-  height: auto; /* Maintain aspect ratio */
+  position: absolute;
+  left: -2.25vw;
+  width: 5vw; /* Scale down the image width */
   z-index: 1; /* Ensure it's above the line */
 }
-
-#topper-for-line-2 {
-  position: absolute; /* Make it independent */
-  left: 50%; /* Center it horizontally */
-  transform:translateX(-50%) scaleY(-1); /* Adjust for centering */
-  top: 97%; /* Adjust to position it slightly above the line */
-  width: 5vh; /* Scale down the image width */
-  height: auto; /* Maintain aspect ratio */
-  z-index: 1; /* Ensure it's above the line */
+#topper-for-line:first-child {
+  top: -2%;
+}
+#topper-for-line:last-child {
+  bottom: -2%;
+  transform: rotate(180deg);
 }
 
 #description-image {
   position: absolute; /* Make it independent */
-  align-self: center;
+  left: 43%;
   width: 10%; /* Scale down the image width */
   transform: scaleX(-1);
   height: auto; /* Maintain aspect ratio */
@@ -498,16 +489,16 @@ body::-webkit-scrollbar {
 }
 #advantages-image {
   position: absolute; /* Make it independent */
-  align-self: center;
-  width: 10vw; /* Scale down the image width */
+  left: 47%;
+  width: 10%; /* Scale down the image width */
   height: auto; /* Maintain aspect ratio */
   z-index: 1; /* Ensure it's above the line */
   margin-top: -30px; /* Adjust this value to move arrows up or down if necessary */
 }
 #disadvantages-image {
   position: absolute; /* Make it independent */
-  align-self: center;
-  width: 10vw; /* Scale down the image width */
+  left: 43%;
+  width: 10%; /* Scale down the image width */
   transform: scaleX(-1);
   height: auto; /* Maintain aspect ratio */
   z-index: 1; /* Ensure it's above the line */
@@ -515,16 +506,16 @@ body::-webkit-scrollbar {
 }
 #motivators-image {
   position: absolute; /* Make it independent */
-  align-self: center;
-  width: 10vw; /* Scale down the image width */
+  left: 47%;
+  width: 10%; /* Scale down the image width */
   height: auto; /* Maintain aspect ratio */
   z-index: 1; /* Ensure it's above the line */
   margin-top: -30px; /* Adjust this value to move arrows up or down if necessary */
 }
 #demotivators-image {
   position: absolute; /* Make it independent */
-  align-self: center;
-  width: 10vw; /* Scale down the image width */
+  left: 43%;
+  width: 10%; /* Scale down the image width */
   transform: scaleX(-1);
   height: auto; /* Maintain aspect ratio */
   z-index: 1; /* Ensure it's above the line */
@@ -683,7 +674,7 @@ body::-webkit-scrollbar {
     font-size: 4vw;
   }
   .restart-button, .feedback-button {
-    font-size: 4vw;
+    font-size: 3vw;
   }
   #result, #detailed-results, #result-text {
     font-size: 3vmax;
@@ -704,6 +695,7 @@ body::-webkit-scrollbar {
   #personality-details {
     font-size: 1.3rem; /* Adjust font size for smaller screens */
     padding: 15px; /* Adjust padding for smaller screens */
+    margin: 20px 0px; /* Margin around text */
   }
   .details-box {
     width: 80%; /* Full width for mobile */
@@ -713,13 +705,10 @@ body::-webkit-scrollbar {
   .responsive-image {
     display: none; /* Hide the images on mobile devices */
   }
-  #personality-details::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 3%;
-    width: 0px;
-    background-color: #e97c17; /* Color for the middle line */
+  .details-tree {
+    display: none;
+  }
+  #topper-for-line {
+    display: none;
   }
 }
