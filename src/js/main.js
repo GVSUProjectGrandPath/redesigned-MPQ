@@ -266,6 +266,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('feedback-form').addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent default form submission
 
+            const form = event.target;
+
+            if (!form.checkValidity()) {
+                window.alert('Please complete all required fields before submitting the survey.');
+                // form.reportValidity();
+                return; // Stop execution
+            }
+
             const feedbackData = {
                 shareHabits: event.target.shareHabits.value,
                 recommendSurvey: event.target.recommendSurvey.value,
@@ -360,8 +368,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return Object.values(totalPoints).reduce((sum, points) => sum + points, 0);
     }
 
+    // var feedback_MenuOpen = false;
+
     document.getElementById('feedback-button').addEventListener('click', function () {
-        document.getElementById('feedback-popup').classList.add('active');
+
+        let feedbackPopup = document.getElementById('feedback-popup');
+
+        if (feedbackPopup.classList.contains('active')) {
+            feedbackPopup.classList.remove('active');
+        }
+        else {
+            feedbackPopup.classList.add('active');
+        }
     });
 
     document.addEventListener('click', function (event) {
@@ -369,6 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
             feedbackPopup.classList.remove('active');
+            // feedback_MenuOpen = false;
         }
     });
 
