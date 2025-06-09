@@ -111,11 +111,11 @@ body::-webkit-scrollbar {
   font-family: 'Jura', sans-serif; /* or 'Audiowide', sans-serif */
   font-weight: bold;
   padding: 2% 2%;
-  border-top: 1vh solid #FEDB04;    /* Small border on the top */
-  border-right: 1.5vh solid #FEDB04;  /* Same size border on the right */
-  border-bottom: 3vh solid #FEDB04; /* Larger border on the bottom */
-  border-left: 1.5vh solid #FEDB04;   /* Same size border on the left */
-  border-radius: 4vh;             /* Optional: rounded corners */
+  border-top: 1vmin solid #FEDB04;    /* Small border on the top */
+  border-right: 2vmin solid #FEDB04;  /* Same size border on the right */
+  border-bottom: 4vmin solid #FEDB04; /* Larger border on the bottom */
+  border-left: 2vmin solid #FEDB04;   /* Same size border on the left */
+  border-radius: 4vmin;             /* Optional: rounded corners */
   font-size: 3vh;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -298,7 +298,7 @@ body::-webkit-scrollbar {
   font-family: 'Jura', sans-serif;
   color: black;
   font-weight: bold;
-  padding: 15px;
+  padding: 1%;
   border: none;
   border-radius: 4vmin;
   font-size: 3vh;
@@ -320,8 +320,8 @@ body::-webkit-scrollbar {
   color: black;
   font-weight: bold;
   font-weight: bold;
-  padding: 15px;
-  margin-top: 5vh;
+  padding: 1%;
+  margin-top: 2.5%;
   margin-left: 1vw;
   border: none;
   border-radius: 4vmin;
@@ -376,10 +376,11 @@ body::-webkit-scrollbar {
   font-weight: normal;
   font-family: 'Jura', sans-serif;
   color: black;
-  padding: 5px 20px;
+  padding: 1%;
   border: none;
   text-align: left;
-  margin: 5px 0 2px 30%; /* Add left margin */
+  margin-top: 1%;
+  margin-left: 30%; /* Add left margin */
   border-radius: 4vh;
   font-size: 2vw;
   cursor: pointer;
@@ -408,9 +409,9 @@ body::-webkit-scrollbar {
   color: black; /* Text color */
   white-space: pre-wrap; /* Ensure text wraps correctly */
   overflow-wrap: break-word; /* Break long words to fit within container */
-  padding: 20px; /* Padding around text */
+  padding: 1%; /* Padding around text */
   border-radius: 20px; /* Rounded corners */
-  margin: 20px 50px; /* Margin around text */
+  margin: 20px 5%; /* Margin around text */
 
   display: flex;
   flex-direction: column;
@@ -420,7 +421,7 @@ body::-webkit-scrollbar {
 .details-box {
   width: 40%;
   display: inline-block;
-  padding: 10px;
+  padding: 1%;
   margin: 10px 0;
   
   border-radius: 1.5vmax;
@@ -437,23 +438,23 @@ body::-webkit-scrollbar {
 .details-box ul {
   list-style-type: disc; /* Default bullet style */
   list-style-position: inside;
-  padding-left: 20px; /* Adjust indentation as needed */
+  padding-left: 1%; /* Adjust indentation as needed */
 }
 
 .details-box.left {
   align-self: flex-start;
   background-color: #5bc2e7; /* Example background color */
   font-size: 2vmax;
-  padding-left: 20px;
-  padding-bottom: 20px;
+  padding-left: 1%;
+  padding-bottom: 1%;
 }
 
 .details-box.right {
   align-self: flex-end;
   background-color: #5bc2e7; /* Example background color */
   font-size: 2vmax;
-  padding-left: 20px;
-  padding-bottom: 20px;
+  padding-left: 1%;
+  padding-bottom: 1%;
 }
 
 .details-tree {
@@ -567,15 +568,6 @@ body::-webkit-scrollbar {
 
 
 @media (orientation: portrait) {
-  #welcome-image {
-    position: absolute;
-    top: 100px; /* Adjust as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto; /* Adjust width/height to fit your design */
-    height: 110px; /* Example height */
-  }
-
   #logo-image {
     height: 15vw;
     width: auto;
@@ -588,12 +580,7 @@ body::-webkit-scrollbar {
     font-size: 7vw;
   }
   .start-button { 
-    border-top: 1vw solid #FEDB04;    /* Small border on the top */
-    border-right: 2vw solid #FEDB04;  /* Same size border on the right */
-    border-bottom: 4vw solid #FEDB04; /* Larger border on the bottom */
-    border-left: 2vw solid #FEDB04;   /* Same size border on the left */
-    border-radius: 4vw;             /* Optional: rounded corners */
-    font-size: 6vw;
+    font-size: 4vw;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     z-index: 1; /* Ensure button is above the GIF background */
@@ -665,14 +652,11 @@ body::-webkit-scrollbar {
   }
   #detailed-results button {
     font-weight: bold;
-    padding: 8px 16px; /* Adjust padding for smaller screens */
-    margin: 5px 0 2px 20%; /* Add left margin */
+    font-size: 3vw;
+    margin-top: 2%;
+    margin-left: 20%; /* Add left margin */
   }
 
- 
-  .start-button {
-    font-size: 4vw;
-  }
   .restart-button, .feedback-button {
     font-size: 3vw;
   }
