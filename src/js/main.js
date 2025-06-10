@@ -131,6 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const additionalLength = 150;
         const scalingFactor = 3;
 
+        console.log(maxButtonWidth)
+
         // Code for inserting horizontal arrow next to result buttons!
         // const horizArrow = document.createElement('div')
         // horizArrow.classList.add('horizontal-arrow')
@@ -203,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         saveQuizResult(quizResult);  // Call the new function to save the result
-        saveResultToFirestore(quizResult);
+        // saveResultToFirestore(quizResult);
 
 
         function saveQuizResult(quizResult) {
@@ -219,27 +221,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(err => console.error("❌ Error saving to backend:", err));
         }
 
-        function saveResultToFirestore(quizResult) {
-            const collectionName = "finlit_results"; // New Firestore collection
-            const docRef = db.collection(collectionName).doc(quizResult.personalityType);
+        // function saveResultToFirestore(quizResult) {
+        //     const collectionName = "finlit_results"; // New Firestore collection
+        //     const docRef = db.collection(collectionName).doc(quizResult.personalityType);
 
-            docRef.get().then((doc) => {
-                if (doc.exists) {
-                    return docRef.update({
-                        resultCount: firebase.firestore.FieldValue.increment(1)
-                    });
-                } else {
-                    return docRef.set({
-                        personalityType: quizResult.personalityType,
-                        resultCount: 1
-                    });
-                }
-            }).then(() => {
-                console.log(`✅ Firestore saved to ${collectionName}: ${quizResult.personalityType}`);
-            }).catch((error) => {
-                console.error("❌ Firestore error:", error);
-            });
-        }
+        //     docRef.get().then((doc) => {
+        //         if (doc.exists) {
+        //             return docRef.update({
+        //                 resultCount: firebase.firestore.FieldValue.increment(1)
+        //             });
+        //         } else {
+        //             return docRef.set({
+        //                 personalityType: quizResult.personalityType,
+        //                 resultCount: 1
+        //             });
+        //         }
+        //     }).then(() => {
+        //         console.log(`✅ Firestore saved to ${collectionName}: ${quizResult.personalityType}`);
+        //     }).catch((error) => {
+        //         console.error("❌ Firestore error:", error);
+        //     });
+        // }
 
 
         async function saveQuizResult(quizResult) {
@@ -266,30 +268,29 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('feedback-form').addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent default form submission
 
-            const form = event.target;
-
-            if (!form.checkValidity()) {
-                window.alert('Please complete all required fields before submitting the survey.');
-                // form.reportValidity();
-                return; // Stop execution
-            }
-
             const feedbackData = {
                 shareHabits: event.target.shareHabits.value,
                 recommendSurvey: event.target.recommendSurvey.value,
-                comfortableTalking: event.target.comfortableTalking.value,
-                engagement: event.target.engagement.value,
+                // comfortableTalking: event.target.comfortableTalking.value,
+                // engagement: event.target.engagement.value,
                 resultsAccurate: event.target.resultsAccurate.value,
                 resultsHelpful: event.target.resultsHelpful.value,
-                interactivity: event.target.interactivity.value,
+                // interactivity: event.target.interactivity.value,
                 practicalSteps: event.target.practicalSteps.value,
-                additionalFeatures: Array.from(event.target.additionalFeatures)
-                    .filter(checkbox => checkbox.checked)
-                    .map(checkbox => checkbox.value),
-                saveResults: event.target.saveResults.value,
-                visualSatisfaction: event.target.visualSatisfaction.value,
+                // additionalFeatures: Array.from(event.target.additionalFeatures)
+                //     .filter(checkbox => checkbox.checked)
+                //     .map(checkbox => checkbox.value),
+                // saveResults: event.target.saveResults.value,
+                // visualSatisfaction: event.target.visualSatisfaction.value,
                 timestamp: currentDate  // Add the current timestamp to the feedback data
             };
+
+            // for (const key in feedbackData) {
+            //     if (feedbackData[key] == "") {
+            //         const getLabelText = document.querySelector(`label[for="${key}"]`).innerText
+            //         console.log(getLabelText)
+            //     }
+            // }
 
             try {
                 const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', { //need to get the link from new backend on render
@@ -304,7 +305,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     alert(result.message);
                 } else {
-                    alert(result.error);
+                    const unfilledLabels = []
+                    let keyNumber = 1
+                    for (const key in feedbackData) {
+                        if (feedbackData[key].length == 0) {
+                            unfilledLabels.push(`${keyNumber} | `)
+                        }
+                        keyNumber += 1
+                    }
+                    const unfilledLabels_str = unfilledLabels.join('')
+                    alert(`${result.error} Here are the unanswered questions: ${unfilledLabels_str}`);
+
+
+                //     for (const key in feedbackData) {
+
+                //         if (feedbackData[key].length == 0) {
+                //             countKeys += 1
+                //             const getLabelText = document.querySelector(`label[for="${key}"]`).innerText
+                //             unfilledLabels.push(`${countKeys}: ${getLabelText}\n\n`)
+
+                //         }
+                //         // countKeys += 1
+                //     }
+                //     const unfilledLabels_str = unfilledLabels.join('')
+                //     alert(`${result.error} Here are the unanswered questions:\n\n${unfilledLabels_str}`);
                 }
             } catch (error) {
                 console.error('Error submitting feedback:', error);
