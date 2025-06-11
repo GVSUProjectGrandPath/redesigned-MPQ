@@ -53,63 +53,69 @@
             <pre id="detailed-results"></pre>
             <pre id="personality-details"></pre>
             <button id="feedback-button" class="feedback-button">Give Feedback</button>
+            <div class="overlay"></div>
             <div id="feedback-popup">
-                <form id="feedback-form" novalidate>
-                    <!-- <div class="unfilledForm">
-                        FORM NOT COMPLETE!!!
-                    </div>          -->
-                    <label for="shareHabits">1: Does taking the "Money Personality" quiz make you want to share more about your money habits with your friends?</label>
-                    <select id="shareHabits" name="shareHabits" required>
-                        <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
-                        <option value="Yes!">Yes!</option>
-                        <option value="Kind of…">Kind of…</option>
-                        <option value="No">No</option>
-                    </select>
-            
-                    <label for="recommendSurvey">2: Would you recommend the Money Personality survey to others?</label>
-                    <select id="recommendSurvey" name="recommendSurvey" required>
-                        <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
-                        <option value="Definitely">Definitely</option>
-                        <option value="Probably">Probably</option>
-                        <option value="Not sure">Not sure</option>
-                        <option value="Probably not">Probably not</option>
-                        <option value="Definitely not">Definitely not</option>
-                    </select>
-            
-                    <label for="resultsAccurate">3: Do you feel the results of the Money Personality survey accurately reflected your financial habits?</label>
-                    <select id="resultsAccurate" name="resultsAccurate" required>
-                        <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
-                        <option value="Yes, very accurate">Yes, very accurate</option>
-                        <option value="Mostly accurate">Mostly accurate</option>
-                        <option value="Neutral">Neutral</option>
-                        <option value="Somewhat inaccurate">Somewhat inaccurate</option>
-                        <option value="Very inaccurate">Very inaccurate</option>
-                    </select>
-            
-                    <label for="resultsHelpful">4: Did you find the results helpful in understanding your financial habits?</label>
-                    <select id="resultsHelpful" name="resultsHelpful" required>
-                        <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
-                        <option value="Yes, very helpful">Yes, very helpful</option>
-                        <option value="Somewhat helpful">Somewhat helpful</option>
-                        <option value="Neutral">Neutral</option>
-                        <option value="Not very helpful">Not very helpful</option>
-                        <option value="Not helpful at all">Not helpful at all</option>
-                    </select>
-            
-                    <label for="practicalSteps">5: How helpful do you find the money personality type results in providing practical steps for your financial planning?</label>
-                    <select id="practicalSteps" name="practicalSteps" required>
-                        <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
-                        <option value="Very useful">Very useful</option>
-                        <option value="Somewhat useful">Somewhat useful</option>
-                        <option value="Neutral">Neutral</option>
-                        <option value="Not very useful">Not very useful</option>
-                        <option value="Not useful at all">Not useful at all</option>
-                    </select>
-                    <br>
-                    <!-- Add user comment stuff here!! -->
-                    <br>
-                    <button id="submitBtn" type="submit">Submit Feedback</button>
-                </form>
+                <div class="testTopBar">
+                    <h2 class="surveyTitle">FeedBack Form!</h2>
+                    <i class="fa-solid fa-x X-icon"></i> 
+                </div>
+                <div class="form-content">
+                    <!-- <i class="fa-solid fa-x X-icon"></i> -->
+                    <form id="feedback-form" novalidate>
+                        <label for="shareHabits">1: Does taking the "Money Personality" quiz make you want to share more about your money habits with your friends?</label>
+                        <select id="shareHabits" name="shareHabits" required>
+                            <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
+                            <option value="Yes!">Yes!</option>
+                            <option value="Kind of…">Kind of…</option>
+                            <option value="No">No</option>
+                        </select>
+                
+                        <label for="recommendSurvey">2: Would you recommend the Money Personality survey to others?</label>
+                        <select id="recommendSurvey" name="recommendSurvey" required>
+                            <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
+                            <option value="Definitely">Definitely</option>
+                            <option value="Probably">Probably</option>
+                            <option value="Not sure">Not sure</option>
+                            <option value="Probably not">Probably not</option>
+                            <option value="Definitely not">Definitely not</option>
+                        </select>
+                
+                        <label for="resultsAccurate">3: Do you feel the results of the Money Personality survey accurately reflected your financial habits?</label>
+                        <select id="resultsAccurate" name="resultsAccurate" required>
+                            <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
+                            <option value="Yes, very accurate">Yes, very accurate</option>
+                            <option value="Mostly accurate">Mostly accurate</option>
+                            <option value="Neutral">Neutral</option>
+                            <option value="Somewhat inaccurate">Somewhat inaccurate</option>
+                            <option value="Very inaccurate">Very inaccurate</option>
+                        </select>
+                
+                        <label for="resultsHelpful">4: Did you find the results helpful in understanding your financial habits?</label>
+                        <select id="resultsHelpful" name="resultsHelpful" required>
+                            <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
+                            <option value="Yes, very helpful">Yes, very helpful</option>
+                            <option value="Somewhat helpful">Somewhat helpful</option>
+                            <option value="Neutral">Neutral</option>
+                            <option value="Not very helpful">Not very helpful</option>
+                            <option value="Not helpful at all">Not helpful at all</option>
+                        </select>
+                
+                        <label for="practicalSteps">5: How helpful do you find the money personality type results in providing practical steps for your financial planning?</label>
+                        <select id="practicalSteps" name="practicalSteps" required>
+                            <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
+                            <option value="Very useful">Very useful</option>
+                            <option value="Somewhat useful">Somewhat useful</option>
+                            <option value="Neutral">Neutral</option>
+                            <option value="Not very useful">Not very useful</option>
+                            <option value="Not useful at all">Not useful at all</option>
+                        </select>
+                        <br>
+                        <!-- Add user comment stuff here!! -->
+                        <textarea class="userInput" placeholder="Write here..."></textarea>
+                        <br>
+                        <button id="submitBtn" type="submit">Submit Feedback</button>
+                    </form>
+                </div>
             </div>
             <button id="restart-button" class="restart-button">Restart Quiz</button>
         </div>

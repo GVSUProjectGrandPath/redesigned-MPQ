@@ -392,28 +392,50 @@ document.addEventListener('DOMContentLoaded', () => {
         return Object.values(totalPoints).reduce((sum, points) => sum + points, 0);
     }
 
-    // var feedback_MenuOpen = false;
-
     document.getElementById('feedback-button').addEventListener('click', function () {
 
         let feedbackPopup = document.getElementById('feedback-popup');
+        const overlay = document.querySelector('.overlay');
 
-        if (feedbackPopup.classList.contains('active')) {
-            feedbackPopup.classList.remove('active');
-        }
-        else {
-            feedbackPopup.classList.add('active');
-        }
+        // if (feedbackPopup.classList.contains('active')) {
+        //     feedbackPopup.classList.remove('active');
+        //     overlay.classList.remove('visible')
+        //     document.documentElement.style.overflow = 'auto'; // html
+        //     document.body.style.overflow = 'auto'; // body
+        //     // document.querySelector('.overlay').style.display = 'none';
+        // }
+        // else {
+        feedbackPopup.classList.add('active');
+        overlay.classList.add('visible')
+        document.documentElement.style.overflow = 'hidden'; // html
+        document.body.style.overflow = 'hidden'; // body
+            // if (MobileDevice()) {
+            //     document.
+            // }
+            // document.querySelector('.overlay').style.display = 'block';
+        // }
     });
 
     document.addEventListener('click', function (event) {
         let feedbackPopup = document.getElementById('feedback-popup');
+        const overlay = document.querySelector('.overlay');
 
         if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
             feedbackPopup.classList.remove('active');
+            overlay.classList.remove('visible')
+            document.documentElement.style.overflow = ''; // html
+            document.body.style.overflow = ''; // body
+            // document.querySelector('.overlay').style.display = 'none';
             // feedback_MenuOpen = false;
         }
     });
+
+    // if (document.getElementById('feedback-popup').classList.contains('active')) {
+    //     document.querySelector('.overlay').style.display = 'block';
+    // }
+    // else {
+    //     document.querySelector('.overlay').style.display = 'none';
+    // }
 
     // Restarts the quiz
     function restartQuiz() {
