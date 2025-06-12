@@ -423,11 +423,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
             feedbackPopup.classList.remove('active');
             overlay.classList.remove('visible')
-            document.documentElement.style.overflow = ''; // html
-            document.body.style.overflow = ''; // body
+            document.documentElement.style.overflow = 'auto'; // html
+            document.body.style.overflow = 'auto'; // body
             // document.querySelector('.overlay').style.display = 'none';
             // feedback_MenuOpen = false;
         }
+    });
+
+    document.getElementById('closeXbutton').addEventListener('click', function () {
+        let feedbackPopup = document.getElementById('feedback-popup');
+        const overlay = document.querySelector('.overlay');
+
+        feedbackPopup.classList.remove('active');
+        overlay.classList.remove('visible')
+        document.documentElement.style.overflow = 'auto'; // html
+        document.body.style.overflow = 'auto'; // body
     });
 
     // if (document.getElementById('feedback-popup').classList.contains('active')) {
