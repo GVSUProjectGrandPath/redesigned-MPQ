@@ -26,6 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.style.display = 'flex';
         loadQuestion(currentQuestionIndex); // Load the first question
     });
+       //backbutton
+       const backButton = document.getElementById('back-button');
+       backButton.addEventListener('click', () => {
+       if (currentQuestionIndex > 0) {
+           currentQuestionIndex--;
+           loadQuestion(currentQuestionIndex);
+       } else {
+           // Return to welcome screen if on first question
+           quizContainer.style.display = 'none';
+           welcomeScreen.style.display = 'flex';
+           document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
+  
+       }
+       });
+       //backbutton
 
     document.getElementById('restart-button').addEventListener('click', restartQuiz);
 
