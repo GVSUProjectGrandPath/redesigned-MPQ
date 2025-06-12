@@ -1,4 +1,5 @@
 let currentQuestionIndex = 0; // Tracks the current question index
+let selectedAnswers = []; // array for selected answers
 let totalPoints = {
     "saver": 0,
     "spender": 0,
@@ -26,6 +27,21 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.style.display = 'flex';
         loadQuestion(currentQuestionIndex); // Load the first question
     });
+       //backbutton
+       const backButton = document.getElementById('back-button');
+       backButton.addEventListener('click', () => {
+       if (currentQuestionIndex > 0) {
+           currentQuestionIndex--;
+           loadQuestion(currentQuestionIndex);
+       } else {
+           // Return to welcome screen if on first question
+           quizContainer.style.display = 'none';
+           welcomeScreen.style.display = 'flex';
+           document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
+  
+       }
+       });
+       //backbutton
 
     document.getElementById('restart-button').addEventListener('click', restartQuiz);
 
@@ -70,19 +86,43 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('answer-n').value = "n";
         document.getElementById('answer-d').value = "d";
         document.getElementById('answer-sd').value = "sd";
+        // Clear any previously active buttons
+        document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
+
+        // Highlight the previously selected answer if it exists
+        const selected = selectedAnswers[index];
+        if (selected) {
+            const button = document.querySelector(`.answer-button[value="${selected}"]`);
+            if (button) button.classList.add('active');
+        }
     }
 
     // Records the answer and updates the total points
     function recordAnswer(answer) {
         const question = questions[currentQuestionIndex];
-        const points = question.points[answer];
-
-        for (const key in points) {
-            if (totalPoints.hasOwnProperty(key)) {
-                totalPoints[key] += points[key];
+    
+        // If a previous answer exists for this question, subtract its points first
+        const previousAnswer = selectedAnswers[currentQuestionIndex];
+        if (previousAnswer) {
+            const prevPoints = question.points[previousAnswer];
+            for (const key in prevPoints) {
+                if (totalPoints.hasOwnProperty(key)) {
+                    totalPoints[key] -= prevPoints[key]; // Subtract old points
+                }
             }
         }
-
+    
+        // Save the new selected answer
+        selectedAnswers[currentQuestionIndex] = answer;
+    
+        // Add new points
+        const newPoints = question.points[answer];
+        for (const key in newPoints) {
+            if (totalPoints.hasOwnProperty(key)) {
+                totalPoints[key] += newPoints[key];
+            }
+        }
+    
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
             loadQuestion(currentQuestionIndex);
@@ -109,6 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const personalityData = personalitiesData.descriptions[personalityType];
 
         document.getElementById('question-container').style.display = 'none';
+        //display none when result page is shown.
+        document.getElementById('back-button').style.display = 'none';
         document.getElementById('result-container').style.display = 'block';
 
         document.getElementById('answers').style.display = 'none';
@@ -133,38 +175,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log(maxButtonWidth)
 
-        // Code for inserting horizontal arrow next to result buttons!
-        // const horizArrow = document.createElement('div')
-        // horizArrow.classList.add('horizontal-arrow')
-        // horizArrow.innerHTML = " &#8594; "
-        // resultsContainer.appendChild(horizArrow)
-
         // Create buttons for each personality type
         sortedTypes.forEach(({ type, percentage }) => {
             const animalName = personalitiesData.descriptions[type].animal;
-            // const button_arrow_Container = document.createElement('div')
-            // button_arrow_Container.classList.add('resultButton-arrowContainer')
-            // Code for inserting horizontal arrow next to result buttons!
-            // const horizArrow = document.createElement('div')
-            // horizArrow.classList.add('horizontal-arrow')
-            // horizArrow.innerHTML = " &#8594; "
 
-            const buttonWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
-            // const button_arrowWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
-            // button_arrow_Container.style.width = `${button_arrowWidth}px`;
+            const buttonWidth = Math.max(30  + ((percentage / 100) * 70));
             const activeSymbol = '<i class="fa-solid fa-eye"></i>';
             const inactiveSymbol = '<i class="fa-solid fa-eye-slash"></i>';
 
             const button = document.createElement('button');
             button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
-            button.style.width = `${buttonWidth}px`;
+            button.style.width = `${buttonWidth}vw`;
 
             button.onclick = () => {
                 showPersonalityDetails(type);
                 for (const btn of resultsContainer.children){
                     btn.classList.remove('active');
-                    btn.style.animation = "none";
-
+                    btn.style.animation = 'none';
                     btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
                 }
                 button.classList.add('active');
@@ -172,18 +199,10 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             if (type === personalityType) {
-                button.classList.add('active');
-                button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
+                button.classList.add('largest-button'); // Highlight the largest button
             }
 
-            // button_arrow_Container.appendChild(button)
-            // button_arrow_Container.appendChild(horizArrow)
-            // button_arrow_Container.appendChild(button)
-            // resultsContainer.appendChild(button_arrow_Container);
-            // button.appendChild(activeSymbol)
             resultsContainer.appendChild(button)
-            // resultsContainer.appendChild(horizArrow)
-
         });
 
         showPersonalityDetails(personalityType);
@@ -271,26 +290,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const feedbackData = {
                 shareHabits: event.target.shareHabits.value,
                 recommendSurvey: event.target.recommendSurvey.value,
-                // comfortableTalking: event.target.comfortableTalking.value,
-                // engagement: event.target.engagement.value,
                 resultsAccurate: event.target.resultsAccurate.value,
                 resultsHelpful: event.target.resultsHelpful.value,
-                // interactivity: event.target.interactivity.value,
                 practicalSteps: event.target.practicalSteps.value,
-                // additionalFeatures: Array.from(event.target.additionalFeatures)
-                //     .filter(checkbox => checkbox.checked)
-                //     .map(checkbox => checkbox.value),
-                // saveResults: event.target.saveResults.value,
-                // visualSatisfaction: event.target.visualSatisfaction.value,
                 timestamp: currentDate  // Add the current timestamp to the feedback data
             };
-
-            // for (const key in feedbackData) {
-            //     if (feedbackData[key] == "") {
-            //         const getLabelText = document.querySelector(`label[for="${key}"]`).innerText
-            //         console.log(getLabelText)
-            //     }
-            // }
 
             try {
                 const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', { //need to get the link from new backend on render
@@ -316,19 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const unfilledLabels_str = unfilledLabels.join('')
                     alert(`${result.error} Here are the unanswered questions: ${unfilledLabels_str}`);
 
-
-                //     for (const key in feedbackData) {
-
-                //         if (feedbackData[key].length == 0) {
-                //             countKeys += 1
-                //             const getLabelText = document.querySelector(`label[for="${key}"]`).innerText
-                //             unfilledLabels.push(`${countKeys}: ${getLabelText}\n\n`)
-
-                //         }
-                //         // countKeys += 1
-                //     }
-                //     const unfilledLabels_str = unfilledLabels.join('')
-                //     alert(`${result.error} Here are the unanswered questions:\n\n${unfilledLabels_str}`);
                 }
             } catch (error) {
                 console.error('Error submitting feedback:', error);
@@ -345,11 +336,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (personalityData) {
                 detailsContainer.innerHTML = `
-                    <div class="details-box left"><img id="topper-for-line" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"><img id="description-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Description Image" class="details-image"><strong class="large-text">Description</strong><br><br>${personalityData.description}</div>
+                    <div class="details-tree"><img id="topper-for-line" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"><img id="topper-for-line" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"></div>
+                    <div class="details-box left"><img id="description-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Description Image" class="details-image"><strong class="large-text">Description</strong><br><br>${personalityData.description}</div>
                     <div class="details-box right"><img id="advantages-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Advantages Image" class="details-image"><strong class="large-text">Advantages</strong><br><ul>${personalityData.advantages.map(item => `<li>${item}</li>`).join('')}</ul></div>
                     <div class="details-box left"><img id="disadvantages-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Disadvantages Image" class="details-image"><strong class="large-text">Disadvantages</strong><br><ul>${personalityData.disadvantages.map(item => `<li>${item}</li>`).join('')}</ul></div>
                     <div class="details-box right"><img id="motivators-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Motivators Image" class="details-image"><strong class="large-text">Motivators</strong><br><ul>${personalityData.motivators.map(item => `<li>${item}</li>`).join('')}</ul></div>
-                    <div class="details-box left"><img id="topper-for-line-2" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"><img id="demotivators-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Demotivators Image" class="details-image"><strong class="large-text">Demotivators</strong><br><ul>${personalityData.demotivators.map(item => `<li>${item}</li>`).join('')}</ul></div>
+                    <div class="details-box left"><img id="demotivators-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Demotivators Image" class="details-image"><strong class="large-text">Demotivators</strong><br><ul>${personalityData.demotivators.map(item => `<li>${item}</li>`).join('')}</ul></div>
                 `;
 
                 const animalImages = {
@@ -366,12 +358,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (animalImages[personalityType]) {
                     resultAnimalImage.src = animalImages[personalityType];
                     // resultAnimalImage.src = "/src/assets/animal_pngs/panda.png" // for testing purposes
-                    if (MobileDevice()) {
-                        resultAnimalImage.style.maxWidth = "76%"
-                        // const resultText = document.getElementById('result')
-                        document.getElementById('result').style.fontSize = "1.1rem"
-                    }
-
                     resultAnimalImage.style.display = "block";
                 } else {
                     resultAnimalImage.style.display = "none";
@@ -397,23 +383,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let feedbackPopup = document.getElementById('feedback-popup');
         const overlay = document.querySelector('.overlay');
 
-        // if (feedbackPopup.classList.contains('active')) {
-        //     feedbackPopup.classList.remove('active');
-        //     overlay.classList.remove('visible')
-        //     document.documentElement.style.overflow = 'auto'; // html
-        //     document.body.style.overflow = 'auto'; // body
-        //     // document.querySelector('.overlay').style.display = 'none';
-        // }
-        // else {
         feedbackPopup.classList.add('active');
         overlay.classList.add('visible')
         document.documentElement.style.overflow = 'hidden'; // html
         document.body.style.overflow = 'hidden'; // body
-            // if (MobileDevice()) {
-            //     document.
-            // }
-            // document.querySelector('.overlay').style.display = 'block';
-        // }
     });
 
     document.addEventListener('click', function (event) {
@@ -425,8 +398,6 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.classList.remove('visible')
             document.documentElement.style.overflow = 'auto'; // html
             document.body.style.overflow = 'auto'; // body
-            // document.querySelector('.overlay').style.display = 'none';
-            // feedback_MenuOpen = false;
         }
     });
 
@@ -439,13 +410,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.style.overflow = 'auto'; // html
         document.body.style.overflow = 'auto'; // body
     });
-
-    // if (document.getElementById('feedback-popup').classList.contains('active')) {
-    //     document.querySelector('.overlay').style.display = 'block';
-    // }
-    // else {
-    //     document.querySelector('.overlay').style.display = 'none';
-    // }
 
     // Restarts the quiz
     function restartQuiz() {
@@ -498,5 +462,3 @@ document.addEventListener('DOMContentLoaded', () => {
     delete pressedKeys[event.key];
     });
 });
-
-
