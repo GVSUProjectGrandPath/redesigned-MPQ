@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.getElementById('start-button');
     const progressContainer = document.getElementById('progress-container');
     const progressBar = document.getElementById('progress-bar');
+    const bodyElement = document.body;
 
     const totalQuestions = questions.length;
 
@@ -46,6 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function MobileDevice() {
         return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    if (MobileDevice()) {
+        bodyElement.style.backgroundColor = 'black';
     }
 
     // Sets up event listeners for answer buttons
@@ -165,8 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // These can all be changed to adjust the buttons on the results page
         const maxButtonWidth = 400;
-        const additionalLength = 100;
+        const additionalLength = 150;
         const scalingFactor = 3;
+
+        console.log(maxButtonWidth)
 
         // Create buttons for each personality type
         sortedTypes.forEach(({ type, percentage }) => {
@@ -179,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = document.createElement('button');
             button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
             button.style.width = `${buttonWidth}vw`;
+
             button.onclick = () => {
                 showPersonalityDetails(type);
                 for (const btn of resultsContainer.children){
@@ -194,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.classList.add('largest-button'); // Highlight the largest button
             }
 
-            resultsContainer.appendChild(button);
+            resultsContainer.appendChild(button)
         });
 
         showPersonalityDetails(personalityType);
@@ -216,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         saveQuizResult(quizResult);  // Call the new function to save the result
-        saveResultToFirestore(quizResult);
+        // saveResultToFirestore(quizResult);
 
 
         function saveQuizResult(quizResult) {
@@ -232,27 +240,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(err => console.error("❌ Error saving to backend:", err));
         }
 
-        function saveResultToFirestore(quizResult) {
-            const collectionName = "finlit_results"; // New Firestore collection
-            const docRef = db.collection(collectionName).doc(quizResult.personalityType);
+        // function saveResultToFirestore(quizResult) {
+        //     const collectionName = "finlit_results"; // New Firestore collection
+        //     const docRef = db.collection(collectionName).doc(quizResult.personalityType);
 
-            docRef.get().then((doc) => {
-                if (doc.exists) {
-                    return docRef.update({
-                        resultCount: firebase.firestore.FieldValue.increment(1)
-                    });
-                } else {
-                    return docRef.set({
-                        personalityType: quizResult.personalityType,
-                        resultCount: 1
-                    });
-                }
-            }).then(() => {
-                console.log(`✅ Firestore saved to ${collectionName}: ${quizResult.personalityType}`);
-            }).catch((error) => {
-                console.error("❌ Firestore error:", error);
-            });
-        }
+        //     docRef.get().then((doc) => {
+        //         if (doc.exists) {
+        //             return docRef.update({
+        //                 resultCount: firebase.firestore.FieldValue.increment(1)
+        //             });
+        //         } else {
+        //             return docRef.set({
+        //                 personalityType: quizResult.personalityType,
+        //                 resultCount: 1
+        //             });
+        //         }
+        //     }).then(() => {
+        //         console.log(`✅ Firestore saved to ${collectionName}: ${quizResult.personalityType}`);
+        //     }).catch((error) => {
+        //         console.error("❌ Firestore error:", error);
+        //     });
+        // }
 
 
         async function saveQuizResult(quizResult) {
@@ -282,17 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const feedbackData = {
                 shareHabits: event.target.shareHabits.value,
                 recommendSurvey: event.target.recommendSurvey.value,
-                comfortableTalking: event.target.comfortableTalking.value,
-                engagement: event.target.engagement.value,
                 resultsAccurate: event.target.resultsAccurate.value,
                 resultsHelpful: event.target.resultsHelpful.value,
-                interactivity: event.target.interactivity.value,
                 practicalSteps: event.target.practicalSteps.value,
-                additionalFeatures: Array.from(event.target.additionalFeatures)
-                    .filter(checkbox => checkbox.checked)
-                    .map(checkbox => checkbox.value),
-                saveResults: event.target.saveResults.value,
-                visualSatisfaction: event.target.visualSatisfaction.value,
                 timestamp: currentDate  // Add the current timestamp to the feedback data
             };
 
@@ -309,7 +309,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     alert(result.message);
                 } else {
-                    alert(result.error);
+                    const unfilledLabels = []
+                    let keyNumber = 1
+                    for (const key in feedbackData) {
+                        if (feedbackData[key].length == 0) {
+                            unfilledLabels.push(`${keyNumber} | `)
+                        }
+                        keyNumber += 1
+                    }
+                    const unfilledLabels_str = unfilledLabels.join('')
+                    alert(`${result.error} Here are the unanswered questions: ${unfilledLabels_str}`);
+
                 }
             } catch (error) {
                 console.error('Error submitting feedback:', error);
@@ -347,6 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (animalImages[personalityType]) {
                     resultAnimalImage.src = animalImages[personalityType];
+                    // resultAnimalImage.src = "/src/assets/animal_pngs/panda.png" // for testing purposes
                     resultAnimalImage.style.display = "block";
                 } else {
                     resultAnimalImage.style.display = "none";
@@ -368,15 +379,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('feedback-button').addEventListener('click', function () {
-        document.getElementById('feedback-popup').classList.add('active');
+
+        let feedbackPopup = document.getElementById('feedback-popup');
+        const overlay = document.querySelector('.overlay');
+
+        feedbackPopup.classList.add('active');
+        overlay.classList.add('visible')
+        document.documentElement.style.overflow = 'hidden'; // html
+        document.body.style.overflow = 'hidden'; // body
     });
 
     document.addEventListener('click', function (event) {
         let feedbackPopup = document.getElementById('feedback-popup');
+        const overlay = document.querySelector('.overlay');
 
         if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
             feedbackPopup.classList.remove('active');
+            overlay.classList.remove('visible')
+            document.documentElement.style.overflow = 'auto'; // html
+            document.body.style.overflow = 'auto'; // body
         }
+    });
+
+    document.getElementById('closeXbutton').addEventListener('click', function () {
+        let feedbackPopup = document.getElementById('feedback-popup');
+        const overlay = document.querySelector('.overlay');
+
+        feedbackPopup.classList.remove('active');
+        overlay.classList.remove('visible')
+        document.documentElement.style.overflow = 'auto'; // html
+        document.body.style.overflow = 'auto'; // body
     });
 
     // Restarts the quiz
