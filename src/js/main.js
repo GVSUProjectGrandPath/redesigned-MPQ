@@ -198,8 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
             };
 
-            if (type === personalityType) {
-                button.classList.add('largest-button'); // Highlight the largest button
+             if (type === personalityType) {
+                button.classList.add('active');
+                button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
             }
 
             resultsContainer.appendChild(button)
