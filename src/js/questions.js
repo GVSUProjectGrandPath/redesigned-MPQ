@@ -289,7 +289,7 @@ const questions = [
   },
   {
     "id": 9,
-    "value": ": I avoid looking at my finances because it makes me uncomfortable to see how much money is leaving my account.",
+    "value": "I avoid looking at my finances because it makes me uncomfortable to see how much money is leaving my account.",
     "points": {
       "sa": {
         "debtor": 8

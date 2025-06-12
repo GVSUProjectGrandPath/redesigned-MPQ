@@ -1,20 +1,16 @@
 html, body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Jura', sans-serif; /* or 'Audiowide', sans-serif */
-  height: 100%;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
   color: #ffffff;
-
+  font-family: 'Jura', sans-serif; /* or 'Audiowide', sans-serif */
   overflow-y: scroll; /* Enable vertical scrolling */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
   scrollbar-width: none; /* Firefox: Hide scrollbars */
 }
-
 html {
   overflow-y: scroll; /* Enable vertical scrolling */
 }
@@ -33,7 +29,6 @@ body::-webkit-scrollbar {
   overflow: hidden;
   z-index: -1; /* Make sure video is behind other content */
 }
-
 #background-video {
   width: 100%;
   height: 100%;
@@ -42,66 +37,42 @@ body::-webkit-scrollbar {
 
 #quiz-container {
   display: flex;
+  position: relative; /* For relative positioning context */
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh; /* Full viewport height */
   width: 100vw; /* Full viewport width */
-  position: relative; /* For relative positioning context */
   padding: 20px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  max-width: 800px;
   margin: auto;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
   color: #ffffff; 
+  border-radius: 20px;
   z-index: 1; /* Ensure content is above the video */
 }
 
 #welcome-screen {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 65vh; /* Full viewport height */
-  width: 65vw; /* Full viewport width */
-  padding: 20px;
-  /*background: transparent url('../assets/island.png') center center no-repeat; /* Background GIF */
-  background-size: cover; /* Cover the entire screen */
   position: relative; /* Ensure children can be absolutely positioned */
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
   text-align: center;
   z-index: 1; /* Ensure content is above the video */
 }
 
 #logo-image {
-  position: absolute;
-  top: 30px; /* Adjust as needed */
-  left: 51%;
-  transform: translateX(-50%);
-  width: 150px; /* Adjust width/height to fit your design */
-  height: 80px; /* Example height */
-  border-radius: 20px;
- background-color: white;
+  height: 10vh;
+  width: auto;
+  border-radius: 3vh;
+  background-color: white;
+  z-index: 1; /* Ensure text is above the GIF background */
 }
 
 #hero-text{
-  width:100%;
-  margin-bottom: 0px; 
-  font-size:3.5rem;
-  font-weight: bold;
-  color: #FEDB04;
-  text-shadow: 
-    -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), /* Slight blur and transparency */
-    1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
-    -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
-    1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
-
-}
-
-
-#welcome-text {
-  font-size: 2rem;
+  margin-bottom: 0; 
+  margin-top: 15px;
+  font-size: 7vh;
   font-weight: bold;
   color: #FEDB04;
   text-shadow: 
@@ -110,36 +81,44 @@ body::-webkit-scrollbar {
     -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
     1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
   z-index: 1; /* Ensure text is above the GIF background */
+}
+
+#welcome-text {
+  font-size: 5vh;
+  font-weight: bold;
   width: 70%; /* Set the width to 30% */
   text-align: center;
   word-wrap: break-word; /* Ensure long words wrap to the next line */
-  max-width: 1000px;
+  color: #FEDB04;
+  text-shadow: 
+    -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), /* Slight blur and transparency */
+    1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
+    -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
+    1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
+  z-index: 1; /* Ensure text is above the GIF background */
 }
 
 .start-button { 
-  margin-top:10px;
-  background-color: #5bc2e7;
-  color: black;
+  margin-top: 10px;
+  padding: 2% 2%;
+  font-size: 3vh;
   font-family: 'Jura', sans-serif; /* or 'Audiowide', sans-serif */
   font-weight: bold;
-  padding: 10px 10px;
-  border-top: 1px solid #FEDB04;    /* Small border on the top */
-  border-right: 2px solid #FEDB04;  /* Same size border on the right */
-  border-bottom: 10px solid #FEDB04; /* Larger border on the bottom */
-  border-left: 2px solid #FEDB04;   /* Same size border on the left */
-  border-radius: 10px;             /* Optional: rounded corners */
-  font-size: 1.2rem;
+  background-color: #5bc2e7;
+  color: black;
+  border-top: 1vmin solid #FEDB04;    /* Small border on the top */
+  border-right: 2vmin solid #FEDB04;  /* Same size border on the right */
+  border-bottom: 4vmin solid #FEDB04; /* Larger border on the bottom */
+  border-left: 2vmin solid #FEDB04;   /* Same size border on the left */
+  border-radius: 4vmin;             /* Optional: rounded corners */
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
   z-index: 1; /* Ensure button is above the GIF background */
-
 }
-
 .start-button:hover {
   background-color: #5bc2e7;
   border-color: #2e6567; /* Change border color on hover */
 }
-
 .start-button:active {
   background-color: #54c9cd;
   border-color: #2e6567; /* Change border color on hover */
@@ -148,12 +127,11 @@ body::-webkit-scrollbar {
 #progress-container {
   position: fixed;
   top: 10%;
-  max-width: 800px;
   width: 90%;
+  height: 2.5%;
   background-color:#5BC2E7;
-  border-radius: 20px;
+  border-radius: 2vh;
   overflow: hidden;
-  height: 20px;
   z-index: 2; /* Ensure it's on top */
 }
 
@@ -166,398 +144,376 @@ body::-webkit-scrollbar {
 
 #question-container {
   position: fixed;
+  width: 90%; /* Adjust this value as needed */
   top: 50%; /* Center vertically */
   left: 50%;
-  transform: translate(-50%, -50%); /* Center horizontally */
+  margin-bottom: 40vh;
   text-align: center; /* Center text within container */
+  transform: translate(-50%, -50%); /* Center horizontally */
   z-index: 1; /* Ensure it’s behind the progress bar */
-  width: 90%; /* Adjust this value as needed */
-  max-width: 800px;
 }
 
-#question-text, #result {
-  font-size: 1.8rem;
-  color: #ffffff;
+#question-text {
+  font-size: 5vh;
   font-weight: bold;
-  
+  color: #ffffff;
 }
-
-#detailed-results {
-  font-size: 1.8rem;
-  color: black;
-}
-
 
 #answers {
   position: fixed;
-  bottom: 10%; /* Distance from bottom */
   display: flex;
+  width: 100%;
+  height: 35%;
+  bottom: 0%; /* Distance from bottom */
   align-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: 800px;
+  justify-self: center;
   z-index: 1; /* Ensure it’s behind the progress bar */
 }
 
 .answer-button {
-  background-color: #5bc2e7;
+  width: 20vw;
   font-family: 'Jura', sans-serif;
-  color: black;
-  padding: 25px;
-  margin: 5px;
-  border: none;
-  border-radius: 20px;
-  font-size: 1.2rem;
+  font-size: 2vw;
   font-weight: bolder;
+  text-align: center;
+  word-spacing: 100vw;
+  margin: 1%;
+  padding: 3vh;
+  border: none;
+  border-radius: 2vw;
   cursor: pointer;
+  color: black;
+  background-color: #5bc2e7;
   transition: background-color 0.3s ease;
-  width: 100%; /* Set width automatically based on content */
-  max-width: 140px; /* Maximum width for buttons */
 }
-
 .answer-button:hover {
   background-color:  #FEDB04;
 }
-
 .answer-button:active {
   background-color: #54c9cd;
 }
 
 #feedback-popup {
   position: fixed;
+  display: none; /* Hidden by default */
+  width: 80%; /* Slightly wider for better spacing */
+  height: 80%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%; /* Slightly wider for better spacing */
-  max-width: 400px;
-  max-height: 80%; /* Limit the height to allow scrolling */
   padding: 20px;
   background-color: rgb(46, 101, 103); /* Match the form background */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
-  display: none; /* Hidden by default */
-  z-index: 999;
   overflow-y: scroll; /* Enable vertical scrolling */
   scrollbar-width: none; /* Hide scrollbar in Firefox */
+  transform: translate(-50%, -50%);
+  z-index: 999;
 }
-
 /* Hide scrollbar for WebKit-based browsers (Chrome, Safari) */
 #feedback-popup::-webkit-scrollbar {
   display: none; /* Hide scrollbar */
 }
-
 #feedback-popup.active {
   display: block; /* Show when active */
 }
 
 #feedback-form {
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Align items to the top */
   align-items: center;
+  margin-top: 20px;
   padding: 20px;
 }
 
 #feedback-form label {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  color: #ffffff;
+  margin-bottom: 2%;
+  font-size: 3vh;
   text-align: left; /* Align labels to the left for consistency */
+  color: #ffffff;
 }
 
 #feedback-form div input[type="checkbox"] {
   display: block; /* Ensure the checkbox is on its own line */
-  margin-bottom: 10px; /* Add some space between checkboxes */
+  margin-bottom: 1%; /* Add some space between checkboxes */
 }
 
 #feedback-form div label {
   display: block; /* Make the label appear on its own line */
-  margin-bottom: 10px; /* Add spacing between labels */
+  margin-bottom: 1%; /* Add spacing between labels */
 }
 
 #feedback-form input,
 #feedback-form textarea,
 #feedback-form select {
   width: 100%;
-  max-width: 300px;
   padding: 10px;
-  margin-bottom: 15px; /* Reduced margin for better spacing */
+  margin-bottom: 2.5%; /* Reduced margin for better spacing */
   border: none;
-  border-radius: 20px;
-  font-size: 1rem;
+  border-radius: 4vh;
+  font-size: 3vw;
 }
-
 #feedback-form textarea {
+  width: 5%;
   height: 100px; /* Maintain height for comments */
+  height: auto;
 }
 
 #feedback-form button {
-  background-color: #e97c17;
-  color: #ffffff;
   padding: 10px 20px;
   border: none;
-  border-radius: 20px;
-  font-size: 1rem;
+  border-radius: 4vh;
+  font-size: 3vw;
+  background-color: #e97c17;
+  color: #ffffff;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 #feedback-form button:hover {
   background-color: #2e6567;
 }
 
 .feedback-button {
-  background-color: #5bc2e7; /* Same color as answer buttons */
   font-family: 'Jura', sans-serif;
-  color: black;
+  font-size: 3vh;
   font-weight: bold;
-  padding: 15px;
-  margin: 10px 0;
+  padding: 1%;
   border: none;
-  border-radius: 20px;
-  font-size: 1rem;
+  border-radius: 4vh;
+  background-color: #5bc2e7; /* Same color as answer buttons */
+  color: black;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .feedback-button:hover {
   background-color: #FEDB04; /* Same hover color as answer buttons */
 }
-
 .feedback-button:active {
   background-color: #54c9cd;
 }
 
 .restart-button {
-  background-color: #5bc2e7; /* Same color as answer buttons */
   font-family: 'Jura', sans-serif;
-  color: black;
+  font-size: 3vh;
   font-weight: bold;
-  font-weight: bold;
-  padding: 15px;
-  margin: 10px 0;
+  padding: 1%;
+  margin-top: 2.5%;
+  margin-left: 1vw;
+  margin-bottom: 2.5%;
   border: none;
-  border-radius: 20px;
-  font-size: 1rem;
+  border-radius: 4vh;
+  background-color: #5bc2e7; /* Same color as answer buttons */
+  color: black;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .restart-button:hover {
   background-color: #FEDB04; /* Same hover color as answer buttons */
 }
-
 .restart-button:active {
   background-color: #54c9cd;
 }
 
 #result-container {
-  margin-top: 30px;
+  position: relative; /* Make sure it stays within its parent */
+  height: 100vh; /* Ensure it takes the full viewport height */
   font-family: 'Jura', sans-serif;
   text-align: center;
-  height: 100vh; /* Ensure it takes the full viewport height */
-  position: relative; /* Make sure it stays within its parent */
   color: #ffffff;
-
 }
 
-#result-text {
-  font-size: 1.8rem;
-  font-family: 'Jura', sans-serif;
-  margin-bottom: 20px; /* Space between text and image */
+#result-grid {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+}
+
+#result {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 5%;
+  font-size: 8vh;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 #result-animal-image {
   display: block;
-  margin: 0 auto; /* Centers the image horizontally */
-  max-width: 50%; /* Adjust the size of the image */
-  height: auto; /* Maintains the aspect ratio */
-  padding-top: 20px; /* Adds some space above the image */
+  object-fit: contain;
+  align-self: center;
+  grid-column: 2;
+  grid-row: 1/4;
+  height: 90vh; /* Maintains the aspect ratio */
+  width: auto; /* Adjust the size of the image */
+  max-width: 45vw;
 }
 
-#detailed-results {
-  display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  align-items: flex-start; /* Align items to the left */
-  width: 100%; /* Ensure container takes full width */
-  box-sizing: border-box; /* Include padding in width calculation */
-  margin-left: 30px;
-}
-
-/* Detailed Results Button Styles */
-#detailed-results button {
-  background-color: #FEDB04;
-  font-weight:bold ;
-  font-family: 'Jura', sans-serif;
-  color: black;
-  padding: 5px 20px;
-  border: none;
-  text-align: left;
-  margin: 5px 0 2px 30%; /* Add left margin */
-  border-radius: 20px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-  width: auto; /* Adjust width based on content */
-  min-width: 100px; /* Ensure minimum width */
-}
-
-#detailed-results button.active {
-  background-color: #54c9cd !important; /* Change to your desired color */
-}
-
-/* Detailed Results Text Styles */
-#personality-details {
-  font-size: 1.8rem; /* Font size */
-  font-family: 'Jura', sans-serif; /* Font style */
-  color: black; /* Text color */
-  white-space: pre-wrap; /* Ensure text wraps correctly */
-  overflow-wrap: break-word; /* Break long words to fit within container */
-  padding: 20px; /* Padding around text */
-  border-radius: 20px; /* Rounded corners */
-  margin: 20px 0; /* Margin around text */
-
-}
-
-#personality-details {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.details-box {
-  width: 40%;
-  display: inline-block;
-  padding: 10px;
-  margin: 10px 0;
-  
-  border-radius: 20px;
-  text-align: left;  /* Align text to the left */
-  font-size: 1rem;   /* Reduce the font size */
-  line-height: 1.4;  /* Adjust line height for better readability */
-}
-
-.large-text {
-  font-size: 1.3rem; /* Adjust the size as needed */
-  font-weight: bolder; /* Optional, if you want it to remain bold */
-}
-
-.details-box ul {
-  list-style-type: disc; /* Default bullet style */
-  padding-left: 20px; /* Adjust indentation as needed */
-}
-
-.details-box.left {
-  align-self: flex-start;
-  background-color: #5bc2e7; /* Example background color */
-  font-size: 1.2rem;
-  padding-left: 20px;
-  padding-bottom: 20px;
-}
-
-.details-box.right {
-  align-self: flex-end;
-  background-color: #5bc2e7; /* Example background color */
-  font-size: 1.2rem;
-  padding-left: 20px;
-  padding-bottom: 20px;
-}
-
-#personality-details::before {
-  content: '';
-  position: absolute;
-  top: 1.5%;
-  bottom: 0;
-  left: 50%;
-  width: 3px;
-  background-color: #FEDB04; /* Color for the middle line */
-  height: 97%;
-}
-
-#topper-for-line {
-  position: absolute; /* Make it independent */
-  left: 50%; /* Center it horizontally */
-  transform: translateX(-50%); /* Adjust for centering */
-  top: 0%; /* Adjust to position it slightly above the line */
-  width: 50px; /* Scale down the image width */
-  height: auto; /* Maintain aspect ratio */
-  z-index: 1; /* Ensure it's above the line */
-}
-
-#topper-for-line-2 {
-  position: absolute; /* Make it independent */
-  left: 50%; /* Center it horizontally */
-  transform:translateX(-50%) scaleY(-1); /* Adjust for centering */
-  top: 97%; /* Adjust to position it slightly above the line */
-  width: 50px; /* Scale down the image width */
-  height: auto; /* Maintain aspect ratio */
-  z-index: 1; /* Ensure it's above the line */
-}
-
-#description-image {
-  position: absolute; /* Make it independent */
-  left: calc(50% - 65px); /* Center it horizontally */
-  width: 100px; /* Scale down the image width */
-  transform: scaleX(-1);
-  height: auto; /* Maintain aspect ratio */
-  z-index: 1; /* Ensure it's above the line */
-  margin-top: -30px; /* Adjust this value to move arrows up or down if necessary */
-}
-#advantages-image {
-  position: absolute; /* Make it independent */
-  left: calc(50% - 32px); /* Center it horizontally */
-  width: 100px; /* Scale down the image width */
-  height: auto; /* Maintain aspect ratio */
-  z-index: 1; /* Ensure it's above the line */
-  margin-top: -30px; /* Adjust this value to move arrows up or down if necessary */
-}
-#disadvantages-image {
-  position: absolute; /* Make it independent */
-  left: calc(50% - 65px); /* Center it horizontally */
-  width: 100px; /* Scale down the image width */
-  transform: scaleX(-1);
-  height: auto; /* Maintain aspect ratio */
-  z-index: 1; /* Ensure it's above the line */
-  margin-top: -30px; /* Adjust this value to move arrows up or down if necessary */
-}
-#motivators-image {
-  position: absolute; /* Make it independent */
-  left: calc(50% - 32px); /* Center it horizontally */
-  width: 100px; /* Scale down the image width */
-  height: auto; /* Maintain aspect ratio */
-  z-index: 1; /* Ensure it's above the line */
-  margin-top: -30px; /* Adjust this value to move arrows up or down if necessary */
-}
-#demotivators-image {
-  position: absolute; /* Make it independent */
-  left: calc(50% - 65px); /* Center it horizontally */
-  width: 100px; /* Scale down the image width */
-  transform: scaleX(-1);
-  height: auto; /* Maintain aspect ratio */
-  z-index: 1; /* Ensure it's above the line */
-  margin-top: -30px; /* Adjust this value to move arrows up or down if necessary */
-}
-
-#scroll-text {
-  font-size: 1.5rem;
-  margin-bottom: 0px;
+#scroll-down-text {
+  vertical-align: bottom;
+  grid-column: 1;
+  grid-row: 2;
+  margin: 5%;
+  margin-top: 15vh;
+  display: table-cell;
+  font-size: 5vh;
+  color: #FEDB04;
 }
 
 .scroll-arrow {
-  font-size: 3.5rem;
+  align-self: center;
+  justify-self: center;
+  grid-column: 1;
+  grid-row: 3;
+  margin-top: -15vh;
+  margin-left: 7.5vh;
+  font-size: 15vh;
   color: #FEDB04;
   text-shadow: 
     -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), /* Text shadow effect */
     1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
     -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
     1.5px 1.5px 3px rgba(46, 101, 103, 0.5); 
-  bottom: 0%;
-  left: 50%;
-  position: inherit;
-  transform: translateX(-50%);
   animation: moveArrow 2s infinite ease-in-out;
   z-index: 50;
+}
+
+#detailed-results {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: flex-start; /* Align items to the left */
+  width: 100vw; /* Ensure container takes full width */
+  box-sizing: border-box; /* Include padding in width calculation */
+  margin-left: 30px;
+  font-size: 1.8rem;
+  color: black;
+}
+
+/* Detailed Results Button Styles */
+#detailed-results button {
+  width: auto; /* Adjust width based on content */
+  min-width: 30vw; /* Ensure minimum width */
+  max-width: 75vw;
+  font-family: 'Jura', sans-serif;
+  font-weight: normal;
+  text-align: left;
+  font-size: 2vw;
+  padding: 1%;
+  margin-top: 1%;
+  margin-left: 30%; /* Add left margin */
+  border: none;
+  border-radius: 4vw;
+  color: black;
+  background-color: #FEDB04;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  animation: none;
+}
+#detailed-results button.active {
+  background-color: #54c9cd !important; /* Change to your desired color */
+  font-weight: bold;
+}
+#detailed-results button:hover {
+  background-color: #5bc2e7; 
+}
+#detailed-results button:nth-of-type(2) {
+  animation: hintAnim 3s infinite ease-in-out;
+}
+
+/* Detailed Results Text Styles */
+#personality-details {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-size: 1.8rem; /* Font size */
+  font-family: 'Jura', sans-serif; /* Font style */
+  overflow-wrap: break-word; /* Break long words to fit within container */
+  padding: 1%; /* Padding around text */
+  margin: 20px 5%;
+  border-radius: 20px; /* Rounded corners */
+  color: black; /* Text color */
+  white-space: pre-wrap; /* Ensure text wraps correctly */
+}
+
+.details-box {
+  display: inline-block;
+  width: 40%;
+  padding: 1%;
+  margin: 10px 0;
+  border-radius: 1.5vmax;
+  text-align: left;  /* Align text to the left */
+  font-size: 1rem;   /* Reduce the font size */
+  line-height: 1.4;  /* Adjust line height for better readability */
+}
+
+.large-text {
+  font-size: 3vmax; /* Adjust the size as needed */
+  font-weight: bolder; /* Optional, if you want it to remain bold */
+}
+
+.details-box ul {
+  list-style-type: disc; /* Default bullet style */
+  list-style-position: inside;
+  padding-left: 1%; /* Adjust indentation as needed */
+}
+
+.details-box.left {
+  align-self: flex-start;
+  font-size: 2vmax;
+  padding-left: 1%;
+  padding-bottom: 1%;
+  background-color: #5bc2e7; /* Example background color */
+}
+
+.details-box.right {
+  align-self: flex-end;
+  font-size: 2vmax;
+  padding-left: 1%;
+  padding-bottom: 1%;
+  background-color: #5bc2e7; /* Example background color */
+}
+
+.details-tree {
+  position: absolute;
+  align-self: center;
+  top: 1%;
+  width: .5%;
+  height: 97%;
+  background-color: #FEDB04; /* Color for the middle line */
+  
+}
+#topper-for-line {
+  position: absolute;
+  left: -2.25vw;
+  width: 5vw; /* Scale down the image width */
+  z-index: 1; /* Ensure it's above the line */
+}
+#topper-for-line:first-child {
+  top: -2%;
+}
+#topper-for-line:last-child {
+  bottom: -2%;
+  transform: rotate(180deg);
+
+#description-image,
+#disadvantages-image,
+#demotivators-image {
+  position: absolute; /* Make it independent */
+  width: 10%; /* Scale down the image width */
+  height: auto; /* Maintain aspect ratio */
+  left: 43%;
+  margin-top: -30px; /* Adjust this value to move arrows up or down if necessary */
+  transform: scaleX(-1);
+  z-index: 1; /* Ensure it's above the line */
+}
+#advantages-image,
+#motivators-image {
+  position: absolute; /* Make it independent */
+  width: 10%; /* Scale down the image width */
+  height: auto; /* Maintain aspect ratio */
+  left: 47%;
+  margin-top: -30px; /* Adjust this value to move arrows up or down if necessary */
+  z-index: 1; /* Ensure it's above the line */
 }
 
 @keyframes moveArrow {
@@ -572,70 +528,74 @@ body::-webkit-scrollbar {
   }
 }
 
+@keyframes hintAnim {
+  0% {
+    transform: scaleX(100%); 
+    background-color:#FEDB04;
+  }
+  50% {
+    transform: scaleX(105%) translateX(2.5%); 
+    background-color: #5BC2E7;
+  }
+  100% {
+    transform: scaleX(100%); 
+    background-color: #FEDB04;
+  }
+}
+
+
 @media (orientation: portrait) {
-  #welcome-image {
-    position: absolute;
-    top: 100px; /* Adjust as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto; /* Adjust width/height to fit your design */
-    height: 110px; /* Example height */
-  }
-   #logo-image {
-    position: absolute;
-    top: 20px; /* Adjust as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px; /* Adjust width/height to fit your design */
-    height: 75px; /* Example height */
+  #logo-image {
+    height: 15vw;
+    width: auto;
+    border-radius: 4vw;
   }
 
+  #hero-text{
+    font-size: 10vw;
+  }
 
-  
   #welcome-text {
-    margin-top: 20px;
-    font-size: 1.6rem;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #FEDB04;
-    text-shadow: 
-      -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), /* Slight blur and transparency */
-      1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
-      -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
-      1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
-    z-index: 1; /* Ensure text is above the GIF background */
-    width: 90%;
-    text-align: center; /* Center align the text within its container */
-    word-wrap: break-word; /* Ensure long words wrap to the next line */
-    max-width: 550px;
+    font-size: 7vw;
   }
+
+  .start-button { 
+    font-size: 4vw;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    z-index: 1; /* Ensure button is above the GIF background */
+  }
+   
   #question-container {
     top: 40%;
   }
-  #answers {
-    flex-direction: column;
-    align-items: center;
-    max-width: 800px;
-    z-index: 1; /* Ensure it’s behind the progress bar */
 
-    bottom: 5%; /* Remove fixed bottom position */
+  #question-text {
+    font-size: 3vmax;
+  }
+
+  #answers {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
     align-items: center;
     justify-items: center;
-    display: flex;
-    width: 90%;
+    bottom: 5%; /* Remove fixed bottom position */
+    z-index: 1; /* Ensure it’s behind the progress bar */
   }
   .answer-button {
-    background-color: #5bc2e7;
-    font-family: 'Jura', sans-serif;
-    color: black;
-    padding: 10px 5px;
-    margin-top: 10px;
-    
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
     width: 100%; /* Full width for mobile */
     max-width: none;
+    font-family: 'Jura', sans-serif;
+    font-size: 2vmax;
+    word-spacing: normal;
+    padding: 1.2vh;
+    margin-top: 1vh;
+    color: black;
+    background-color: #5bc2e7;
+    cursor: pointer;
+    border-radius: 5vmax;
+    transition: background-color 0.3s ease;
   }
   #answer-a {
     width: 90%; 
@@ -646,7 +606,6 @@ body::-webkit-scrollbar {
   #answer-d {
     width: 90%; 
   }
-
   .answer-button:active {
     background-color: #5bc2e7
      ; /* for mobile tap */
@@ -665,48 +624,73 @@ body::-webkit-scrollbar {
     animation: changeColor 0.3s forwards;
   }
 
-  
-  
   #detailed-results{
-  position: relative;
-  
+    position: relative;
+  }
+  #detailed-results button {
+    font-weight: bold;
+    font-size: 3vw;
+    padding: 2%;
+    padding-left: 3%;
+    margin-top: 2%;
+    margin-left: 20%; /* Add left margin */
   }
 
-  
-  
-  #detailed-results button {
-    margin: 5px 0 2px 20%; /* Add left margin */
-  }
-  .start-button {
-    font-size: 1.8;
-  }
   .restart-button, .feedback-button {
-    font-size: .8rem;
+    font-size: 3vw;
   }
-  #question-text, #result, #detailed-results, #result-text {
-    font-size: 1.3rem;
+  #detailed-results, #result-text {
+    font-size: 5vh;
   }
   #detailed-results {
     width: 50%; /* Ensure container takes full width */
     margin-left: 0px;
   }
-  #detailed-results button {
-    font-size: .8rem; /* Adjust font size for smaller screens */
+
+  #result-grid {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-content: center;
+  }
+
+  #result {
+    display: block;
     font-weight: bold;
-    padding: 8px 16px; /* Adjust padding for smaller screens */
+    font-size: 4vh;
+    margin: 0;
+    margin-left: 5%;
+    margin-right: 5%;
+    color: #ffffff;
   }
 
   #result-animal-image {
-    margin: 0 auto; /* Centers the image horizontally */
-    max-width: 75%; /* Adjust the size of the image */
-    height: auto; /* Maintains the aspect ratio */
-    padding-top: 20px; /* Adds some space above the image */
+    justify-content: center;
+    height: 65vh; /* Maintains the aspect ratio */
+    width: auto; /* Adjust the size of the image */
+    max-width: 100%;
+    padding-top: 5vh; /* Adds some space above the image */
   }
 
+  #scroll-down-text {
+    font-size: 4vh;
+    margin: 0;
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 5vh;
+    color: #FEDB04;
+  }
+
+  .scroll-arrow {
+    font-size: 7vh;
+    margin-top: 0;
+    margin-left: 4vh;
+  }
   
   #personality-details {
     font-size: 1.3rem; /* Adjust font size for smaller screens */
     padding: 15px; /* Adjust padding for smaller screens */
+    margin: 20px 0px; /* Margin around text */
   }
   .details-box {
     width: 80%; /* Full width for mobile */
@@ -716,38 +700,38 @@ body::-webkit-scrollbar {
   .responsive-image {
     display: none; /* Hide the images on mobile devices */
   }
-  #personality-details::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 3%;
-    width: 0px;
-    background-color: #e97c17; /* Color for the middle line */
+  .details-tree {
+    display: none;
   }
-  /* p start */
+  #topper-for-line {
+    display: none;
   }
-  .back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: transparent;
-    border: 2px solid #5bc2e7;
-    color: #5bc2e7;
-    padding: 8px 16px;
-    font-size: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    /* font-family: 'Jura', sans-serif; */
-    transition: 0.2s;
-  }
+}
 
-  .back-button:hover {
-    background-color: #5bc2e7;
-    color: #000;
-  }
-  .answer-button.active {
-    background-color: #FEDB04;
+/* p start */
+}
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: 2px solid #5bc2e7;
+  color: #5bc2e7;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  /* font-family: 'Jura', sans-serif; */
+  transition: 0.2s;
+}
+
+.back-button:hover {
+  background-color: #5bc2e7;
+  color: #000;
+}
+.answer-button.active {
+  background-color: #FEDB04;
 }
 /* p ends */
+

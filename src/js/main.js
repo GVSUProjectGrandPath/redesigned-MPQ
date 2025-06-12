@@ -172,12 +172,23 @@ document.addEventListener('DOMContentLoaded', () => {
         sortedTypes.forEach(({ type, percentage }) => {
             const animalName = personalitiesData.descriptions[type].animal;
 
-            const buttonWidth = Math.max((percentage / 100) * (maxButtonWidth * scalingFactor) + additionalLength, 160);
+            const buttonWidth = Math.max(30  + ((percentage / 100) * 70));
+            const activeSymbol = '<i class="fa-solid fa-eye"></i>';
+            const inactiveSymbol = '<i class="fa-solid fa-eye-slash"></i>';
 
             const button = document.createElement('button');
-            button.innerText = `${capitalize(animalName)}: ${percentage.toFixed(2)}%`;
-            button.style.width = `${buttonWidth}px`;
-            button.onclick = () => showPersonalityDetails(type);
+            button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
+            button.style.width = `${buttonWidth}vw`;
+            button.onclick = () => {
+                showPersonalityDetails(type);
+                for (const btn of resultsContainer.children){
+                    btn.classList.remove('active');
+                    btn.style.animation = 'none';
+                    btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
+                }
+                button.classList.add('active');
+                button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
+            };
 
             if (type === personalityType) {
                 button.classList.add('largest-button'); // Highlight the largest button
@@ -315,11 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (personalityData) {
                 detailsContainer.innerHTML = `
-                    <div class="details-box left"><img id="topper-for-line" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"><img id="description-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Description Image" class="details-image"><strong class="large-text">Description</strong><br><br>${personalityData.description}</div>
+                    <div class="details-tree"><img id="topper-for-line" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"><img id="topper-for-line" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"></div>
+                    <div class="details-box left"><img id="description-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Description Image" class="details-image"><strong class="large-text">Description</strong><br><br>${personalityData.description}</div>
                     <div class="details-box right"><img id="advantages-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Advantages Image" class="details-image"><strong class="large-text">Advantages</strong><br><ul>${personalityData.advantages.map(item => `<li>${item}</li>`).join('')}</ul></div>
                     <div class="details-box left"><img id="disadvantages-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Disadvantages Image" class="details-image"><strong class="large-text">Disadvantages</strong><br><ul>${personalityData.disadvantages.map(item => `<li>${item}</li>`).join('')}</ul></div>
                     <div class="details-box right"><img id="motivators-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Motivators Image" class="details-image"><strong class="large-text">Motivators</strong><br><ul>${personalityData.motivators.map(item => `<li>${item}</li>`).join('')}</ul></div>
-                    <div class="details-box left"><img id="topper-for-line-2" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"><img id="demotivators-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Demotivators Image" class="details-image"><strong class="large-text">Demotivators</strong><br><ul>${personalityData.demotivators.map(item => `<li>${item}</li>`).join('')}</ul></div>
+                    <div class="details-box left"><img id="demotivators-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Demotivators Image" class="details-image"><strong class="large-text">Demotivators</strong><br><ul>${personalityData.demotivators.map(item => `<li>${item}</li>`).join('')}</ul></div>
                 `;
 
                 const animalImages = {
