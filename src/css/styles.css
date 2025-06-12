@@ -480,8 +480,8 @@ body::-webkit-scrollbar {
   width: .5%;
   height: 97%;
   background-color: #FEDB04; /* Color for the middle line */
-  
 }
+
 #topper-for-line {
   position: absolute;
   left: -2.25vw;
@@ -494,6 +494,7 @@ body::-webkit-scrollbar {
 #topper-for-line:last-child {
   bottom: -2%;
   transform: rotate(180deg);
+}
 
 #description-image,
 #disadvantages-image,
@@ -709,7 +710,6 @@ body::-webkit-scrollbar {
 }
 
 /* p start */
-}
 .back-button {
   position: absolute;
   top: 20px;
@@ -734,4 +734,3 @@ body::-webkit-scrollbar {
   background-color: #FEDB04;
 }
 /* p ends */
-
