@@ -196,6 +196,32 @@ body::-webkit-scrollbar {
   background-color: #54c9cd;
 }
 
+/* p start */
+.back-button {
+  position: absolute;
+  top: 1vh;
+  left: 1vw;
+  padding: 1vh 2%;
+  border-radius: 2vh;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 4vh;
+  background-color: transparent;
+  border: 2px solid #5bc2e7;
+  color: #5bc2e7;
+  transition: 0.2s;
+}
+
+.back-button:hover {
+  background-color: #5bc2e7;
+  color: #000;
+}
+
+
+
+
+
+
 #submitBtn.mobile-click2:active {
   background-color: #FEDB04
 }
@@ -924,12 +950,12 @@ textarea.userInput:focus {
   top: 1vh;
   left: 1vw;
   padding: 1vh 2%;
-  border-radius: 2vh;
+  border-radius: 1vh;
   cursor: pointer;
   font-family: 'Orbitron', sans-serif;
-  font-size: 4vh;
+  font-size: 1vh;
   background-color: transparent;
-  border: 2px solid #5bc2e7;
+  border: 1px solid #5bc2e7;
   color: #5bc2e7;
   transition: 0.2s;
 }
