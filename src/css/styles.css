@@ -782,6 +782,32 @@ textarea.userInput:focus {
     font-size: 3vmax;
   }
 
+  /* p start */
+.back-button {
+  position: absolute;
+  top: 1vh;
+  left: 1vw;
+  padding: 1.2vh 2%;
+  border-radius: 1vh;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5vh;
+  background-color: transparent;
+  border: 1.5px solid #5bc2e7;
+  color: #5bc2e7;
+  transition: 0.2s;
+}
+
+.back-button:hover {
+  background-color: #5bc2e7;
+  color: #000;
+}
+.answer-button.active {
+  background-color: #FEDB04;
+}
+/* p ends */
+
+
   #answers {
     display: flex;
     flex-direction: column;
@@ -944,27 +970,3 @@ textarea.userInput:focus {
   }
 }
 
-/* p start */
-.back-button {
-  position: absolute;
-  top: 1vh;
-  left: 1vw;
-  padding: 1.2vh 2%;
-  border-radius: 1vh;
-  cursor: pointer;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.5vh;
-  background-color: transparent;
-  border: 1.5px solid #5bc2e7;
-  color: #5bc2e7;
-  transition: 0.2s;
-}
-
-.back-button:hover {
-  background-color: #5bc2e7;
-  color: #000;
-}
-.answer-button.active {
-  background-color: #FEDB04;
-}
-/* p ends */
