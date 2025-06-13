@@ -168,24 +168,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return { type, percentage };
         }).sort((a, b) => b.percentage - a.percentage);
 
-        // These can all be changed to adjust the buttons on the results page
-        const maxButtonWidth = 400;
-        const additionalLength = 150;
-        const scalingFactor = 3;
+        console.log(sortedTypes)
 
-        console.log(maxButtonWidth)
+
 
         // Create buttons for each personality type
+        let scaleFactor = 0;
+        let count = 0;
         sortedTypes.forEach(({ type, percentage }) => {
             const animalName = personalitiesData.descriptions[type].animal;
-
-            const buttonWidth = Math.max(30  + ((percentage / 100) * 70));
             const activeSymbol = '<i class="fa-solid fa-eye"></i>';
-            const inactiveSymbol = '<i class="fa-solid fa-eye-slash"></i>';
+            const inactiveSymbol = '';
+            //const click = '<span class="material-symbols-outlined">web_traffic</span>';
+            const click = ''
 
             const button = document.createElement('button');
             button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
-            button.style.width = `${buttonWidth}vw`;
 
             button.onclick = () => {
                 showPersonalityDetails(type);
@@ -193,18 +191,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     btn.classList.remove('active');
                     btn.style.animation = 'none';
                     btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
+                    btn.innerHTML = btn.innerHTML.replace(click, inactiveSymbol);
                 }
                 button.classList.add('active');
                 button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
             };
 
-             if (type === personalityType) {
+            if (count === 1) {
+                button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${click}`;
+                count = 2;
+            }
+
+            if (count === 0 && type === personalityType) {
                 button.classList.add('active');
                 button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
+
+                count = 1;
+                scaleFactor = 100/percentage;
+                console.log(scaleFactor);
+                button.style.width = '100%';
+            }
+            else {
+                const buttonWidth = Math.max(30 + (percentage * scaleFactor * 0.5));
+                //const buttonWidth = Math.max(30  + ((percentage / 100) * 70));
+                console.log(buttonWidth);
+                button.style.width = `${buttonWidth}%`;
             }
 
             resultsContainer.appendChild(button)
         });
+
+        
 
         showPersonalityDetails(personalityType);
 
