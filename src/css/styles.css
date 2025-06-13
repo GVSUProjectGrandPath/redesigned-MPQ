@@ -603,6 +603,7 @@ textarea.userInput:focus {
   border-radius: 1.5vmax;
   text-align: left;  /* Align text to the left */
   font-size: 1rem;   /* Reduce the font size */
+  font-weight: 500;
   line-height: 1.4;  /* Adjust line height for better readability */
 }
 
@@ -835,6 +836,8 @@ textarea.userInput:focus {
   .restart-button, .feedback-button {
     font-size: 3vw;
     padding: 3%;
+    padding-top: 4%;
+    padding-bottom: 4%;
   }
 
   #detailed-results, #result-text {
@@ -897,10 +900,10 @@ textarea.userInput:focus {
   #personality-details {
     font-size: 1.3rem; /* Adjust font size for smaller screens */
     padding: 15px; /* Adjust padding for smaller screens */
-    margin: 20px 0px; /* Margin around text */
+    margin: 20px 0%; /* Margin around text */
   }
   .details-box {
-    width: 80%; /* Full width for mobile */
+    width: 90%; /* Full width for mobile */
     display: block; /* Stack vertically */
     margin: 10px auto; /* Center horizontally */
   }
