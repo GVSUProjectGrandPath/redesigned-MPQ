@@ -949,13 +949,13 @@ textarea.userInput:focus {
   position: absolute;
   top: 1vh;
   left: 1vw;
-  padding: 1vh 2%;
+  padding: 1.2vh 2%;
   border-radius: 1vh;
   cursor: pointer;
   font-family: 'Orbitron', sans-serif;
-  font-size: 1vh;
+  font-size: 1.5vh;
   background-color: transparent;
-  border: 1px solid #5bc2e7;
+  border: 1.5px solid #5bc2e7;
   color: #5bc2e7;
   transition: 0.2s;
 }
