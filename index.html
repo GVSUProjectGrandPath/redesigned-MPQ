@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-lock">
 
 <head>
     <title>Money Personality Quiz</title>
@@ -10,12 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="\src\css\styles.css">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <meta charset="UTF-8">
 </head>
 
-<body>
+<body class="scroll-lock">
     <div id="video-container">
         <video autoplay muted loop playsinline id="background-video">
             <source src="/src/assets/movingStars.mp4" type="video/mp4">
@@ -114,7 +114,11 @@
                         </select>
                         <br>
                         <!-- Add user comment stuff here!! -->
-                        <textarea class="userInput" placeholder="Write here..."></textarea>
+                        <button id="userCommentBtn" type="button">Click here to leave a comment! (Optional)</button>
+                        <textarea id="userInput" placeholder="Write here..."></textarea>
+                        <!-- <p id="linkTestComment">Click <button id="userCommentBtn" type="button"
+                        >here</button> to leave a comment! (Optional)</p>
+                        <textarea id="userInput" placeholder="Write here..."></textarea> -->
                         <br>
                         <button id="submitBtn" type="submit">Submit Feedback</button>
                     </form>

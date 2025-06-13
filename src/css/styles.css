@@ -245,8 +245,8 @@ body::-webkit-scrollbar {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90%; /* Slightly wider for better spacing */
-  max-width: 400px;
-  max-height: 72%; /* Limit the height to allow scrolling */
+  max-width: clamp(320px, 500px, 90%);
+  max-height: clamp(60%, 80vh, 85%); /* Limit the height to allow scrolling */
   /* padding: 20px;
   padding-top: 0; */
   /* padding-right: 0;
@@ -255,7 +255,6 @@ body::-webkit-scrollbar {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   display: none; /* Hidden by default */
-  z-index: 999;
   overflow-y: scroll; /* Enable vertical scrolling */
   scrollbar-width: none; /* Hide scrollbar in Firefox */
   /* outline: yellow;
@@ -304,7 +303,8 @@ body::-webkit-scrollbar {
   /* gap: 1rem; */
 }
 
-textarea.userInput {
+textarea#userInput {
+  display: none;
   background-color: white !important;
   color: black !important;
   height: 140px !important;
@@ -321,7 +321,7 @@ textarea.userInput {
   font-weight: 500;
 }
 
-textarea.userInput:focus {
+textarea#userInput:focus {
   /* background-color: white !important; */
   outline: none;
   border: 5px solid #5BC2E7 !important;
@@ -461,7 +461,31 @@ textarea.userInput:focus {
   height: 100px; /* Maintain height for comments */
 }
 
-#feedback-form button {
+#userCommentBtn {
+  /* all: unset; */
+  cursor: pointer;
+  background-color: black;
+  color: #5bc2e7;
+  padding: 10px 20px;
+  /* border: none; */
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-color: #5bc2e7;
+  border-width: 4px;
+  /* border-top-width: 1vw;
+  border-bottom-width: 1vw; */
+  border-style: solid;
+}
+
+#userCommentBtn:hover {
+  background-color: black;
+  color: #FEDB04;
+  border-color: #FEDB04;
+}
+
+#submitBtn {
   background-color: #FEDB04;
   color: black;
   padding: 10px 20px;
@@ -473,7 +497,7 @@ textarea.userInput:focus {
 }
 
 @media (hover: hover) { /* Ensures hover styles only apply on non-touch devices (Ex: laptop) */
-  #feedback-form button:hover {
+  #submitBtn:hover {
     background-color: #5bc2e7;
   }
 }

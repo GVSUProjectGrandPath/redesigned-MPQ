@@ -440,12 +440,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'auto'; // body
     });
 
-    // if (document.getElementById('feedback-popup').classList.contains('active')) {
-    //     document.querySelector('.overlay').style.display = 'block';
-    // }
-    // else {
-    //     document.querySelector('.overlay').style.display = 'none';
-    // }
+    document.getElementById('userCommentBtn').addEventListener('click', function () {
+        document.getElementById('userInput').style.display = 'block';
+        document.getElementById('userCommentBtn').style.display = 'none'
+
+    });
 
     // Restarts the quiz
     function restartQuiz() {
