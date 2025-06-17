@@ -48,10 +48,30 @@ document.addEventListener('DOMContentLoaded', () => {
     function MobileDevice() {
         return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
+    function handleOrientationChange() {
+        if (window.matchMedia('(orientation: portrait)').matches) {
+            document.getElementById('result-grid').style.height = '80%';
+            document.getElementById('result-grid').style.marginTop = '12.5%';
+            document.getElementById('detailed-results').style.marginTop = '5vh';
+            document.getElementById('result-animal-image').style.height = '50vh';
+        }
+        else {
+            document.getElementById('result-grid').style.height = '80%';
+            document.getElementById('result-grid').style.marginTop = '0%';
+            document.getElementById('detailed-results').style.marginTop = '5%';
+            document.getElementById('result-animal-image').style.height = '70%';
+        }
+    }
 
     if (MobileDevice()) {
         bodyElement.style.backgroundColor = 'black';
+        // Initial check
+        //handleOrientationChange();
+        
+        // Listen for orientation changes
+        //window.addEventListener('resize', handleOrientationChange);
     }
+   
 
     // Sets up event listeners for answer buttons
     document.querySelectorAll('.answer-button').forEach(button => {
@@ -133,8 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Displays the quiz results and personality type
     function showResults() {
-        progressContainer.style.display = 'none';
-
         let maxPoints = 0;
         let personalityType = '';
 
@@ -148,12 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const personalityData = personalitiesData.descriptions[personalityType];
 
-        document.getElementById('question-container').style.display = 'none';
         //display none when result page is shown.
+        progressContainer.style.display = 'none';
+        document.getElementById('question-container').style.display = 'none';
         document.getElementById('back-button').style.display = 'none';
-        document.getElementById('result-container').style.display = 'block';
-
         document.getElementById('answers').style.display = 'none';
+        document.getElementById('result-container').style.display = 'block';
 
         document.getElementById('result').innerText = `You are most similar to the ${capitalize(personalityData.animal)}`;
 
@@ -455,28 +473,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let pressedKeys = {};
 
     document.addEventListener('keydown', (event) => {
-    pressedKeys[event.key] = true;
-    // Check for specific key combinations
-    if (pressedKeys['s'] && pressedKeys['k']) {
-        if (welcomeScreen.style.display !== 'none') {
-            welcomeScreen.style.display = 'none';
-            quizContainer.style.display = 'flex';
-        }
-        totalPoints = {
-            "saver": 10,
-            "spender": 7,
-            "investor": 5,
-            "compulsive": 4,
-            "gambler": 3,
-            "debtor": 2,
-            "shopper": 1,
-            "indifferent": 1
-        };
-        showResults();
-    }
-    });
+        pressedKeys[event.key] = true;
+        // Check for specific key combinations
+        if (pressedKeys['s'] && pressedKeys['k']) {
+            if (welcomeScreen.style.display !== 'none') {
+                welcomeScreen.style.display = 'none';
+                quizContainer.style.display = 'flex';
+            }
+            totalPoints = {
+                "saver": 10,
+                "spender": 7,
+                "investor": 5,
+                "compulsive": 4,
+                "gambler": 3,
+                "debtor": 2,
+                "shopper": 1,
+                "indifferent": 1
+            };
+            showResults();
+            }
+        });
 
-    document.addEventListener('keyup', (event) => {
-    delete pressedKeys[event.key];
+        document.addEventListener('keyup', (event) => {
+            delete pressedKeys[event.key];
+        });
     });
-});
