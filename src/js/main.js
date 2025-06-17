@@ -48,10 +48,30 @@ document.addEventListener('DOMContentLoaded', () => {
     function MobileDevice() {
         return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
+    function handleOrientationChange() {
+        if (window.matchMedia('(orientation: portrait)').matches) {
+            document.getElementById('result-grid').style.height = '80%';
+            document.getElementById('result-grid').style.marginTop = '12.5%';
+            document.getElementById('detailed-results').style.marginTop = '5vh';
+            document.getElementById('result-animal-image').style.height = '50vh';
+        }
+        else {
+            document.getElementById('result-grid').style.height = '80%';
+            document.getElementById('result-grid').style.marginTop = '0%';
+            document.getElementById('detailed-results').style.marginTop = '5%';
+            document.getElementById('result-animal-image').style.height = '70%';
+        }
+    }
 
     if (MobileDevice()) {
         bodyElement.style.backgroundColor = 'black';
+        // Initial check
+        //handleOrientationChange();
+        
+        // Listen for orientation changes
+        //window.addEventListener('resize', handleOrientationChange);
     }
+   
 
     // Sets up event listeners for answer buttons
     document.querySelectorAll('.answer-button').forEach(button => {
@@ -133,8 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Displays the quiz results and personality type
     function showResults() {
-        progressContainer.style.display = 'none';
-
         let maxPoints = 0;
         let personalityType = '';
 
@@ -148,12 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const personalityData = personalitiesData.descriptions[personalityType];
 
-        document.getElementById('question-container').style.display = 'none';
         //display none when result page is shown.
+        progressContainer.style.display = 'none';
+        document.getElementById('question-container').style.display = 'none';
         document.getElementById('back-button').style.display = 'none';
-        document.getElementById('result-container').style.display = 'block';
-
         document.getElementById('answers').style.display = 'none';
+        document.getElementById('result-container').style.display = 'block';
 
         document.getElementById('result').innerText = `You are most similar to the ${capitalize(personalityData.animal)}`;
 
@@ -168,24 +186,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return { type, percentage };
         }).sort((a, b) => b.percentage - a.percentage);
 
-        // These can all be changed to adjust the buttons on the results page
-        const maxButtonWidth = 400;
-        const additionalLength = 150;
-        const scalingFactor = 3;
+        console.log(sortedTypes)
 
-        console.log(maxButtonWidth)
+
 
         // Create buttons for each personality type
+        let scaleFactor = 0;
+        let count = 0;
         sortedTypes.forEach(({ type, percentage }) => {
             const animalName = personalitiesData.descriptions[type].animal;
-
-            const buttonWidth = Math.max(30  + ((percentage / 100) * 70));
             const activeSymbol = '<i class="fa-solid fa-eye"></i>';
-            const inactiveSymbol = '<i class="fa-solid fa-eye-slash"></i>';
+            const inactiveSymbol = '';
+            //const click = '<span class="material-symbols-outlined">web_traffic</span>';
+            const click = ''
 
             const button = document.createElement('button');
             button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
-            button.style.width = `${buttonWidth}vw`;
 
             button.onclick = () => {
                 showPersonalityDetails(type);
@@ -193,18 +209,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     btn.classList.remove('active');
                     btn.style.animation = 'none';
                     btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
+                    btn.innerHTML = btn.innerHTML.replace(click, inactiveSymbol);
                 }
                 button.classList.add('active');
                 button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
             };
 
-             if (type === personalityType) {
+            if (count === 1) {
+                button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${click}`;
+                count = 2;
+            }
+
+            if (count === 0 && type === personalityType) {
                 button.classList.add('active');
                 button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
+
+                count = 1;
+                scaleFactor = 100/percentage;
+                console.log(scaleFactor);
+                button.style.width = '100%';
+            }
+            else {
+                const buttonWidth = Math.max(30 + (percentage * scaleFactor * 0.5));
+                //const buttonWidth = Math.max(30  + ((percentage / 100) * 70));
+                console.log(buttonWidth);
+                button.style.width = `${buttonWidth}%`;
             }
 
             resultsContainer.appendChild(button)
         });
+
+        
 
         showPersonalityDetails(personalityType);
 
@@ -438,28 +473,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let pressedKeys = {};
 
     document.addEventListener('keydown', (event) => {
-    pressedKeys[event.key] = true;
-    // Check for specific key combinations
-    if (pressedKeys['s'] && pressedKeys['k']) {
-        if (welcomeScreen.style.display !== 'none') {
-            welcomeScreen.style.display = 'none';
-            quizContainer.style.display = 'flex';
-        }
-        totalPoints = {
-            "saver": 10,
-            "spender": 7,
-            "investor": 5,
-            "compulsive": 4,
-            "gambler": 3,
-            "debtor": 2,
-            "shopper": 1,
-            "indifferent": 1
-        };
-        showResults();
-    }
-    });
+        pressedKeys[event.key] = true;
+        // Check for specific key combinations
+        if (pressedKeys['s'] && pressedKeys['k']) {
+            if (welcomeScreen.style.display !== 'none') {
+                welcomeScreen.style.display = 'none';
+                quizContainer.style.display = 'flex';
+            }
+            totalPoints = {
+                "saver": 10,
+                "spender": 7,
+                "investor": 5,
+                "compulsive": 4,
+                "gambler": 3,
+                "debtor": 2,
+                "shopper": 1,
+                "indifferent": 1
+            };
+            showResults();
+            }
+        });
 
-    document.addEventListener('keyup', (event) => {
-    delete pressedKeys[event.key];
+        document.addEventListener('keyup', (event) => {
+            delete pressedKeys[event.key];
+        });
     });
-});
