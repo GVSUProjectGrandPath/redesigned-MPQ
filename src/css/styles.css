@@ -431,6 +431,7 @@ textarea#userInput:focus {
 #feedback-form label {
   margin-bottom: 10px;
   font-size: 1.2rem;
+  font-weight: 500;
   color: #ffffff;
   text-align: left; /* Align labels to the left for consistency */
 }
@@ -469,7 +470,7 @@ textarea#userInput:focus {
   padding: 10px 20px;
   /* border: none; */
   border-radius: 20px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-color: #5bc2e7;
@@ -483,6 +484,7 @@ textarea#userInput:focus {
   background-color: black;
   color: #FEDB04;
   border-color: #FEDB04;
+  font-size: 0.9rem;
 }
 
 #submitBtn {
@@ -494,6 +496,41 @@ textarea#userInput:focus {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+#shareHabits {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
+#recommendSurvey {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
+#resultsAccurate {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
+#resultsHelpful {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
+#practicalSteps {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
 }
 
 @media (hover: hover) { /* Ensures hover styles only apply on non-touch devices (Ex: laptop) */
