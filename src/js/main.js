@@ -1,3 +1,5 @@
+
+
 let currentQuestionIndex = 0; // Tracks the current question index
 let totalPoints = {
     "saver": 0,
@@ -35,6 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (MobileDevice()) {
         bodyElement.style.backgroundColor = 'black';
+        document.querySelectorAll('#feedback-form label').forEach(label => {
+            label.style.fontWeight = '550' 
+        });
     }
 
     // Sets up event listeners for answer buttons
@@ -265,8 +270,73 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        const userCommentArea = document.getElementById('userInput');
+        const inappropriateWords = obscenity['badWords'];
+        const inappropriateEmojis = obscenity['badEmojis'];
+
+        function containsCustomProfanity(text) {
+            const words = text.toLowerCase().split(/\s+/);
+            return words.some(word => inappropriateWords[word] || inappropriateEmojis[word]);
+        }
+
+        // userCommentArea.addEventListener('input', (event) => {
+        //     const currentValue = event.target.value.trim();
+        //     if (containsCustomProfanity(currentValue)) {
+        //         console.warn('Live input contains profanity!');
+        //     }
+        // });
+
+
+
+
+        // const inputField = document.getElementById('userInput');
+        // let foundProfanity = false;
+        // const inappropriateWords = obscenity['badWords'];
+        // const inappropriateEmojis = obscenity['badEmojis'];
+
+        // inputField.addEventListener('input', function(event) {
+        //     const currentValue = event.target.value;
+        //     // const lastChar = currentValue.charAt(currentValue.length - 1);
+            
+        //     // console.log('Current Input:', currentValue);       // logs full input so far
+        //     if ((currentValue in inappropriateWords) || (currentValue in inappropriateEmojis)) {
+        //         foundProfanity = true;
+        //     }
+        //     // console.log('Last Character Typed:', lastChar);    // logs the most recent character
+        // });
+
         document.getElementById('feedback-form').addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent default form submission
+
+            const unCleanComment = userCommentArea.value.trim();
+            const cleanedComment = profanityCleaner.clean(unCleanComment);
+
+            if (unCleanComment === "") {
+                console.log("User ain't comment nothin!");
+            }
+
+            const foundCustomProfanity = containsCustomProfanity(unCleanComment);
+            const foundLibraryProfanity = cleanedComment !== unCleanComment;
+
+            if (foundLibraryProfanity || foundCustomProfanity) {
+                console.warn('Profanity detected!!');
+            } else {
+                console.log(cleanedComment);
+            }
+
+            // if (unCleanComment !== '') {
+            //     if (cleanedComment !== unCleanComment || foundProfanity) {
+            //         console.log('Profanity detected!!')
+            //         foundProfanity = false;
+            //     }
+            //     else {
+            //         console.log(cleanedComment) 
+            //     }
+            // }
+            // else {
+            //     console.log("User ain't comment nothin!")
+            // }
+            // });
 
             const feedbackData = {
                 shareHabits: event.target.shareHabits.value,
@@ -277,6 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultsHelpful: event.target.resultsHelpful.value,
                 // interactivity: event.target.interactivity.value,
                 practicalSteps: event.target.practicalSteps.value,
+
                 // additionalFeatures: Array.from(event.target.additionalFeatures)
                 //     .filter(checkbox => checkbox.checked)
                 //     .map(checkbox => checkbox.value),
@@ -445,6 +516,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('userCommentBtn').style.display = 'none'
 
     });
+
+    document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', () => {
+            const selectedValue = select.value;
+
+            if (selectedValue !== "") {
+                select.style.backgroundColor = '#FEDB04';
+            }
+        });
+      });
 
     // Restarts the quiz
     function restartQuiz() {
