@@ -216,6 +216,19 @@ body::-webkit-scrollbar {
   background-color: #54c9cd;
 }
 
+@keyframes changeColor {
+  50% {
+    background-color: #FEDB04;
+  }
+  100% {
+    background-color: #5bc2e7;
+  }
+}
+
+.answer-button.mobile-click {
+  animation: changeColor 0.3s forwards;
+}
+
 #submitBtn.mobile-click2:active {
   background-color: #FEDB04
 }
@@ -227,11 +240,16 @@ body::-webkit-scrollbar {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90%; /* Slightly wider for better spacing */
-  max-width: 400px;
-  max-height: 72%; /* Limit the height to allow scrolling */
+  max-width: clamp(320px, 500px, 90%);
+  max-height: clamp(60%, 80vh, 85%); /* Limit the height to allow scrolling */
+  /* padding: 20px;
+  padding-top: 0; */
+  /* padding-right: 0;
+  padding-left: 0; */
   background-color: black; /* Match the form background */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
+  display: none; /* Hidden by default */
   overflow-y: scroll; /* Enable vertical scrolling */
   scrollbar-width: none; /* Hide scrollbar in Firefox */
   border-color: #FEDB04;
@@ -263,7 +281,8 @@ body::-webkit-scrollbar {
   border-style: solid;
 }
 
-textarea.userInput {
+textarea#userInput {
+  display: none;
   background-color: white !important;
   color: black !important;
   height: 140px !important;
@@ -278,7 +297,7 @@ textarea.userInput {
   font-weight: 500;
 }
 
-textarea.userInput:focus {
+textarea#userInput:focus {
   /* background-color: white !important; */
   outline: none;
   border: 5px solid #5BC2E7 !important;
@@ -364,6 +383,8 @@ textarea.userInput:focus {
 #feedback-form label {
   margin-bottom: 10px;
   font-size: 1.2rem;
+  font-weight: 500;
+  color: #ffffff;
   text-align: left; /* Align labels to the left for consistency */
   color: #ffffff;
 }
@@ -383,6 +404,7 @@ textarea.userInput:focus {
 #feedback-form select {
   width: 100%;
   max-width: 300px;
+  max-width: 300px;
   padding: 10px;
   margin-bottom: 15px; /* Reduced margin for better spacing */
   border: none;
@@ -393,7 +415,32 @@ textarea.userInput:focus {
   height: 100px; /* Maintain height for comments */
 }
 
-#feedback-form button {
+#userCommentBtn {
+  /* all: unset; */
+  cursor: pointer;
+  background-color: black;
+  color: #5bc2e7;
+  padding: 10px 20px;
+  /* border: none; */
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-color: #5bc2e7;
+  border-width: 4px;
+  /* border-top-width: 1vw;
+  border-bottom-width: 1vw; */
+  border-style: solid;
+}
+
+#userCommentBtn:hover {
+  background-color: black;
+  color: #FEDB04;
+  border-color: #FEDB04;
+  font-size: 0.9rem;
+}
+
+#submitBtn {
   background-color: #FEDB04;
   color: black;
   padding: 10px 20px;
@@ -404,8 +451,43 @@ textarea.userInput:focus {
   transition: background-color 0.3s ease;
 }
 
+#shareHabits {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
+#recommendSurvey {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
+#resultsAccurate {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
+#resultsHelpful {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
+#practicalSteps {
+  background-color: #5BC2E7;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
 @media (hover: hover) { /* Ensures hover styles only apply on non-touch devices (Ex: laptop) */
-  #feedback-form button:hover {
+  #submitBtn:hover {
     background-color: #5bc2e7;
   }
 }
@@ -721,28 +803,149 @@ textarea.userInput:focus {
   100% {
     box-shadow: 0px 0px 0px rgba(84, 201, 205, 1);
   }
+  #answer-a {
+    width: 90%; 
+  }
+  #answer-n {
+    width: 80%; 
+  }
+  #answer-d {
+    width: 90%; 
+  }
+  .answer-button:active {
+    background-color: #5bc2e7;
+    /* font-weight: bold; */
+     /* for mobile tap */
+  }  
+
+  @keyframes change_submitColor {
+    50% {
+      background-color: #5bc2e7;
+    }
+    100% {
+      background-color: #FEDB04;
+    }
+  }
+
+  #submitBtn.mobile-click2 {
+    animation: change_submitColor 0.3s forwards;
+  }
+  
+  #detailed-results{
+    position: relative;
+  }
+  #detailed-results button {
+    font-weight: bold;
+    font-size: 3vw;
+    padding: 2%;
+    padding-left: 3%;
+    margin-top: 2%;
+    margin-left: 20%; /* Add left margin */
+  }
+
+  .restart-button, .feedback-button {
+    font-size: 3vw;
+  }
+
+  #detailed-results, #result-text {
+    font-size: 5vh;
+  }
+
+  #result {
+    font-size: 1.3rem;
+  }
+
+  #question-text, #result {
+    text-shadow: 0 0 1px rgb(255, 255, 255) /* trick to make text bold */
+  }
+
+  #detailed-results {
+    width: 50%; /* Ensure container takes full width */
+    margin-left: 0px;
+  }
+
+  #result-grid {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-content: center;
+  }
+
+  #result {
+    display: block;
+    font-weight: bold;
+    font-size: 4vh;
+    margin: 0;
+    margin-left: 5%;
+    margin-right: 5%;
+    color: #ffffff;
+  }
+
+  #result-animal-image {
+    justify-content: center;
+    height: 65vh; /* Maintains the aspect ratio */
+    width: auto; /* Adjust the size of the image */
+    max-width: 100%;
+    padding-top: 5vh; /* Adds some space above the image */
+  }
+
+  #scroll-down-text {
+    font-size: 4vh;
+    margin: 0;
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 5vh;
+    color: #FEDB04;
+  }
+
+  .scroll-arrow {
+    font-size: 7vh;
+    margin-top: 0;
+    margin-left: 4vh;
+  }
+  
+  #personality-details {
+    font-size: 1.3rem; /* Adjust font size for smaller screens */
+    padding: 15px; /* Adjust padding for smaller screens */
+    margin: 20px 0px; /* Margin around text */
+  }
+  .details-box {
+    width: 80%; /* Full width for mobile */
+    display: block; /* Stack vertically */
+    margin: 10px auto; /* Center horizontally */
+  }
+  .responsive-image {
+    display: none; /* Hide the images on mobile devices */
+  }
+  .details-tree {
+    display: none;
+  }
+  #topper-for-line {
+    display: none;
+  }
 }
 
-@keyframes pulseGlowEffect2 {
-  /* 0% {
-    transform: translateX(-50%) translateY(0);
-  } */
-  50% {
-    box-shadow: 0px 0px 18px rgba(84, 201, 205, 1);
-  }
-  100% {
-    box-shadow: 0px 0px 0px rgba(84, 201, 205, 1);
-  }
+/* p start */
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: 2px solid #5bc2e7;
+  color: #5bc2e7;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  transition: 0.2s;
 }
 
-@keyframes pulseGlowEffect3 {
-  /* 0% {
-    transform: translateX(-50%) translateY(0);
-  } */
-  50% {
-    box-shadow: 18px 0px 9px rgba(84, 201, 205, 1);
-  }
-  100% {
-    box-shadow: 0px 0px 0px rgba(84, 201, 205, 1);
-  }
+.back-button:hover {
+  background-color: #5bc2e7;
+  color: #000;
 }
+.answer-button.active {
+  background-color: #FEDB04;
+}
+/* p ends */
