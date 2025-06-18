@@ -50,20 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function MobileDevice() {
         return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
-    function handleOrientationChange() {
-        if (window.matchMedia('(orientation: portrait)').matches) {
-            document.getElementById('result-grid').style.height = '80%';
-            document.getElementById('result-grid').style.marginTop = '12.5%';
-            document.getElementById('detailed-results').style.marginTop = '5vh';
-            document.getElementById('result-animal-image').style.height = '50vh';
-        }
-        else {
-            document.getElementById('result-grid').style.height = '80%';
-            document.getElementById('result-grid').style.marginTop = '0%';
-            document.getElementById('detailed-results').style.marginTop = '5%';
-            document.getElementById('result-animal-image').style.height = '70%';
-        }
-    }
 
     if (MobileDevice()) {
         bodyElement.style.backgroundColor = 'black';
@@ -326,8 +312,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function containsCustomProfanity(text) {
             const words = text.toLowerCase().split(/\s+/);
-            return words.some(word => inappropriateWords[word] || inappropriateEmojis[word]);
+            const chars = Array.from(text);
+
+            const foundWord = words.some(word => inappropriateWords[word] || inappropriateEmojis[word]);
+            const foundEmoji = chars.some(char => inappropriateEmojis[char]);
+
+            return foundEmoji || foundWord
         }
+
 
         // userCommentArea.addEventListener('input', (event) => {
         //     const currentValue = event.target.value.trim();
@@ -370,6 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (foundLibraryProfanity || foundCustomProfanity) {
                 console.warn('Profanity detected!!');
+                catchedBadInput = false
             } else {
                 console.log(cleanedComment);
             }
