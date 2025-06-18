@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
 </head>
 
-<body">
+<body>
     <div id="video-container">
         <video autoplay muted loop playsinline id="background-video">
             <source src="/src/assets/movingStars.mp4" type="video/mp4">
@@ -32,9 +32,7 @@
     </div>
 
     <div id="quiz-container" style="display: none;">
-         <!-- pushpa start -->
-         <button id="back-button" class="back-button">← Back</button>
-         <!-- pushpa ends -->
+        <button id="back-button" class="back-button">← Back</button>
         <div id="progress-container">
             <div id="progress-bar"></div>
         </div>
@@ -66,10 +64,8 @@
                     <button id="closeXbutton">
                         <i class="fa-solid fa-x X-icon"></i> 
                     </button>
-                    <!-- <i class="fa-solid fa-x X-icon"></i>  -->
                 </div>
                 <div class="form-content">
-                    <!-- <i class="fa-solid fa-x X-icon"></i> -->
                     <form id="feedback-form" novalidate>
                         <label for="shareHabits">1: Does taking the "Money Personality" quiz make you want to share more about your money habits with your friends?</label>
                         <select id="shareHabits" name="shareHabits" required>
@@ -119,12 +115,8 @@
                             <option value="Not useful at all">Not useful at all</option>
                         </select>
                         <br>
-                        <!-- Add user comment stuff here!! -->
                         <button id="userCommentBtn" type="button">Leave a comment (Optional)</button>
                         <textarea id="userInput" placeholder="Write here..."></textarea>
-                        <!-- <p id="linkTestComment">Click <button id="userCommentBtn" type="button"
-                        >here</button> to leave a comment! (Optional)</p>
-                        <textarea id="userInput" placeholder="Write here..."></textarea> -->
                         <br>
                         <button id="submitBtn" type="submit">Submit Feedback</button>
                     </form>

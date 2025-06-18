@@ -183,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const animalName = personalitiesData.descriptions[type].animal;
             const activeSymbol = '<i class="fa-solid fa-eye"></i>';
             const inactiveSymbol = '';
-            //const click = '<span class="material-symbols-outlined">web_traffic</span>';
             const click = ''
 
             const button = document.createElement('button');
@@ -217,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             else {
                 const buttonWidth = Math.max(30 + (percentage * scaleFactor * 0.5));
-                //const buttonWidth = Math.max(30  + ((percentage / 100) * 70));
                 console.log(buttonWidth);
                 button.style.width = `${buttonWidth}%`;
             }
@@ -310,42 +308,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const inappropriateWords = obscenity['badWords'];
         const inappropriateEmojis = obscenity['badEmojis'];
 
+        // This checks for the custom profanity (words & emojis) created in profanity.js
         function containsCustomProfanity(text) {
             const words = text.toLowerCase().split(/\s+/);
             const chars = Array.from(text);
-
             const foundWord = words.some(word => inappropriateWords[word] || inappropriateEmojis[word]);
             const foundEmoji = chars.some(char => inappropriateEmojis[char]);
-
             return foundEmoji || foundWord
         }
-
-
-        // userCommentArea.addEventListener('input', (event) => {
-        //     const currentValue = event.target.value.trim();
-        //     if (containsCustomProfanity(currentValue)) {
-        //         console.warn('Live input contains profanity!');
-        //     }
-        // });
-
-
-
-
-        // const inputField = document.getElementById('userInput');
-        // let foundProfanity = false;
-        // const inappropriateWords = obscenity['badWords'];
-        // const inappropriateEmojis = obscenity['badEmojis'];
-
-        // inputField.addEventListener('input', function(event) {
-        //     const currentValue = event.target.value;
-        //     // const lastChar = currentValue.charAt(currentValue.length - 1);
-            
-        //     // console.log('Current Input:', currentValue);       // logs full input so far
-        //     if ((currentValue in inappropriateWords) || (currentValue in inappropriateEmojis)) {
-        //         foundProfanity = true;
-        //     }
-        //     // console.log('Last Character Typed:', lastChar);    // logs the most recent character
-        // });
 
         document.getElementById('feedback-form').addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent default form submission
@@ -367,32 +337,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(cleanedComment);
             }
 
-            // if (unCleanComment !== '') {
-            //     if (cleanedComment !== unCleanComment || foundProfanity) {
-            //         console.log('Profanity detected!!')
-            //         foundProfanity = false;
-            //     }
-            //     else {
-            //         console.log(cleanedComment) 
-            //     }
-            // }
-            // else {
-            //     console.log("User ain't comment nothin!")
-            // }
-            // });
-
             const feedbackData = {
                 shareHabits: event.target.shareHabits.value,
                 recommendSurvey: event.target.recommendSurvey.value,
                 resultsAccurate: event.target.resultsAccurate.value,
                 resultsHelpful: event.target.resultsHelpful.value,
                 practicalSteps: event.target.practicalSteps.value,
-
-                // additionalFeatures: Array.from(event.target.additionalFeatures)
-                //     .filter(checkbox => checkbox.checked)
-                //     .map(checkbox => checkbox.value),
-                // saveResults: event.target.saveResults.value,
-                // visualSatisfaction: event.target.visualSatisfaction.value,
                 timestamp: currentDate  // Add the current timestamp to the feedback data
             };
 
@@ -514,7 +464,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('userCommentBtn').addEventListener('click', function () {
         document.getElementById('userInput').style.display = 'block';
         document.getElementById('userCommentBtn').style.display = 'none'
-
     });
 
     document.querySelectorAll('select').forEach(select => {
