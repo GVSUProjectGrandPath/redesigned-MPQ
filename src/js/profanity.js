@@ -2,10 +2,13 @@ const obscenity = {
     badWords: {
         '@ss': true,
         '5ex': true,
+        'a55hole': true,
+        '@55hole': true,
         'Bullshit': true,
         'obese': true,
         'fatfuck': true,
         'fatFuck': true,
+        'hoe': true,
         'jackass': true,
         'jack@ss': true,
         'fatfaggot': true,
