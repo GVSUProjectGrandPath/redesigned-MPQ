@@ -177,6 +177,22 @@ body::-webkit-scrollbar {
   background-color: #5bc2e7;
   color: #000;
 }
+
+@keyframes change_BackButtonColor {
+  50% {
+    background-color: #5bc2e7;
+    color: #000;
+  }
+  100% {
+    background-color: transparent;
+    color: #5bc2e7;
+  }
+}
+
+.back-button.mobile-click {
+  animation: change_BackButtonColor 0.3s forwards;
+}
+
 .answer-button.active {
   background-color: #FEDB04;
 }
