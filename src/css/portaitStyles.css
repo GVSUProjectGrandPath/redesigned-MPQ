@@ -52,15 +52,11 @@
   .answer-button {
     width: 100%; /* Full width for mobile */
     max-width: none;
-    font-family: 'Jura', sans-serif;
     font-size: 2dvh;
     word-spacing: normal;
     padding: 1.2dvh;
     margin-top: 1dvh;
-    color: black;
-    background-color: #5bc2e7;
-    cursor: pointer;
-    border-radius: 5vmax;
+    border-radius: 1.5dvh;
     transition: background-color 0.3s ease;
     text-shadow: 0 0 0.75px rgba(0, 0, 0, 0.6);
   }
@@ -200,3 +196,4 @@
     display: none;
   }
 }
+

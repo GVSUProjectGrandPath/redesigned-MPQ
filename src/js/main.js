@@ -14,9 +14,9 @@ let totalPoints = {
 }; // Stores total points for each personality type
 
 document.addEventListener('DOMContentLoaded', () => {
-	const welcomeScreen = document.getElementById('welcome-screen');
+	const welcomeScreen = document.getElementById('welcome-screen2');
 	const quizContainer = document.getElementById('quiz-container');
-	const startButton = document.getElementById('start-button');
+	const startButton = document.getElementById('start-button2');
 	const progressContainer = document.getElementById('progress-container');
 	const progressBar = document.getElementById('progress-bar');
 	const bodyElement = document.body;
@@ -166,8 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('back-button').style.display = 'none';
 		document.getElementById('answers').style.display = 'none';
 		document.getElementById('result-container').style.display = 'block';
+		document.getElementById('quiz-header').style.display = 'none';
 
-		document.getElementById('result').innerText = `You are most similar to the ${capitalize(personalityData.animal)}`;
+		document.getElementById('result-header').innerText = `You are most similar to the ${capitalize(personalityData.animal)}`;
 
 		const total = getTotalPoints();
 		const resultsContainer = document.getElementById('detailed-results');

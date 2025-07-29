@@ -1,236 +1,3 @@
-html, body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100dvh;
-  width: 100vw;
-  max-width: 100%;
-  color: #ffffff;
-  font-family: 'Jura', sans-serif; /* or 'Audiowide', sans-serif */
-  overflow-y: scroll; /* Enable vertical scrolling */
-  overflow-x: scroll; /* Prevent horizontal scrolling */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
-  scrollbar-width: none; /* Firefox: Hide scrollbars */
-}
-html {
-  overflow-y: scroll; /* Enable vertical scrolling */
-  overflow-x: hidden;
-}
-
-body::-webkit-scrollbar {
-  width: 0px; /* Chrome, Safari, and Opera: Hide scrollbars */
-  background: transparent; /* Optional: Set scrollbar background to transparent */
-}
-
-#video-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  /* object-fit: cover; */
-  z-index: -1; /* Make sure video is behind other content */
-}
-#background-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Cover the entire screen */
-}
-
-#quiz-container {
-  display: flex;
-  position: relative; /* For relative positioning context */
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100dvh; /* Full viewport height */
-  width: 100vw; /* Full viewport width */
-  max-width: 100%;
-  margin: auto;
-  z-index: 1; /* Ensure content is above the video */
-}
-
-#welcome-screen {
-  display: flex;
-  position: relative; /* Ensure children can be absolutely positioned */
-  flex-direction: column;
-  justify-items: center;
-  align-items: center;
-  text-align: center;
-  z-index: 1; /* Ensure content is above the video */
-}
-
-#logo-image {
-  height: 10dvh;
-  width: auto;
-  border-radius: 3dvh;
-  background-color: white;
-  z-index: 1; /* Ensure text is above the GIF background */
-}
-
-#hero-text{
-  margin-bottom: 0; 
-  font-size: 7dvh;
-  font-weight: bold;
-  color: #FEDB04;
-  text-shadow: 
-    -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), /* Slight blur and transparency */
-    1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
-    -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
-    1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
-  z-index: 1; /* Ensure text is above the GIF background */
-}
-
-#welcome-text {
-  font-size: 5dvh;
-  font-weight: bold;
-  width: 70%; /* Set the width to 30% */
-  text-align: center;
-  word-wrap: break-word; /* Ensure long words wrap to the next line */
-  color: #FEDB04;
-  text-shadow: 
-    -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), /* Slight blur and transparency */
-    1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
-    -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
-    1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
-  z-index: 1; /* Ensure text is above the GIF background */
-}
-
-.start-button { 
-  margin-top: 10px;
-  padding: 2% 2%;
-  font-size: 3dvh;
-  font-family: 'Jura', sans-serif; /* or 'Audiowide', sans-serif */
-  font-weight: bold;
-  background-color: #5bc2e7;
-  color: black;
-  border-top: 1vmin solid #FEDB04;    /* Small border on the top */
-  border-right: 2vmin solid #FEDB04;  /* Same size border on the right */
-  border-bottom: 3vmin solid #FEDB04; /* Larger border on the bottom */
-  border-left: 2vmin solid #FEDB04;   /* Same size border on the left */
-  border-radius: 4vmin;             /* Optional: rounded corners */
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-  z-index: 1; /* Ensure button is above the GIF background */
-}
-.start-button:hover {
-  background-color: #5bc2e7;
-  border-color: #2e6567; /* Change border color on hover */
-}
-.start-button:active {
-  background-color: #54c9cd;
-  border-color: #2e6567; /* Change border color on hover */
-}
-
-#progress-container {
-  position: fixed;
-  top: 6.5vw;
-  width: 90%;
-  height: 2.5%;
-  background-color:#5BC2E7;
-  border-radius: 2dvh;
-  overflow: hidden;
-  z-index: 2; /* Ensure it's on top */
-}
-
-#progress-bar {
-  height: 100%;
-  width: 0%; /* Will be updated by JavaScript */
-  background-color: #FEDB04;
-  transition: width 0.3s ease;
-}
-
-#question-container {
-  position: fixed;
-  width: 90%; /* Adjust this value as needed */
-  top: 50%; /* Center vertically */
-  left: 50%;
-  margin-bottom: 40dvh;
-  text-align: center; /* Center text within container */
-  transform: translate(-50%, -50%); /* Center horizontally */
-  z-index: 1; /* Ensure it’s behind the progress bar */
-}
-
-#question-text {
-  font-size: 5dvh;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.back-button {
-  position: absolute;
-  top: 2vw;
-  left: 1vw;
-  padding: 1vh 2%;
-  font-size: 1.5vw;
-  border-radius: 2dvh;
-  cursor: pointer;
-  font-family: 'Orbitron', sans-serif;
-  background-color: transparent;
-  border: 2px solid #5bc2e7;
-  color: #5bc2e7;
-  transition: 0.2s;
-}
-
-.back-button:hover {
-  background-color: #5bc2e7;
-  color: #000;
-}
-
-@keyframes change_BackButtonColor {
-  50% {
-    background-color: #5bc2e7;
-    color: #000;
-  }
-  100% {
-    background-color: transparent;
-    color: #5bc2e7;
-  }
-}
-
-.back-button.mobile-click {
-  animation: change_BackButtonColor 0.3s forwards;
-}
-
-.answer-button.active {
-  background-color: #FEDB04;
-}
-
-#answers {
-  position: fixed;
-  display: flex;
-  width: 100%;
-  height: 35%;
-  bottom: 0%; /* Distance from bottom */
-  align-items: center;
-  justify-content: center;
-  justify-self: center;
-  z-index: 1; /* Ensure it’s behind the progress bar */
-}
-
-.answer-button {
-  width: 20vw;
-  font-family: 'Jura', sans-serif;
-  font-size: 2vw;
-  font-weight: bolder;
-  text-align: center;
-  word-spacing: 100vw;
-  margin: 1%;
-  padding: 3dvh;
-  border: none;
-  border-radius: 2vw;
-  cursor: pointer;
-  color: black;
-  background-color: #5bc2e7;
-  transition: background-color 0.3s ease;
-}
-.answer-button:hover {
-  background-color:  #FEDB04;
-}
-.answer-button:active {
-  background-color: #54c9cd;
-}
 
 @keyframes changeColor {
   50% {
@@ -549,6 +316,15 @@ textarea#userInput:focus {
   background-color: #54c9cd;
 }
 
+#result-header{
+
+  font:poppins;
+  font-weight: bold;
+  font-size: 30px;
+  color: black;
+  margin-top:-15px;
+}
+
 #result-container {
   position: relative; /* Make sure it stays within its parent */
   height: 100dvh; /* Ensure it takes the full viewport height */
@@ -557,12 +333,15 @@ textarea#userInput:focus {
   font-family: 'Jura', sans-serif;
   text-align: center;
   color: #ffffff;
+  margin-top:50px;
 }
 
 #result-grid {
+  margin-top:-50px;
   display: grid;
   height: 100%;
   width: 100%;
+  margin-top:-50px;
 }
 
 #result {
@@ -572,6 +351,7 @@ textarea#userInput:focus {
   font-size: 8dvh;
   font-weight: bold;
   color: #ffffff;
+  margin-top:-50px;
 }
 
 #result-animal-image {
