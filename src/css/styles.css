@@ -15,6 +15,21 @@
 #submitBtn.mobile-click2:active {
   background-color: #FEDB04
 }
+#quiz-container {
+  display: flex;
+  position: relative; /* For relative positioning context */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  padding: 0px 40px 20px 40px;
+  margin: auto;
+  /* box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); */
+  color: #ffffff; 
+  border-radius: 20px;
+  z-index: 1; /* Ensure content is above the video */
+}
 
 #feedback-popup {
   position: fixed;

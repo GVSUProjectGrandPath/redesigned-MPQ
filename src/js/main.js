@@ -15,6 +15,7 @@ let totalPoints = {
 
 document.addEventListener('DOMContentLoaded', () => {
 	const welcomeScreen = document.getElementById('welcome-screen2');
+	// const descContainer = document.getElementById('desc-container');
 	const quizContainer = document.getElementById('quiz-container');
 	const startButton = document.getElementById('start-button2');
 	const progressContainer = document.getElementById('progress-container');
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Starts the quiz when the start button is clicked
 	startButton.addEventListener('click', () => {
 		welcomeScreen.style.display = 'none';
+		// mainContainer.style.display = 'flex';
 		quizContainer.style.display = 'flex';
 		loadQuestion(currentQuestionIndex); // Load the first question
 	});
@@ -386,45 +388,52 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 
-		// Show detailed information for the selected personality type
-		function showPersonalityDetails(personalityType) {
-			const personalityData = personalitiesData.descriptions[personalityType];
-			const detailsContainer = document.getElementById('personality-details');
+		// pushpa starts
+function showPersonalityDetails(personalityType) {
+  const data = personalitiesData.descriptions[personalityType];
+  if (!data) return;
 
-			const resultAnimalImage = document.getElementById("result-animal-image");
+  document.getElementById("descriptionText").textContent = data.description;
+  injectList("advantagesList", data.advantages);
+  injectList("disadvantagesList", data.disadvantages);
+  injectList("motivatorsList", data.motivators);
+  injectList("demotivatorsList", data.demotivators);
 
-			if (personalityData) {
-				detailsContainer.innerHTML = `
-					<div class="details-tree"><img id="topper-for-line" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"><img id="topper-for-line" class="responsive-image" src="src/assets/Quiz asset-02.png" alt="Top and Bottom Image for the Line"></div>
-					<div class="details-box left"><img id="description-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Description Image" class="details-image"><strong class="large-text">Description</strong><br><br>${personalityData.description}</div>
-					<div class="details-box right"><img id="advantages-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Advantages Image" class="details-image"><strong class="large-text">Advantages</strong><br><ul>${personalityData.advantages.map(item => `<li>${item}</li>`).join('')}</ul></div>
-					<div class="details-box left"><img id="disadvantages-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Disadvantages Image" class="details-image"><strong class="large-text">Disadvantages</strong><br><ul>${personalityData.disadvantages.map(item => `<li>${item}</li>`).join('')}</ul></div>
-					<div class="details-box right"><img id="motivators-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Motivators Image" class="details-image"><strong class="large-text">Motivators</strong><br><ul>${personalityData.motivators.map(item => `<li>${item}</li>`).join('')}</ul></div>
-					<div class="details-box left"><img id="demotivators-image" class="responsive-image" src="/src/assets/Quiz asset-01.png" alt="Demotivators Image" class="details-image"><strong class="large-text">Demotivators</strong><br><ul>${personalityData.demotivators.map(item => `<li>${item}</li>`).join('')}</ul></div>
-				`;
+  const resultImage = document.getElementById("polaroid-animal-image");
+  const imageMap = {
+    "saver": "/src/assets/animal_pngs/squirrel.png",
+    "spender": "/src/assets/animal_pngs/poodle.png",
+    "investor": "/src/assets/animal_pngs/owl.png",
+    "compulsive": "/src/assets/animal_pngs/bee.png",
+    "gambler": "/src/assets/animal_pngs/rabbit.png",
+    "debtor": "/src/assets/animal_pngs/armadillo.png",
+    "shopper": "/src/assets/animal_pngs/octopus.png",
+    "indifferent": "/src/sassets/animal_pngs/panda.png"
+  };
 
-				const animalImages = {
-					"saver": "/src/assets/animal_pngs/squirrel.png",
-					"spender": "/src/assets/animal_pngs/poodle.png",
-					"investor": "/src/assets/animal_pngs/owl.png",
-					"compulsive": "/src/assets/animal_pngs/bee.png",
-					"gambler": "/src/assets/animal_pngs/rabbit.png",
-					"debtor": "/src/assets/animal_pngs/armadillo.png",
-					"shopper": "/src/assets/animal_pngs/octopus.png",
-					"indifferent": "/src/assets/animal_pngs/panda.png"
-				};
+  resultImage.src = imageMap[personalityType] || "assets/futuresqu.png";
+  resultImage.alt = data.animal;
+  // Update large image in desc-container dynamically
+const futureAnimalImg = document.querySelector(".desc-container .topsection .image img");
+if (futureAnimalImg) {
+  const capitalizedAnimal = data.animal.charAt(0).toUpperCase() + data.animal.slice(1); // e.g., "Squirrel"
+  futureAnimalImg.src = `/src/assets/animal_pngs/futureAnimal_Profiles/Future_${capitalizedAnimal}.png`;
+  futureAnimalImg.alt = `Future ${capitalizedAnimal}`;
+}
 
-				if (animalImages[personalityType]) {
-					resultAnimalImage.src = animalImages[personalityType];
-					// resultAnimalImage.src = "/src/assets/animal_pngs/panda.png" // for testing purposes
-					resultAnimalImage.style.display = "block";
-				} else {
-					resultAnimalImage.style.display = "none";
-				}
-			} else {
-				detailsContainer.innerHTML = "No details available for this personality type.";
-			}
-		}
+}
+
+function injectList(id, items) {
+  const ul = document.getElementById(id);
+  ul.innerHTML = "";
+  items.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    ul.appendChild(li);
+  });
+}
+
+		// pushpa ends
 
 		// Just a function to capitalize certain text
 		function capitalize(str) {
