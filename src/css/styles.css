@@ -23,7 +23,7 @@
   align-items: center;
   height: 100vh; /* Full viewport height */
   width: 100vw; /* Full viewport width */
-  padding: 0px 40px 20px 40px;
+  /* padding: 0px 40px 20px 40px; */
   margin: auto;
   /* box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); */
   color: #ffffff; 
@@ -44,7 +44,7 @@
   padding-top: 0; */
   /* padding-right: 0;
   padding-left: 0; */
-  background-color: black; /* Match the form background */
+  /* background-color: black;  */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   display: none; /* Hidden by default */
@@ -331,33 +331,33 @@ textarea#userInput:focus {
   background-color: #54c9cd;
 }
 
-#result-header{
+/* #result-header{
 
   font:poppins;
   font-weight: bold;
   font-size: 30px;
   color: black;
   margin-top:-15px;
-}
+} */
 
-#result-container {
-  position: relative; /* Make sure it stays within its parent */
-  height: 100dvh; /* Ensure it takes the full viewport height */
+/* #result-container {
+  position: relative; 
+  height: 100dvh; 
   width: 100vw;
   max-width: 100%;
   font-family: 'Jura', sans-serif;
   text-align: center;
   color: #ffffff;
   margin-top:50px;
-}
+} */
 
-#result-grid {
+/* #result-grid {
   margin-top:-50px;
   display: grid;
   height: 100%;
   width: 100%;
   margin-top:-50px;
-}
+} */
 
 #result {
   grid-column: 1;
@@ -380,7 +380,7 @@ textarea#userInput:focus {
   max-width: 45vw;
 }
 
-#scroll-down-text {
+/* #scroll-down-text {
   vertical-align: bottom;
   grid-column: 1;
   grid-row: 2;
@@ -389,25 +389,8 @@ textarea#userInput:focus {
   display: table-cell;
   font-size: 5dvh;
   color: #FEDB04;
-}
+} */
 
-.scroll-arrow {
-  align-self: center;
-  justify-self: center;
-  grid-column: 1;
-  grid-row: 3;
-  margin-top: -15dvh;
-  margin-left: 7.5dvh;
-  font-size: 15dvh;
-  color: #FEDB04;
-  text-shadow: 
-    -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), /* Text shadow effect */
-    1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 
-    -1.5px 1.5px 3px rgba(46, 101, 103, 0.5),
-    1.5px 1.5px 3px rgba(46, 101, 103, 0.5); 
-  animation: moveArrow 2s infinite ease-in-out;
-  z-index: 50;
-}
 
 #detailed-results {
   display: flex;
@@ -419,19 +402,17 @@ textarea#userInput:focus {
   color: black;
 }
 
-/* Detailed Results Button Styles */
 #detailed-results button {
-  width: auto; /* Adjust width based on content */
-  min-width: 30vw; /* Ensure minimum width */
+  width: auto;
+  min-width: 30vw;
   max-width: 75vw;
   font-family: 'Jura', sans-serif;
   font-weight: normal;
   text-align: left;
-  font-size: 2vw;
-  padding: 1.25%;
-  padding-left: 3%;
-  margin-top: 1%;
-  margin-left: 10%;
+  font-size: 1.7vw;
+  padding: 10px 30px;
+  margin-top: 0%;
+  margin-left: -16%;
   border: none;
   border-radius: 4vw;
   color: black;

@@ -61,12 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	if (MobileDevice()) {
-		bodyElement.style.backgroundColor = 'black';
+		bodyElement.style.backgroundColor = '#b4efff';
 		document.querySelectorAll('#feedback-form label').forEach(label => {
 			label.style.fontWeight = '550' 
 		});
 	}
    
+	// for audio
+	const sound = document.getElementById('hoverSound');
+	const startButtonElement = document.getElementById('start-button2');
+
+	startButtonElement.addEventListener('mouseenter', () => {
+		sound.currentTime = 0;
+		sound.play();
+	  });
 
 	// Sets up event listeners for answer buttons
 	document.querySelectorAll('.answer-button').forEach(button => {
@@ -401,14 +409,14 @@ function showPersonalityDetails(personalityType) {
 
   const resultImage = document.getElementById("polaroid-animal-image");
   const imageMap = {
-    "saver": "/src/assets/animal_pngs/squirrel.png",
-    "spender": "/src/assets/animal_pngs/poodle.png",
-    "investor": "/src/assets/animal_pngs/owl.png",
-    "compulsive": "/src/assets/animal_pngs/bee.png",
-    "gambler": "/src/assets/animal_pngs/rabbit.png",
-    "debtor": "/src/assets/animal_pngs/armadillo.png",
-    "shopper": "/src/assets/animal_pngs/octopus.png",
-    "indifferent": "/src/sassets/animal_pngs/panda.png"
+    "saver": "/src/assets/animal_pngs/polaroid/past_squirrel.png",
+    "spender": "/src/assets/animal_pngs/polaroid/past_poodle.png",
+    "investor": "/src/assets/animal_pngs/polaroid/past_owl.png",
+    "compulsive": "/src/assets/animal_pngs/polaroid/past_bee.png",
+    "gambler": "/src/assets/animal_pngs/polaroid/past_rabbit.png",
+    "debtor": "/src/assets/animal_pngs/polaroid/past_armadillo.png",
+    "shopper": "/src/assets/animal_pngs/polaroid/past_octopus.png",
+    "indifferent": "/src/assets/animal_pngs/polaroid/past_panda.png"
   };
 
   resultImage.src = imageMap[personalityType] || "assets/futuresqu.png";
@@ -419,6 +427,25 @@ if (futureAnimalImg) {
   const capitalizedAnimal = data.animal.charAt(0).toUpperCase() + data.animal.slice(1); // e.g., "Squirrel"
   futureAnimalImg.src = `/src/assets/animal_pngs/futureAnimal_Profiles/Future_${capitalizedAnimal}.png`;
   futureAnimalImg.alt = `Future ${capitalizedAnimal}`;
+}
+// for the animal icons
+
+const personalityIconImg = document.getElementById("personality-icon");
+
+const iconMap = {
+  "saver": "acorn.png",
+  "spender": "Piggy Bank.png",
+  "investor": "feather.png",
+  "compulsive": "beehive.png",
+  "gambler": "carrot.png",
+  "debtor": "diamond.png",
+  "shopper": "Seasell.png",
+  "indifferent": "panda paw.png"
+};
+
+if (personalityIconImg && iconMap[personalityType]) {
+  personalityIconImg.src = `/src/assets/animal_pngs/animal_assets/${iconMap[personalityType]}`;
+  personalityIconImg.alt = data.animal;
 }
 
 }
