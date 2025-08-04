@@ -102,15 +102,29 @@
   }
   
   #detailed-results{
-    position: relative;
+    display: flex;
+   flex-direction: column;
+   left: 2%;
   }
+  #result-section1{
+   
+    margin-right: unset;
+   }
+   .topsection .description{
+    min-width:305px;
+   }
   #detailed-results button {
     font-weight: bold;
-    font-size: 3vw;
-    padding: 2%;
-    padding-left: 3%;
-    margin-top: 2%;
+    font-size: 1rem;
+    /* padding: 2%; */
+    padding: 10px 155px 10px 18px;
+    /* padding-left: 3%; */
+    /* margin-top: 2%;*/
   }
+  #result-section2{
+    margin-left: 25%;
+  }
+ 
 
   .restart-button, .feedback-button {
     font-size: 3vw;
@@ -121,10 +135,16 @@
 
   #detailed-results, #result-text {
     font-size: 5dvh;
+    flex-direction: column;
+    display: flex;
+    gap: 10px;
   }
-
+.desc-container{
+  padding: 0;
+}
   #result {
     font-size: 1.3rem;
+    width:
   }
 
   #question-text, #result {
@@ -132,22 +152,47 @@
   }
 
   #detailed-results {
-    width: 100%; /* Ensure container takes full width */
-    margin-left: 0px;
+ left:-5%;
   }
 
   #result-grid {
+    flex-direction: column;
     justify-items: center;
     align-content: center;
   }
+  /* #polaroid-animal-image{
+    min-width: 200px;
+    width: 252px; 
+  } */
 
-  #result {
-    font-size: 3dvh;
-    margin: 0;
-    margin-left: 5%;
-    margin-right: 5%;
-  }
+  /* #polaroid-animal-image
+ {
+  width: 200px;
+    min-width: 200px;
+} */
 
+ #scroll-down-text1{
+  display: block;
+  color: #A52C87;
+  font-weight: 600;
+  text-align: center;
+
+ }
+ .scroll-arrow1{
+  display: block;
+  align-self: center;
+  justify-self: center;
+  grid-column: 2;
+  grid-row: 2;
+  margin-top: 1dvh;
+  margin-left: 6.5dvh;
+  font-size: 5dvh;
+  color: #FEDB04;
+  text-shadow: -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 1.5px -1.5px 3px rgba(46, 101, 103, 0.5), -1.5px 1.5px 3px rgba(46, 101, 103, 0.5), 1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
+  animation: moveArrow 2s infinite ease-in-out;
+  z-index: 50;
+
+}
   #result-animal-image {
     grid-column: 1;
     grid-row: 2;
@@ -161,7 +206,7 @@
   #scroll-down-text {
     grid-column: 1;
     grid-row: 3;
-    font-size: 3dvh;
+    /* font-size: 3dvh; */
     margin: 0;
     margin-right: 0;
     margin-left: 0;

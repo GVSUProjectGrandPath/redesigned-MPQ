@@ -372,28 +372,42 @@ html, body {
   #result-header{
     font-family:"Poppins";
     font-weight: 600;
-    font-size: 1.8vw;
+    font-size: clamp(0.8rem, 1.4rem, 2rem);
     color: #ad00ab;
     margin-bottom: 0;
+    text-align: center;
   
    
   }
+  #scroll-down-text1{
+    display: none;
+  }
+  .scroll-arrow1{
+  display: none;
+
+  }
   
-  #result-container {
-    position: relative; /* Make sure it stays within its parent */
-    height: 100dvh; /* Ensure it takes the full viewport height */
+  /* #result-container {
+    position: relative; 
+    height: 100dvh;
     width: 100vw;
     max-width: 100%;
     font-family: 'Jura', sans-serif;
     text-align: center;
     color: #ffffff;
-  }
+
+
+  } */
+   #result-container{
+    height: 100vh;
+    width: 100vw;
+
+   }
   
-  #result-grid {
+  /* #result-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
-    grid-template-rows: auto auto; /* Two rows */
-    gap: -10%; /* Optional: adds spacing */
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: auto auto; 
     width: 100%;
     height: 75vh;
     box-sizing: border-box;
@@ -401,53 +415,84 @@ html, body {
     align-items: center;
     margin-top: 0px;
     padding: 0px 0px 30px 0px;
-    /* margin-bottom: 20%; */
+  } */
+  
+  #result-grid{
+    /* border: 1px solid red; */
+    display:flex;
+    justify-content: center;
+ 
+
+
   }
   
   
-  
-  #result {
+  /* #result {
     grid-column: 1;
     grid-row: 1;
     height: 60%;
     max-width: 73%;
     
-  }
+  } */
+   #result{
+ 
+    width: clamp(200px, 225px, 300px);
+
+   }
+   #result-section1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 25px;
+    margin-right: 20%;
+   }
+
+   #result-section2{
+    display: flex;
+    /* border: 10px solid blue; */
+    justify-content: center;
+    align-items: center;
+   }
+  
   
  #detailed-results {
-    grid-column: 2;
-    grid-row: 1;
-    width: 20%;
-    margin-right: 20%;
-    margin-bottom:0;
-    margin-top: -15%;
-    gap:10px;
+    /* margin-right: 20%; */
+    /* margin-bottom:0; */
+    /* margin-top: -15%; */
+    /* gap:10px;
     display: flex;
-    flex-direction: column; /* Stack buttons vertically */
+    flex-direction: column; 
     align-items: start;
-    width: 70%; /* Ensure container takes full width */
-    box-sizing: border-box; /* Include padding in width calculation */
+    width: 100%; 
+    box-sizing: border-box; 
     font-size: 1.8rem;
-    color: black;
-    grid-column: 2;
-    grid-row: 1/4;
+    color: black; */
+    display: flex;    
+    flex-direction: column;
+    position: relative;
+    /* left: 52%; */
+    padding: 10px;
+    gap: 10px;
+    width: 100%;
   
- }
+ } 
 
-  #polaroid-animal-image {
+  /* #polaroid-animal-image {
     grid-column: 1;
     grid-row: 2;
     max-width: 80%;
     height: 99%;
     max-height: 977px;
     margin-top: -48%;
+  } */
+  #polaroid-animal-image{
+    width: clamp(200px ,214px ,270px);
   }
-  
   #scroll-down-text {
-
     grid-column: 2;
     grid-row: 2;
-    font-size: 2.5dvh;
+    font-size: clamp(0.1rem, 1.3rem, 1.5rem);
     color: #A52C87;
     font-weight: 600;
     text-align: center;
@@ -480,7 +525,7 @@ html, body {
     /* max-width: 1000px; */
     margin: 0 auto;
     position: relative;
-    padding: 100px 100px;
+    padding: 50px 100px;
     height: 100vh;
     width: 80vw;
   }
@@ -500,10 +545,10 @@ html, body {
     border: 2px solid #222;
   }
   .card ul li{
-    font-size: 1.6vw;
-    /* list-style:unset; */
+   /* list-style:unset; */
     text-align: left;
     color: #000;
+    font-size: clamp(0.5rem, 1.6rem, 1.9rem);
   }
   .card ul{
     padding-top: 10px;
@@ -658,7 +703,7 @@ html, body {
 
   .description_h2{
     margin: 0;
-    font-size: 1.9vw;
+    font-size: clamp(1rem, 1.6rem, 2.1rem);
     color: #000000;
     font-weight: bolder;
   }
@@ -668,7 +713,7 @@ html, body {
   }
 
   #descriptionText{
-    font-size: 1.6vw;
+    font-size: clamp(0.5rem , 1.7rem , 1.8rem);
     /* font-weight: bolder; */
     color: #000;
   }
@@ -871,16 +916,16 @@ html, body {
   .topsection{
     padding: 0;
   }
-  .description_h2{
+  /* .description_h2{
     font-size:1vw;
-  }
-  #descriptionText{
+  } */
+  /* #descriptionText{
     font-size: 1vw;
-  }
-  .card ul li {
+  } */
+  /* .card ul li {
     font-size: 1vw;
    
-}
+} */
 
 }
   /* pushpa */

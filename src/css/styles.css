@@ -359,7 +359,7 @@ textarea#userInput:focus {
   margin-top:-50px;
 } */
 
-#result {
+/* #result {
   grid-column: 1;
   grid-row: 1;
   margin: 5%;
@@ -367,18 +367,18 @@ textarea#userInput:focus {
   font-weight: bold;
   color: #ffffff;
   margin-top:-50px;
-}
+} */
 
-#result-animal-image {
+/* #result-animal-image {
   display: block;
   object-fit: contain;
   align-self: center;
   grid-column: 2;
   grid-row: 1/4;
-  height: 90dvh; /* Maintains the aspect ratio */
-  width: auto; /* Adjust the size of the image */
+  height: 90dvh; 
+  width: auto; 
   max-width: 45vw;
-}
+} */
 
 /* #scroll-down-text {
   vertical-align: bottom;
@@ -392,15 +392,7 @@ textarea#userInput:focus {
 } */
 
 
-#detailed-results {
-  display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  align-items: start;
-  width: 100%; /* Ensure container takes full width */
-  box-sizing: border-box; /* Include padding in width calculation */
-  font-size: 1.8rem;
-  color: black;
-}
+
 
 #detailed-results button {
   width: auto;
@@ -424,6 +416,7 @@ textarea#userInput:focus {
 #detailed-results button.active {
   background-color: #54c9cd !important; /* Change to your desired color */
   font-weight: bold;
+  position: relative;
 }
 #detailed-results button:hover {
   background-color: #5bc2e7; 
@@ -435,7 +428,8 @@ textarea#userInput:focus {
 #detailed-results button span {
  float: right;
  font-size: larger;
- margin-right: 3%;
+position: absolute;
+right: 10%;
 }
 
 /* Detailed Results Text Styles */
