@@ -1,5 +1,3 @@
-
-
 let currentQuestionIndex = 0; // Tracks the current question index
 let selectedAnswers = []; // array for selected answers
 let totalPoints = {

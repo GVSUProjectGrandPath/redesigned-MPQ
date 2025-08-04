@@ -144,7 +144,11 @@
 }
   #result {
     font-size: 1.3rem;
-    width:
+    /* width:270px; */
+  }
+  #second-section {
+   
+    padding: 0px;
   }
 
   #question-text, #result {
@@ -153,6 +157,13 @@
 
   #detailed-results {
  left:-5%;
+  }
+  #second-section{
+    flex-direction: column;
+  }
+  
+  #second-section > div {
+    width: 100%;
   }
 
   #result-grid {
