@@ -260,7 +260,7 @@ html, body {
     top: 15dvh;
     width: 76%;
     height: 4%;
-    left: 6dvh;
+    /* left: 6dvh; */
     background-color:#FEDB04;
     border-radius: 1.5dvh;
     overflow: hidden;
