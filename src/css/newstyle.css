@@ -67,7 +67,13 @@
     font-family: 'poppins', sans-serif;
     font-weight: bolder;
     /* font-size: clamp(1.32rem, 1.58dvw, 9999px); */
-    font-size: clamp(1.32rem, min(2.05dvw, 3.18dvh), 9999px);
+    font-size: clamp(1.32rem, min(2.05dvw, 3.35dvh), 9999px);
+  }
+
+  #Rlogo {
+    /* display: flex;
+    align-items: center; */
+    font-size: clamp(0.72rem, min(0.80dvw, 2.0dvh), 9999px);
   }
 
   #welcomeScreenContent {
@@ -116,9 +122,9 @@
     font-size: clamp(1.40rem, 3.31dvh, 9999px);
     font-weight: 600;
     color: #b12b80; /* Magenta text */
-    padding: 5px 30px;
-    border-radius: 100px;
-    border: 12px solid transparent;
+    padding: clamp(4.7px, 0.58dvh, 9999px) clamp(28px, 1.79dvw, 9999px);
+    border-radius: clamp(100px, 11.5dvh, 9999px);
+    border: clamp(11px, min(0.88dvw, 1.7dvh), 9999px) solid transparent;
     background: linear-gradient(#ffe600, #ffd700), linear-gradient(135deg, #fff6b7, #fbd72b, #fcb045b8);    background-origin: border-box;
     background-clip: padding-box, border-box;
     box-shadow: inset -5px -5px 12px rgba(255, 255, 255, 0.6), inset 5px 5px 12px rgba(204, 153, 0, 0.5), 4px 4px 20px rgb(0 0 0 / 45%);
@@ -127,10 +133,8 @@
   }
   
   #start-button2:hover {
-    border-radius: 100px;
-    border: 12px solid transparent;
     background: linear-gradient(to bottom, #ffe80c, #ffcf20ed);
-    box-shadow: inset -5px -5px 12px rgba(255, 255, 255, 0.6), inset 5px 5px 12px rgba(204, 153, 0, 0.5), 4px 4px 20px rgb(247 228 58 / 45%);
+    box-shadow: inset -5px -5px 12px rgba(255, 255, 255, 0.6), inset 5px 5px 12px rgba(204, 153, 0, 0.5), 4px 4px 20px rgb(177 43 128 / 100%);
   }
 
   #animalImageContainer {

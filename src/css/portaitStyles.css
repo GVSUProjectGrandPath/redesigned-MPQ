@@ -4,7 +4,7 @@
     max-width: 400px;
     padding-bottom: 16px;
     /* gap: 6px; */
-    gap: clamp(6px, min(1.67dvw, 4.23dvh), 540px);
+    gap: clamp(5px, min(1.67dvw, 1.13dvh), 540px);
   }
 
   #leftSide_AnimalGroup {
