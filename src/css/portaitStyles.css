@@ -30,6 +30,11 @@
 
   #progress-container {
     top: 10dvh;
+    position: fixed;
+    top: 15dvh;
+    width: 76%;
+    height: 4%;
+    left: 6dvh;
   }
 
   .back-button {

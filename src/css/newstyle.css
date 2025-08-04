@@ -256,7 +256,7 @@ html, body {
     /* transform: scaleX(-1); */
   }
   #progress-container {
-    position: fixed;
+       position: fixed;
     top: 15dvh;
     width: 76%;
     height: 4%;
