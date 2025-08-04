@@ -258,9 +258,9 @@ html, body {
   #progress-container {
     position: fixed;
     top: 15dvh;
-    width: 90%;
+    width: 76%;
     height: 4%;
-    left: 10dvh;
+    left: 6dvh;
     background-color:#FEDB04;
     border-radius: 1.5dvh;
     overflow: hidden;
