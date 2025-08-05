@@ -1,3 +1,113 @@
+@media (max-height: 540px) {
+  #nonAnimalContent {
+    width: 100%;
+    max-width: 400px;
+    padding-bottom: 16px;
+    /* gap: 6px; */
+    gap: clamp(5px, min(1.67dvw, 1.13dvh), 540px);
+  }
+
+  #leftSide_AnimalGroup {
+    /* display: block; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-end;
+    align-items: flex-end; */
+  }
+
+  #rightSide_AnimalGroup {
+    /* display: block; */
+    display: flex;
+    flex-direction: column;
+  }
+
+  #animalImageContainer {
+    display: none;
+  }
+
+  #welcome-screen2 #welcomeScreenContent img {
+    width: clamp(72px, min(11dvw, 34.9dvh), 505px);
+    /* width: clamp(69px, min(11dvw, 34.9dvh), 505px); */
+  }
+
+  /* #start-button2 {
+    font-size: clamp(0.3rem, min(4dvw, 5.93dvh), 13.4rem);
+    white-space: nowrap;
+  } */
+}
+
+@media (max-width: 1305px) {
+  #firstAnimalGroup {
+    display: block;
+  }
+
+  #secondAnimalGroup {
+    display: block;
+  }
+
+  #animalImageContainer img {
+    width: clamp(135px, min(24dvw, 18.37dvh), 1305px);
+    /* width: clamp(135px, 18.37dvh, 1305px); */
+  }
+}
+
+@media (max-width: 646px) {
+  #animalImageContainer img {
+    width: clamp(77px, min(24dvw, 21.4dvh), 646px);
+  }
+
+  /* #hero-text2 {
+    font-size: clamp(1.4rem, 5.90dvw, 13.4rem);
+  }
+
+  #welcome-text2 {
+    font-size: clamp(1.3rem, 4.70dvw, 13.4rem);
+  }
+
+  #start-button2 {
+    font-size: clamp(1.1rem, 3.73dvw, 13.4rem);
+    white-space: nowrap;
+  } */
+
+  #hero-text2 {
+    font-size: clamp(1.9rem, min(5.90dvw, 11.05dvh), 13.4rem);
+    /* white-space: nowrap; */
+  }
+
+  #welcome-text2 {
+    font-size: clamp(1.4rem, min(4.70dvw, 12.03dvh), 13.4rem);
+  }
+
+  #start-button2 {
+    /* font-size: clamp(1.1rem, min(4dvw, 5.93dvh), 13.4rem); */
+    font-size: clamp(1rem, min(3dvw, 5dvh), 13.4rem);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) and (min-height: 392px) {
+  #animalImageContainer {
+    white-space: nowrap;
+    display: block;
+  }
+
+  #leftSide_AnimalGroup {
+    display: none;
+  }
+
+  #rightSide_AnimalGroup {
+    display: none;
+  }
+
+  #firstAnimalGroup {
+    display: block;
+  }
+
+  #secondAnimalGroup {
+    display: block;
+  }
+}
+
 @media (orientation: portrait) {
   #logo-image {
     height: 15vw;
@@ -74,18 +184,20 @@
   #answer-d {
     width: 90%; 
   }
-  .answer-button:active {
-    background-color: #5bc2e7;
+  /* .answer-button:active {
+    background-color: #5bc2e7; */
     /* font-weight: bold; */
      /* for mobile tap */
-  }  
+  /* }   */
 
   @keyframes changeColor {
     50% {
-      background-color: #FEDB04;
+      background-color: #ad00ab;
+      color: #FEDB04;
     }
     100% {
-      background-color: #5bc2e7;
+      background-color: #FEDB04;
+      color: #ad00ab;
     }
   }
 

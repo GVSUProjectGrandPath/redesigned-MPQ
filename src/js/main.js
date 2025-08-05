@@ -59,7 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	if (MobileDevice()) {
-		bodyElement.style.backgroundColor = '#b4efff';
+		// bodyElement.style.backgroundColor = '#b4efff';
+		bodyElement.style.backgroundColor = 'black';
 		document.querySelectorAll('#feedback-form label').forEach(label => {
 			label.style.fontWeight = '550' 
 		});
