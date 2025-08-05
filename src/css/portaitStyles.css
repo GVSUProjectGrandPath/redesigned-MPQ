@@ -21,6 +21,19 @@
     z-index: 50;
   
   }
+  .scroll-arrow {
+    align-self: center;
+    justify-self: center;
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: -1dvh;
+    margin-left: 6.5dvh;
+    font-size: 5dvh;
+    color: #FEDB04;
+    text-shadow: -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 1.5px -1.5px 3px rgba(46, 101, 103, 0.5), -1.5px 1.5px 3px rgba(46, 101, 103, 0.5), 1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
+    animation: moveArrow 2s infinite ease-in-out;
+    z-index: 50;
+}
 
   #leftSide_AnimalGroup {
     /* display: block; */
@@ -113,6 +126,19 @@
     z-index: 50;
   
   }
+  .scroll-arrow {
+    align-self: center;
+    justify-self: center;
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: -1dvh;
+    margin-left: 6.5dvh;
+    font-size: 5dvh;
+    color: #FEDB04;
+    text-shadow: -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 1.5px -1.5px 3px rgba(46, 101, 103, 0.5), -1.5px 1.5px 3px rgba(46, 101, 103, 0.5), 1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
+    animation: moveArrow 2s infinite ease-in-out;
+    z-index: 50;
+}
 }
 
 @media (max-width: 480px) and (min-height: 392px) {
@@ -151,6 +177,19 @@
     z-index: 50;
   
   }
+  .scroll-arrow {
+    align-self: center;
+    justify-self: center;
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: -1dvh;
+    margin-left: 6.5dvh;
+    font-size: 5dvh;
+    color: #FEDB04;
+    text-shadow: -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 1.5px -1.5px 3px rgba(46, 101, 103, 0.5), -1.5px 1.5px 3px rgba(46, 101, 103, 0.5), 1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
+    animation: moveArrow 2s infinite ease-in-out;
+    z-index: 50;
+}
 }
 
 @media (orientation: portrait) {
@@ -197,6 +236,19 @@
     z-index: 50;
   
   }
+  .scroll-arrow {
+    align-self: center;
+    justify-self: center;
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: -1dvh;
+    margin-left: 6.5dvh;
+    font-size: 5dvh;
+    color: #FEDB04;
+    text-shadow: -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 1.5px -1.5px 3px rgba(46, 101, 103, 0.5), -1.5px 1.5px 3px rgba(46, 101, 103, 0.5), 1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
+    animation: moveArrow 2s infinite ease-in-out;
+    z-index: 50;
+}
 
   #progress-container {
     top: 10dvh;
@@ -244,13 +296,6 @@
   #answer-d {
     width: 90%; 
   }
-
-  /* .answer-button:active {
-    background-color: #5bc2e7; */
-    /* font-weight: bold; */
-     /* for mobile tap */
-  /* }   */
-
   @keyframes changeColor {
     50% {
       background-color: #ad00ab;
