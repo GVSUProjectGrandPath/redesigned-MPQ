@@ -433,11 +433,11 @@ const personalityIconImg = document.getElementById("personality-icon");
 
 const iconMap = {
   "saver": "acorn.png",
-  "spender": "Piggy Bank.png",
+  "spender": "diamond.png",
   "investor": "feather.png",
   "compulsive": "beehive.png",
   "gambler": "carrot.png",
-  "debtor": "diamond.png",
+  "debtor": "Piggy Bank.png",
   "shopper": "Seasell.png",
   "indifferent": "panda paw.png"
 };
