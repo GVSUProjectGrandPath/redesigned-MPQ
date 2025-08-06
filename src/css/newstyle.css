@@ -32,17 +32,18 @@
 
   #logoTopBar {
     display: flex;
-    flex-direction: column;
-    /* gap: -50px; */
     background-color: #FEDB00;
-    /* height: clamp(70px, 8%, 100dvh); */
-    /* height: auto; */
-    /* height: 10%; */
     width: 100%;
     border-bottom: clamp(2.8px, 0.18dvw, 9999px) solid black;
     justify-content: center;
     align-items: center;
-    padding: 4px 0 8px 0;
+    height: clamp(60px, 9.2dvh, 9999px);
+    background-color: #FEDB04;
+  }
+
+  #welcome-logo {
+    height: 100%;
+    width: auto; /* Maintain aspect ratio */
   }
 
   #topBarTexts {
@@ -50,30 +51,6 @@
     flex-direction: column;
     gap: 0;
     line-height: 0.95;
-  }
-
-  #finLitText {
-    color: black;
-    font-family: 'poppins', sans-serif;
-    /* font-size: clamp(1.85rem, 2.30dvw, 9999px); */
-    font-size: clamp(1.85rem, min(3.05dvw, 4.85dvh), 9999px);
-    font-weight: bold;
-  }
-
-  #rep4Text {
-    display: flex;
-    /* justify-content: center; */
-    color: #a52c87;
-    font-family: 'poppins', sans-serif;
-    font-weight: bolder;
-    /* font-size: clamp(1.32rem, 1.58dvw, 9999px); */
-    font-size: clamp(1.32rem, min(2.05dvw, 3.35dvh), 9999px);
-  }
-
-  #Rlogo {
-    /* display: flex;
-    align-items: center; */
-    font-size: clamp(0.72rem, min(0.80dvw, 2.0dvh), 9999px);
   }
 
   #welcomeScreenContent {
@@ -84,11 +61,6 @@
     gap: clamp(20px, 1.67dvw, 9999px);
     justify-content: center;
     align-items: center;
-    /* max-width: 100dvw;
-    max-height: 100dvh;
-    margin: auto;
-    box-shadow: 0 0 0 9999px black; */
-    /* height: 100%; */
   }
 
   #hero-text2 {
@@ -132,10 +104,32 @@
     transition: transform 0.2s ease;
   }
   
-  #start-button2:hover {
+  /* #start-button2:hover {
+    background: linear-gradient(to bottom, #ffe80c, #ffcf20ed);
+    box-shadow: inset -5px -5px 12px rgba(255, 255, 255, 0.6), inset 5px 5px 12px rgba(204, 153, 0, 0.5), 4px 4px 20px rgb(177 43 128 / 100%);
+  } */
+
+  #start-button2:active {
     background: linear-gradient(to bottom, #ffe80c, #ffcf20ed);
     box-shadow: inset -5px -5px 12px rgba(255, 255, 255, 0.6), inset 5px 5px 12px rgba(204, 153, 0, 0.5), 4px 4px 20px rgb(177 43 128 / 100%);
   }
+
+  /* @keyframes change_BackButtonColor {
+    50% {
+      background-color: #ad00ab;
+      color: #FEDB04;
+      border-right: solid 3px black;
+    }
+    100% {
+      background-color: #FEDB04;
+      color: #ad00ab;
+      border-right: none;
+    }
+  }
+
+  .back-button.mobile-click {
+    animation: change_BackButtonColor 0.3s forwards;
+  } */
 
   #animalImageContainer {
     white-space: nowrap;
@@ -181,8 +175,9 @@
   }
 
   #progress-container {
-       position: fixed;
-    top: 15dvh;
+    position: fixed;
+    top: clamp(80px, 15dvh, 9999px);
+    /* top: 15dvh; */
     width: 76%;
     height: 4%;
     /* left: 6dvh; */
@@ -198,6 +193,7 @@
     width: 0%; /* Will be updated by JavaScript */
     background-color: #ad00ab;
     transition: width 0.3s ease;
+    /* border-radius: 1.5dvh; */
   }
   
   #question-container {
@@ -214,7 +210,7 @@
   #quiz-header {
     width: 100%;
     top: 0%;
-    height: 10dvh;
+    height: clamp(60px, 9.2dvh, 9999px);
     background-color: #FEDB04;
     border-bottom: solid 3px black;
     position: fixed;
@@ -238,32 +234,35 @@
   .back-button {
     position: absolute;
     align-self: center;
-    font-size: 3dvh;
+    font-size: clamp(18px, 3dvh, 9999px);
     font-weight: 400;
     cursor: pointer;
     color: #ad00ab;
     transition: 0.2s;
     border: None;
+    border-radius: 0px;
     background-color: #FEDB04;
     height: 100%;
-    width: 21dvh;
+    /* width: 21dvh; */
     
   }
   
-  .back-button:hover {
+  /* .back-button:hover {
     background-color: #ad00ab;
     color: #FEDB04;
     border-right: solid 3px black;
-  }
+  } */
 
   @keyframes change_BackButtonColor {
     50% {
       background-color: #ad00ab;
       color: #FEDB04;
+      border-right: solid 3px black;
     }
     100% {
       background-color: #FEDB04;
       color: #ad00ab;
+      border-right: none;
     }
   }
 
@@ -302,15 +301,33 @@
     cursor: pointer;
     color: #ad00ab;
     background-color: #ffdd00;
-    transition: background-color 0.3s ease;
+    /* transition: background-color 0.3s ease; */
   }
-  .answer-button:hover {
+
+  @keyframes changeColor {
+    50% {
+      background-color: #ad00ab;
+      color: #FEDB04;
+      /* transition: none;
+      border: none; */
+    }
+    100% {
+      background-color: #FEDB04;
+      color: #ad00ab;
+    }
+  }
+
+  .answer-button.mobile-click {
+    animation: changeColor 0.3s forwards;
+  }
+
+  /* .answer-button:hover {
     background-color: #ad00ab;
     color: #ffdd00;
-  }
-  .answer-button:active {
+  } */
+  /* .answer-button:active {
     background-color: #ad00ab;
-  }
+  } */
   
   #result-header{
     font-family:"Poppins";
@@ -449,7 +466,7 @@
     color: #A52C87;
     font-weight: 600;
     text-align: center;
-    margin-top:50px;
+    margin-top: 50px;
   }
   
   
@@ -569,6 +586,15 @@
     border-radius: 10px;
     border: 2px solid #000;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent; /* Removes the iOS tap highlight */
+    -webkit-touch-callout: none; /* Prevent Safari's grey overlay on tap */
+    user-select: none; /* Prevent Safari's grey overlay on tap */
+    -webkit-user-select: none; /* Prevent Safari's grey overlay on tap */
+    touch-action: manipulation;
+  }
+
+  .button:focus {
+    outline: none; /* Removes the focus outline (used when tapping) */
   }
   
   .feedback {
@@ -633,9 +659,9 @@
     transition: transform 0.3s ease;
   }
   
-  .card:hover {
+  /* .card:hover {
     transform: scale(1.02);
-  }
+  } */
   .topsection {
     grid-area: topsection;
     display: flex;
@@ -670,6 +696,29 @@
     font-size: clamp(0.5rem , 1.2rem , 1.7rem);
     /* font-weight: bolder; */
     color: #000;
+  }
+
+  @media (hover: hover) { /* Ensures hover styles only apply on non-touch devices (Ex: laptop) and
+    no weird resizing quirks */
+    #start-button2:hover {
+      background: linear-gradient(to bottom, #ffe80c, #ffcf20ed);
+      box-shadow: inset -5px -5px 12px rgba(255, 255, 255, 0.6), inset 5px 5px 12px rgba(204, 153, 0, 0.5), 4px 4px 20px rgb(177 43 128 / 100%);
+    }
+
+    .back-button:hover {
+      background-color: #ad00ab;
+      color: #FEDB04;
+      border-right: solid 3px black;
+    }
+
+    .answer-button:hover {
+      background-color: #ad00ab;
+      color: #ffdd00;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
   }
   
   /* pushpa */

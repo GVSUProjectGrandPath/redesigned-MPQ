@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const totalQuestions = questions.length;
 
+	// forces Safari to recognize :active for start button on mobile devices
+	document.addEventListener("touchstart", function() {}, true);
+
 	// Starts the quiz when the start button is clicked
 	startButton.addEventListener('click', () => {
 		welcomeScreen.style.display = 'none';

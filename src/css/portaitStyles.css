@@ -138,23 +138,6 @@
     font-size: 3vmax;
   }
 
-  #progress-container {
-    top: 10dvh;
-    position: fixed;
-    top: 15dvh;
-    width: 76%;
-    height: 4%;
-    left: 6dvh;
-  }
-
-  .back-button {
-    position: absolute;
-  
-    left: 1vw;
-    padding: 1vh 2%;
-    font-size: 2dvh;
-  }
-
   #answers {
     display: flex;
     flex-direction: column;
@@ -172,7 +155,7 @@
     padding: 1.2dvh;
     margin-top: 1dvh;
     border-radius: 1.5dvh;
-    transition: background-color 0.3s ease;
+    /* transition: background-color 0.3s ease; */
     text-shadow: 0 0 0.75px rgba(0, 0, 0, 0.6);
   }
   #answer-a {
@@ -184,22 +167,6 @@
   #answer-d {
     width: 90%; 
   }
-  /* .answer-button:active {
-    background-color: #5bc2e7; */
-    /* font-weight: bold; */
-     /* for mobile tap */
-  /* }   */
-
-  @keyframes changeColor {
-    50% {
-      background-color: #ad00ab;
-      color: #FEDB04;
-    }
-    100% {
-      background-color: #FEDB04;
-      color: #ad00ab;
-    }
-  }
 
   @keyframes change_submitColor {
     50% {
@@ -208,10 +175,6 @@
     100% {
       background-color: #FEDB04;
     }
-  }
-
-  .answer-button.mobile-click {
-    animation: changeColor 0.3s forwards;
   }
 
   #submitBtn.mobile-click2 {
