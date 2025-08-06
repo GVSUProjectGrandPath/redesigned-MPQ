@@ -77,21 +77,25 @@
         </div>
     </div>
 
-    <div id="quiz-container" style="display:none; background-color: #b4efff;">
+    <div id="quiz-container" style="display:none; background: linear-gradient(to bottom, #a0e3f5 0%, #ffffff 50%, #a0e3f5 100%);
+">
         <div id="quiz-header">
             <button id="back-button" class="back-button">← Back</button>
             <img src="/src/assets/Logo.png" id="quiz-logo">
         </div>
         
+        <div id="step-indicator" style="text-align: center; font-size: 1rem; font-weight: 600; color:#ad00ab; margin-bottom: 1rem;position: absolute;top: 22%;right: 10%;">
+  <!-- Will be updated dynamically -->
+       </div>
         <div id="question-container">
             <p id="question-text"></p>
         </div>
         <div id="answers">
-            <button class="answer-button" id="answer-sa" value="sa">Strongly Agree</button>
-            <button class="answer-button" id="answer-a" value="a">Agree</button>
-            <button class="answer-button" id="answer-n" value="n">Neutral</button>
-            <button class="answer-button" id="answer-d" value="d">Disagree</button>
-            <button class="answer-button" id="answer-sd" value="sd">Strongly Disagree</button>
+            <button class="answer-button" id="answer-sa" value="sa"> 🔥 Strongly Agree</button>
+            <button class="answer-button" id="answer-a" value="a"> 😊 <br>Agree</button>
+            <button class="answer-button" id="answer-n" value="n">🤔 <br>Neutral</button>
+            <button class="answer-button" id="answer-d" value="d"> 😕 <br>Disagree</button>
+            <button class="answer-button" id="answer-sd" value="sd">👎 Strongly Disagree</button>
         </div>
         <div id="progress-container">
             <div id="progress-bar"></div>

@@ -231,7 +231,7 @@
   
   #question-text {
     font-size: 5dvh;
-    font-weight: 500;
+    font-weight: 700;
     color: #000000;
   }
   
@@ -291,8 +291,8 @@
   
   .answer-button {
     width: 20vw;
-    font-size: 3dvh;
-    font-weight: 600;
+    font-size: 2.5dvh;
+    font-weight: 700;
     text-align: center;
     word-spacing: 100vw;
     margin: 1%;
@@ -455,6 +455,7 @@
   
   
   .scroll-arrow {
+    display: block;
     align-self: center;
     justify-self: center;
     grid-column: 2;
@@ -465,7 +466,7 @@
     color: #FEDB04;
     text-shadow: -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 1.5px -1.5px 3px rgba(46, 101, 103, 0.5), -1.5px 1.5px 3px rgba(46, 101, 103, 0.5), 1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
     animation: moveArrow 2s infinite ease-in-out;
-    z-index: 50;
+    z-index: 1;
 }
   
   .desc-container {

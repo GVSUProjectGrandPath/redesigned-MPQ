@@ -100,6 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	function loadQuestion(index) {
 		const question = questions[index];
 		document.getElementById('question-text').innerText = question.value;
+		document.getElementById('step-indicator').innerText = `${index + 1} of  ${totalQuestions}`;
+
 
 		updateProgressBar();
 
@@ -171,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		//display none when result page is shown.
 		progressContainer.style.display = 'none';
+		document.getElementById('step-indicator').style.display = 'none';
 		document.getElementById('question-container').style.display = 'none';
 		document.getElementById('back-button').style.display = 'none';
 		document.getElementById('answers').style.display = 'none';
