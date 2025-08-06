@@ -103,6 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	function loadQuestion(index) {
 		const question = questions[index];
 		document.getElementById('question-text').innerText = question.value;
+		document.getElementById('step-indicator').innerText = `${index + 1} of  ${totalQuestions}`;
+
 
 		updateProgressBar();
 
@@ -174,6 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		//display none when result page is shown.
 		progressContainer.style.display = 'none';
+		document.getElementById('step-indicator').style.display = 'none';
 		document.getElementById('question-container').style.display = 'none';
 		document.getElementById('back-button').style.display = 'none';
 		document.getElementById('answers').style.display = 'none';
@@ -436,11 +439,11 @@ const personalityIconImg = document.getElementById("personality-icon");
 
 const iconMap = {
   "saver": "acorn.png",
-  "spender": "Piggy Bank.png",
+  "spender": "diamond.png",
   "investor": "feather.png",
   "compulsive": "beehive.png",
   "gambler": "carrot.png",
-  "debtor": "diamond.png",
+  "debtor": "Piggy Bank.png",
   "shopper": "Seasell.png",
   "indifferent": "panda paw.png"
 };

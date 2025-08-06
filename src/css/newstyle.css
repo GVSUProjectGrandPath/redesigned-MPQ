@@ -100,7 +100,7 @@
     background: linear-gradient(#ffe600, #ffd700), linear-gradient(135deg, #fff6b7, #fbd72b, #fcb045b8);    background-origin: border-box;
     background-clip: padding-box, border-box;
     box-shadow: inset -5px -5px 12px rgba(255, 255, 255, 0.6), inset 5px 5px 12px rgba(204, 153, 0, 0.5), 4px 4px 20px rgb(0 0 0 / 45%);
-    cursor: pointer;                      /* outer shadow */
+    /* outer shadow */
     transition: transform 0.2s ease;
   }
   
@@ -227,7 +227,7 @@
   
   #question-text {
     font-size: 5dvh;
-    font-weight: 500;
+    font-weight: 700;
     color: #000000;
   }
   
@@ -236,7 +236,6 @@
     align-self: center;
     font-size: clamp(18px, 3dvh, 9999px);
     font-weight: 400;
-    cursor: pointer;
     color: #ad00ab;
     transition: 0.2s;
     border: None;
@@ -290,15 +289,14 @@
   
   .answer-button {
     width: 20vw;
-    font-size: 3dvh;
-    font-weight: 600;
+    font-size: 2.5dvh;
+    font-weight: 700;
     text-align: center;
     word-spacing: 100vw;
     margin: 1%;
     padding: 3dvh;
     border: 3px black solid;
     border-radius: 2vw;
-    cursor: pointer;
     color: #ad00ab;
     background-color: #ffdd00;
     /* transition: background-color 0.3s ease; */
@@ -333,7 +331,7 @@
     font-family:"Poppins";
     font-weight: 600;
     font-size: clamp(0.8rem, 1.4rem, 2rem);
-    color: #ad00ab;
+    color: #A52C87;
     margin-bottom: 0;
     text-align: center;
   
@@ -361,6 +359,7 @@
    #result-container{
     height: 100vh;
     width: 100vw;
+    overflow: auto;
 
    }
   
@@ -471,6 +470,7 @@
   
   
   .scroll-arrow {
+    display: block;
     align-self: center;
     justify-self: center;
     grid-column: 2;
@@ -481,7 +481,7 @@
     color: #FEDB04;
     text-shadow: -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 1.5px -1.5px 3px rgba(46, 101, 103, 0.5), -1.5px 1.5px 3px rgba(46, 101, 103, 0.5), 1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
     animation: moveArrow 2s infinite ease-in-out;
-    z-index: 50;
+    z-index: 1;
 }
   
   .desc-container {
@@ -580,11 +580,14 @@
     margin-bottom: 30px;
   }
   
-  button {
+  .buttons button {
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 10px;
     border: 2px solid #000;
+  }
+
+  button {
     cursor: pointer;
     -webkit-tap-highlight-color: transparent; /* Removes the iOS tap highlight */
     -webkit-touch-callout: none; /* Prevent Safari's grey overlay on tap */
