@@ -673,6 +673,21 @@
     /* font-weight: bolder; */
     color: #000;
   }
+  .loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px solid #fedb04;
+    border-top: 8px solid #ad00ab;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 15px #fedb04;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
   
   /* pushpa */
   @media only screen and (max-width: 500px) {
