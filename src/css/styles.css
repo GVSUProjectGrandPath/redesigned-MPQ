@@ -13,7 +13,7 @@
 } */
 
 #submitBtn.mobile-click2:active {
-  background-color: #FEDB04
+  background-color: #ad00ab
 }
 #quiz-container {
   display: flex;
@@ -45,12 +45,13 @@
   /* padding-right: 0;
   padding-left: 0; */
   /* background-color: black;  */
+  background-color: #8adffd;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   display: none; /* Hidden by default */
   overflow-y: scroll; /* Enable vertical scrolling */
   scrollbar-width: none; /* Hide scrollbar in Firefox */
-  border-color: #FEDB04;
+  border-color: black;
   border-width: clamp(3px, 1.2vw, 8px);
   border-style: solid;
   z-index: 1001;
@@ -86,7 +87,7 @@ textarea#userInput {
   height: 140px !important;
   width: 85% !important;
   border-radius: 10px !important;
-  border: 5px solid #FEDB04 !important;
+  border: 5px solid black !important;
   /* Ensure consistent box sizing */
   box-sizing: border-box !important;
   /* padding: 10px !important; */
@@ -98,7 +99,7 @@ textarea#userInput {
 textarea#userInput:focus {
   /* background-color: white !important; */
   outline: none;
-  border: 5px solid #5BC2E7 !important;
+  border: 5px solid #FEDB04 !important;
   /* box-shadow: 0 0 27px #FEDB04; */
 }
 
@@ -143,7 +144,7 @@ textarea#userInput:focus {
   position: sticky;
   /* margin: 0; */
   top: 0;
-  background-color: #5BC2E7;
+  background-color: #8adffd;
   /* color: black; */
   z-index: 100;
   height: 30px;
@@ -157,7 +158,7 @@ textarea#userInput:focus {
   padding-bottom: 33px;
   /* padding-left: 15px; */
   padding-right: 15px;
-  border-bottom: 6px solid #FEDB04;
+  border-bottom: 6px solid black;
 }
 
 .surveyTitle {
@@ -181,10 +182,10 @@ textarea#userInput:focus {
 #feedback-form label {
   margin-bottom: 10px;
   font-size: 1.2rem;
-  font-weight: 500;
-  color: #ffffff;
+  font-weight: 600;
+  color: black;
   text-align: left; /* Align labels to the left for consistency */
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 #feedback-form div input[type="checkbox"] {
@@ -216,14 +217,14 @@ textarea#userInput:focus {
   /* all: unset; */
   cursor: pointer;
   background-color: black;
-  color: #5bc2e7;
+  color: #FEDB04;
   padding: 10px 20px;
   /* border: none; */
   border-radius: 20px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-color: #5bc2e7;
+  border-color: #FEDB04;
   border-width: 4px;
   /* border-top-width: 1vw;
   border-bottom-width: 1vw; */
@@ -231,9 +232,9 @@ textarea#userInput:focus {
 }
 
 #userCommentBtn:hover {
-  background-color: black;
-  color: #FEDB04;
-  border-color: #FEDB04;
+  background-color: #ad00ab;
+  /* color: #FEDB04; */
+  /* border-color: #FEDB04; */
   font-size: 0.9rem;
 }
 
@@ -248,7 +249,20 @@ textarea#userInput:focus {
   transition: background-color 0.3s ease;
 }
 
-#shareHabits {
+.form-content #feedback-form select:invalid {
+  background-color: #FEDB04;
+  color: black;
+  outline: none;
+  font-weight: 550;
+}
+
+.form-content #feedback-form select:valid {
+  background-color: #ad00ab !important;
+  color: #FEDB04;
+  font-weight: 600;
+}
+
+/* #shareHabits {
   background-color: #5BC2E7;
   color: black;
   outline: none;
@@ -281,11 +295,12 @@ textarea#userInput:focus {
   color: black;
   outline: none;
   font-weight: 550;
-}
+} */
 
 @media (hover: hover) { /* Ensures hover styles only apply on non-touch devices (Ex: laptop) */
   #submitBtn:hover {
-    background-color: #5bc2e7;
+    background-color: #ad00ab;
+    color: #FEDB04;
   }
 }
 
