@@ -230,6 +230,17 @@
     font-weight: 700;
     color: #000000;
   }
+
+  #step-indicator {
+    text-align: center; 
+    font-size: clamp(0.7rem, 1.8dvh, 9999px); 
+    font-weight: 600; 
+    color:#ad00ab; 
+    margin-bottom: 1rem;
+    position: fixed; 
+    top: clamp(103px, 20dvh, 9999px); 
+    right: 10%;
+  }
   
   .back-button {
     position: absolute;
