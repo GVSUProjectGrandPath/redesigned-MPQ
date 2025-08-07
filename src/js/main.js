@@ -236,10 +236,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				count = 1;
 				scaleFactor = 100/percentage;
 				console.log(scaleFactor);
-				button.style.width = '100%';
+				button.style.width = '125%';
 			}
 			else {
-				const buttonWidth = Math.max(30 + (percentage * scaleFactor * 0.5));
+				const buttonWidth = Math.max(80 + (percentage * scaleFactor * 0.5));
 				console.log(buttonWidth);
 				button.style.width = `${buttonWidth}%`;
 			}
