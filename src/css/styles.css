@@ -411,8 +411,8 @@ textarea#userInput:focus {
 
 #detailed-results button {
   width: auto;
-  min-width: 30vw;
-  max-width: 75vw;
+  min-width: auto;
+
   font-family: 'Jura', sans-serif;
   font-weight: normal;
   text-align: left;
