@@ -309,6 +309,7 @@
   }
 
   #scroll-down-text {
+    display: none;
     grid-column: 1;
     grid-row: 3;
     /* font-size: 3dvh; */
