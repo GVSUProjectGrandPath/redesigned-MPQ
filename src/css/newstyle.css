@@ -765,6 +765,7 @@
     .buttons {
       flex-direction: column;
       gap: 10px;
+      padding: 0px 15px;
     }
   
   .animal_assets{
