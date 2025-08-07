@@ -194,6 +194,7 @@
   }
   
   #detailed-results{
+     width: 75%;
     display: flex;
    flex-direction: column;
    left: 2%;
@@ -230,6 +231,7 @@
     flex-direction: column;
     display: flex;
     gap: 10px;
+    width: 75%;
   }
 .desc-container{
   padding: 0;
