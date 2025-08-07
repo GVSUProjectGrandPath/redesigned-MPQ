@@ -204,6 +204,7 @@
     margin-right: unset;
    }
    .topsection .description{
+    margin: 0px 15px 15px 15px;
     min-width:305px;
    }
   #detailed-results button {
@@ -242,7 +243,7 @@
   }
   #second-section {
    
-    padding: 0px;
+    padding: 0px 15px;
   }
 
   #question-text, #result {
