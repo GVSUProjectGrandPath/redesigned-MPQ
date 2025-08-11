@@ -32,11 +32,6 @@
     width: clamp(72px, min(11dvw, 34.9dvh), 505px);
     /* width: clamp(69px, min(11dvw, 34.9dvh), 505px); */
   }
-
-  /* #start-button2 {
-    font-size: clamp(0.3rem, min(4dvw, 5.93dvh), 13.4rem);
-    white-space: nowrap;
-  } */
 }
 
 @media (max-width: 1305px) {
@@ -58,19 +53,6 @@
   #animalImageContainer img {
     width: clamp(77px, min(24dvw, 21.4dvh), 646px);
   }
-
-  /* #hero-text2 {
-    font-size: clamp(1.4rem, 5.90dvw, 13.4rem);
-  }
-
-  #welcome-text2 {
-    font-size: clamp(1.3rem, 4.70dvw, 13.4rem);
-  }
-
-  #start-button2 {
-    font-size: clamp(1.1rem, 3.73dvw, 13.4rem);
-    white-space: nowrap;
-  } */
 
   #hero-text2 {
     font-size: clamp(1.9rem, min(5.90dvw, 11.05dvh), 13.4rem);
@@ -207,6 +189,13 @@
     margin: 0px 15px 15px 15px;
     min-width:305px;
    }
+
+   .topsection {
+    flex-direction: column;
+    text-align: center;
+    padding: 0;
+   }
+
   #detailed-results button {
     font-weight: bold;
     font-size: 1rem;
@@ -295,7 +284,7 @@
   grid-column: 2;
   grid-row: 2;
   margin-top: 1dvh;
-  margin-left: 6.5dvh;
+  /* margin-left: 6.5dvh; */
   font-size: 5dvh;
   color: #FEDB04;
   text-shadow: -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 1.5px -1.5px 3px rgba(46, 101, 103, 0.5), -1.5px 1.5px 3px rgba(46, 101, 103, 0.5), 1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
@@ -314,7 +303,7 @@
   }
 
   #scroll-down-text {
-    display: none;
+    /* display: none; */
     grid-column: 1;
     grid-row: 3;
     /* font-size: 3dvh; */
@@ -327,9 +316,9 @@
   .scroll-arrow {
     grid-column: 1;
     grid-row: 4;
-    font-size: 7dvh;
+    font-size: 5dvh;
     margin-top: 0;
-    margin-left: 4dvh;
+    /* margin-left: 4dvh; */
   }
   
   #personality-details {
@@ -352,4 +341,3 @@
     display: none;
   }
 }
-
