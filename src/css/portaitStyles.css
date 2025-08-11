@@ -246,6 +246,10 @@
     padding: 0px 15px;
   }
 
+  .animal_assets{
+    display:none;
+  }
+
   #question-text, #result {
     text-shadow: 0 0 1px rgb(255, 255, 255) /* trick to make text bold */
   }

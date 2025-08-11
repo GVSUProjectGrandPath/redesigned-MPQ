@@ -428,7 +428,7 @@
     display: flex;
     flex-wrap: wrap; 
     gap: 20px;
-    justify-content: center; 
+    justify-content: space-around; 
     padding: 0px 140px;
   }
   
@@ -565,8 +565,8 @@
   
   .animal_assets {
     position: absolute;
-    top: 49%;
-    left: 49%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     background: #ffeb3b;
     border-radius: 50%;
@@ -578,7 +578,7 @@
   .animal_assets img {
     height: 50px;
     width: 60px;
-    align-items: items;
+    align-items: item;
     object-fit: contain;
 }
   
@@ -767,10 +767,7 @@
       gap: 10px;
       padding: 0px 15px;
     }
-  
-  .animal_assets{
-    display:none;
-  }
+
   .topsection{
     padding: 0;
   }
