@@ -412,6 +412,23 @@ function showPersonalityDetails(personalityType) {
   injectList("motivatorsList", data.motivators);
   injectList("demotivatorsList", data.demotivators);
 
+  const blueAdvantage = document.querySelector('.advantages.card.blue');
+  const animalIconSymbol = document.querySelector('.animal_assets');
+
+  // Create a resize observer
+  const observer = new ResizeObserver(entries => {
+  for (let entry of entries) {
+	// const height = entry.contentRect.height;
+	const height = entry.target.getBoundingClientRect().height;
+	console.log(`New height: ${height}px`);
+	// const animalIconSymbol = document.querySelector('.animal_assets');
+	animalIconSymbol.style.top = (height + 5) + 'px';
+	}
+  });
+
+  observer.observe(blueAdvantage);
+//   console.log(blueAdvantage.getBoundingClientRect().height)
+
   const resultImage = document.getElementById("polaroid-animal-image");
   const imageMap = {
     "saver": "/src/assets/animal_pngs/polaroid/past_squirrel.png",
