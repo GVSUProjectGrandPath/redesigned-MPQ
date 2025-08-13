@@ -70,13 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
    
 	// for audio
-	const sound = document.getElementById('hoverSound');
-	const startButtonElement = document.getElementById('start-button2');
+	// const sound = document.getElementById('hoverSound');
+	// const startButtonElement = document.getElementById('start-button2');
 
-	startButtonElement.addEventListener('mouseenter', () => {
-		sound.currentTime = 0;
-		sound.play();
-	  });
+	// startButtonElement.addEventListener('mouseenter', () => {
+	// 	sound.currentTime = 0;
+	// 	sound.play();
+	//   });
 
 	// Sets up event listeners for answer buttons
 	document.querySelectorAll('.answer-button').forEach(button => {
@@ -183,7 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('result-container').style.display = 'block';
 		document.getElementById('quiz-header').style.display = 'none';
 
-		document.getElementById('result-header').innerText = `You are most similar to the ${capitalize(personalityData.animal)}`;
+		// document.getElementById('result-header').innerText = `You are most similar to the ${capitalize(personalityData.animal)}`;
+		document.getElementById('result-header').innerHTML = `You are most similar to the ${capitalize(personalityData.animal)} 
+		<span id="scrollTextHeader">(Scroll for more)</span>`;
 
 		const total = getTotalPoints();
 		const resultsContainer = document.getElementById('detailed-results');
@@ -247,7 +249,40 @@ document.addEventListener('DOMContentLoaded', () => {
 			resultsContainer.appendChild(button)
 		});
 
-		
+		const scrollDownText1 = document.getElementById('scroll-down-text1');
+		const scrollDownText2 = document.getElementById('scroll-down-text');
+		let scrollTextcount = 0;
+		let scrollTextList = [scrollDownText1, scrollDownText2]
+
+		scrollTextList.forEach(text => {
+			const rect = text.getBoundingClientRect();
+			if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+				scrollTextcount++;
+			}
+			if (getComputedStyle(text).display === "none") {
+				scrollTextcount--;
+			}
+		});
+
+		const scrollTextHeader = document.getElementById('scrollTextHeader')
+
+		if (scrollTextcount === 0) {
+			scrollTextHeader.style.display = 'inline-block';
+		} else {
+			scrollTextHeader.style.display = 'none';
+		}
+
+		const resultsPageContainer = document.getElementById('result-container');
+
+		function onFirstScroll() {
+			const currentDisplay = getComputedStyle(scrollTextHeader).display;
+			if (resultsPageContainer.scrollTop > 0 && currentDisplay === "inline-block") {
+				scrollTextHeader.style.display = 'none';
+				resultsPageContainer.removeEventListener('scroll', onFirstScroll);
+			}
+		}
+
+		resultsPageContainer.addEventListener('scroll', onFirstScroll);
 
 		showPersonalityDetails(personalityType);
 
