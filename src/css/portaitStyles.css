@@ -187,7 +187,7 @@
    }
    .topsection .description{
     margin: 0px 15px 15px 15px;
-    min-width:305px;
+    /* min-width:305px; */
    }
 
    .topsection {
@@ -226,10 +226,10 @@
 .desc-container{
   padding: 0;
 }
-  #result {
+  /* #result {
     font-size: 1.3rem;
-    /* width:270px; */
-  }
+    width:270px;
+  } */
   #second-section {
    
     padding: 0px 15px;
@@ -275,8 +275,9 @@
   color: #A52C87;
   font-weight: 600;
   text-align: center;
-
+  font-size: clamp(1.1rem, 1.23dvw, 9999px);
  }
+
  .scroll-arrow1{
   display: block;
   align-self: center;
@@ -285,7 +286,7 @@
   grid-row: 2;
   margin-top: 1dvh;
   /* margin-left: 6.5dvh; */
-  font-size: 5dvh;
+  font-size: clamp(38px, 5dvh, 9999px);
   color: #FEDB04;
   text-shadow: -1.5px -1.5px 3px rgba(46, 101, 103, 0.5), 1.5px -1.5px 3px rgba(46, 101, 103, 0.5), -1.5px 1.5px 3px rgba(46, 101, 103, 0.5), 1.5px 1.5px 3px rgba(46, 101, 103, 0.5);
   animation: moveArrow 2s infinite ease-in-out;
