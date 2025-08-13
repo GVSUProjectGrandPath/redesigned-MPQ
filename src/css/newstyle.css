@@ -304,9 +304,28 @@
     color: #A52C87;
     margin-bottom: 0;
     text-align: center;
-  
-   
   }
+
+  #scrollTextHeader {
+    display: none;
+    /* pointer-events: none; */
+    /* transition: opacity 0.5s ease; */
+    /* opacity: 0; */
+    font-family:"Poppins";
+    font-weight: 600;
+    font-size: clamp(0.8rem, 1.4rem, 2rem);
+    color: #A52C87;
+    margin-bottom: 0;
+    text-align: center;
+    line-height: 0rem;
+  }
+
+  /* #scrollTextHeader.active {
+    transition: opacity 0.5s ease;
+    opacity: 1;
+    display: inline-block;
+  } */
+
   #scroll-down-text1{
     display: none;
   }
