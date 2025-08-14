@@ -243,8 +243,9 @@
     text-shadow: 0 0 1px rgb(255, 255, 255) /* trick to make text bold */
   }
 
-  #detailed-results {
- left:-5%;
+   #detailed-results {
+    width: 75%;
+    left: -25%;
   }
   #second-section{
     flex-direction: column;
