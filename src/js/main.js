@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				button.style.width = '155%';
 			}
 			else {
-				const buttonWidth = Math.max(95 + (percentage * scaleFactor * 0.6));
+				const buttonWidth = Math.max(105 + (percentage * scaleFactor * 0.6));
 				console.log(buttonWidth);
 				button.style.width = `${buttonWidth}%`;
 			}
