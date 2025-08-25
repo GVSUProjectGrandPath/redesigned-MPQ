@@ -30,6 +30,25 @@
   /* border-radius: 20px; */
   z-index: 1; /* Ensure content is above the video */
 }
+#results-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 24px;
+}
+.results-btn {
+  padding: 10px 24px;
+  background: #FEDB04;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.results-btn:hover {
+  background: #ffe25c;
+}
 
 #feedback-popup {
   position: fixed;

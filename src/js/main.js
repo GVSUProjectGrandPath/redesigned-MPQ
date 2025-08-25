@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const totalQuestions = questions.length;
 
 	// forces Safari to recognize :active for start button on mobile devices
-	document.addEventListener("touchstart", function() {}, true);
+	document.addEventListener("touchstart", function () { }, true);
 
 	// Starts the quiz when the start button is clicked
 	startButton.addEventListener('click', () => {
@@ -32,28 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
 		quizContainer.style.display = 'flex';
 		loadQuestion(currentQuestionIndex); // Load the first question
 	});
-	   //backbutton
-	   const backButton = document.getElementById('back-button');
-	   backButton.addEventListener('click', () => {
+	//backbutton
+	const backButton = document.getElementById('back-button');
+	backButton.addEventListener('click', () => {
 
-	   if (MobileDevice()) {
+		if (MobileDevice()) {
 			backButton.classList.remove("mobile-click")
 			void backButton.offsetWidth
 			backButton.classList.add("mobile-click")
 		}
-		
-	   if (currentQuestionIndex > 0) {
-		   currentQuestionIndex--;
-		   loadQuestion(currentQuestionIndex);
+
+		if (currentQuestionIndex > 0) {
+			currentQuestionIndex--;
+			loadQuestion(currentQuestionIndex);
 		} else {
-		   // Return to welcome screen if on first question
-		   quizContainer.style.display = 'none';
-		   welcomeScreen.style.display = 'flex';
-		   document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
+			// Return to welcome screen if on first question
+			quizContainer.style.display = 'none';
+			welcomeScreen.style.display = 'flex';
+			document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
 			backButton.classList.remove("mobile-click")
-	   }
-	   });
-	   //backbutton
+		}
+	});
+	//backbutton
 
 	document.getElementById('restart-button').addEventListener('click', restartQuiz);
 
@@ -65,10 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		// bodyElement.style.backgroundColor = '#b4efff';
 		bodyElement.style.backgroundColor = 'black';
 		document.querySelectorAll('#feedback-form label').forEach(label => {
-			label.style.fontWeight = '550' 
+			label.style.fontWeight = '550'
 		});
 	}
-   
+
+	document.getElementById('next-steps-button').addEventListener('click', function () {
+		window.open('/src/assets/Money_Mindset_Meetup.jpg', '_blank');
+	});
+
 	// for audio
 	// const sound = document.getElementById('hoverSound');
 	// const startButtonElement = document.getElementById('start-button2');
@@ -128,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Records the answer and updates the total points
 	function recordAnswer(answer) {
 		const question = questions[currentQuestionIndex];
-	
+
 		// If a previous answer exists for this question, subtract its points first
 		const previousAnswer = selectedAnswers[currentQuestionIndex];
 		if (previousAnswer) {
@@ -139,10 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			}
 		}
-	
+
 		// Save the new selected answer
 		selectedAnswers[currentQuestionIndex] = answer;
-	
+
 		// Add new points
 		const newPoints = question.points[answer];
 		for (const key in newPoints) {
@@ -150,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				totalPoints[key] += newPoints[key];
 			}
 		}
-	
+
 		currentQuestionIndex++;
 		if (currentQuestionIndex < questions.length) {
 			loadQuestion(currentQuestionIndex);
@@ -216,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			button.onclick = () => {
 				showPersonalityDetails(type);
-				for (const btn of resultsContainer.children){
+				for (const btn of resultsContainer.children) {
 					btn.classList.remove('active');
 					btn.style.animation = 'none';
 					btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
@@ -236,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
 
 				count = 1;
-				scaleFactor = 100/percentage;
+				scaleFactor = 100 / percentage;
 				console.log(scaleFactor);
 				button.style.width = '155%';
 			}
@@ -437,85 +441,85 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 
 		// pushpa starts
-function showPersonalityDetails(personalityType) {
-  const data = personalitiesData.descriptions[personalityType];
-  if (!data) return;
+		function showPersonalityDetails(personalityType) {
+			const data = personalitiesData.descriptions[personalityType];
+			if (!data) return;
 
-  document.getElementById("descriptionText").textContent = data.description;
-  injectList("advantagesList", data.advantages);
-  injectList("disadvantagesList", data.disadvantages);
-  injectList("motivatorsList", data.motivators);
-  injectList("demotivatorsList", data.demotivators);
+			document.getElementById("descriptionText").textContent = data.description;
+			injectList("advantagesList", data.advantages);
+			injectList("disadvantagesList", data.disadvantages);
+			injectList("motivatorsList", data.motivators);
+			injectList("demotivatorsList", data.demotivators);
 
-  const blueAdvantage = document.querySelector('.advantages.card.blue');
-  const animalIconSymbol = document.querySelector('.animal_assets');
+			const blueAdvantage = document.querySelector('.advantages.card.blue');
+			const animalIconSymbol = document.querySelector('.animal_assets');
 
-  // Create a resize observer
-  const observer = new ResizeObserver(entries => {
-  for (let entry of entries) {
-	// const height = entry.contentRect.height;
-	const height = entry.target.getBoundingClientRect().height;
-	console.log(`New height: ${height}px`);
-	// const animalIconSymbol = document.querySelector('.animal_assets');
-	animalIconSymbol.style.top = (height + 5) + 'px';
-	}
-  });
+			// Create a resize observer
+			const observer = new ResizeObserver(entries => {
+				for (let entry of entries) {
+					// const height = entry.contentRect.height;
+					const height = entry.target.getBoundingClientRect().height;
+					console.log(`New height: ${height}px`);
+					// const animalIconSymbol = document.querySelector('.animal_assets');
+					animalIconSymbol.style.top = (height + 5) + 'px';
+				}
+			});
 
-  observer.observe(blueAdvantage);
-//   console.log(blueAdvantage.getBoundingClientRect().height)
+			observer.observe(blueAdvantage);
+			//   console.log(blueAdvantage.getBoundingClientRect().height)
 
-  const resultImage = document.getElementById("polaroid-animal-image");
-  const imageMap = {
-    "saver": "/src/assets/animal_pngs/polaroid/past_squirrel.png",
-    "spender": "/src/assets/animal_pngs/polaroid/past_poodle.png",
-    "investor": "/src/assets/animal_pngs/polaroid/past_owl.png",
-    "compulsive": "/src/assets/animal_pngs/polaroid/past_bee.png",
-    "gambler": "/src/assets/animal_pngs/polaroid/past_rabbit.png",
-    "debtor": "/src/assets/animal_pngs/polaroid/past_armadillo.png",
-    "shopper": "/src/assets/animal_pngs/polaroid/past_octopus.png",
-    "indifferent": "/src/assets/animal_pngs/polaroid/past_panda.png"
-  };
+			const resultImage = document.getElementById("polaroid-animal-image");
+			const imageMap = {
+				"saver": "/src/assets/animal_pngs/polaroid/past_squirrel.png",
+				"spender": "/src/assets/animal_pngs/polaroid/past_poodle.png",
+				"investor": "/src/assets/animal_pngs/polaroid/past_owl.png",
+				"compulsive": "/src/assets/animal_pngs/polaroid/past_bee.png",
+				"gambler": "/src/assets/animal_pngs/polaroid/past_rabbit.png",
+				"debtor": "/src/assets/animal_pngs/polaroid/past_armadillo.png",
+				"shopper": "/src/assets/animal_pngs/polaroid/past_octopus.png",
+				"indifferent": "/src/assets/animal_pngs/polaroid/past_panda.png"
+			};
 
-  resultImage.src = imageMap[personalityType] || "assets/futuresqu.png";
-  resultImage.alt = data.animal;
-  // Update large image in desc-container dynamically
-const futureAnimalImg = document.querySelector(".desc-container .topsection .image img");
-if (futureAnimalImg) {
-  const capitalizedAnimal = data.animal.charAt(0).toUpperCase() + data.animal.slice(1); // e.g., "Squirrel"
-  futureAnimalImg.src = `/src/assets/animal_pngs/futureAnimal_Profiles/Future_${capitalizedAnimal}.png`;
-  futureAnimalImg.alt = `Future ${capitalizedAnimal}`;
-}
-// for the animal icons
+			resultImage.src = imageMap[personalityType] || "assets/futuresqu.png";
+			resultImage.alt = data.animal;
+			// Update large image in desc-container dynamically
+			const futureAnimalImg = document.querySelector(".desc-container .topsection .image img");
+			if (futureAnimalImg) {
+				const capitalizedAnimal = data.animal.charAt(0).toUpperCase() + data.animal.slice(1); // e.g., "Squirrel"
+				futureAnimalImg.src = `/src/assets/animal_pngs/futureAnimal_Profiles/Future_${capitalizedAnimal}.png`;
+				futureAnimalImg.alt = `Future ${capitalizedAnimal}`;
+			}
+			// for the animal icons
 
-const personalityIconImg = document.getElementById("personality-icon");
+			const personalityIconImg = document.getElementById("personality-icon");
 
-const iconMap = {
-  "saver": "acorn.png",
-  "spender": "diamond.png",
-  "investor": "feather.png",
-  "compulsive": "beehive.png",
-  "gambler": "carrot.png",
-  "debtor": "Piggy Bank.png",
-  "shopper": "Seasell.png",
-  "indifferent": "panda paw.png"
-};
+			const iconMap = {
+				"saver": "acorn.png",
+				"spender": "diamond.png",
+				"investor": "feather.png",
+				"compulsive": "beehive.png",
+				"gambler": "carrot.png",
+				"debtor": "Piggy Bank.png",
+				"shopper": "Seasell.png",
+				"indifferent": "panda paw.png"
+			};
 
-if (personalityIconImg && iconMap[personalityType]) {
-  personalityIconImg.src = `/src/assets/animal_pngs/animal_assets/${iconMap[personalityType]}`;
-  personalityIconImg.alt = data.animal;
-}
+			if (personalityIconImg && iconMap[personalityType]) {
+				personalityIconImg.src = `/src/assets/animal_pngs/animal_assets/${iconMap[personalityType]}`;
+				personalityIconImg.alt = data.animal;
+			}
 
-}
+		}
 
-function injectList(id, items) {
-  const ul = document.getElementById(id);
-  ul.innerHTML = "";
-  items.forEach(item => {
-    const li = document.createElement("li");
-    li.textContent = item;
-    ul.appendChild(li);
-  });
-}
+		function injectList(id, items) {
+			const ul = document.getElementById(id);
+			ul.innerHTML = "";
+			items.forEach(item => {
+				const li = document.createElement("li");
+				li.textContent = item;
+				ul.appendChild(li);
+			});
+		}
 
 		// pushpa ends
 
@@ -576,7 +580,7 @@ function injectList(id, items) {
 				select.style.backgroundColor = '#FEDB04';
 			}
 		});
-	  });
+	});
 
 	// Restarts the quiz
 	function restartQuiz() {
@@ -622,10 +626,10 @@ function injectList(id, items) {
 				"indifferent": 1
 			};
 			showResults();
-			}
-		});
-
-		document.addEventListener('keyup', (event) => {
-			delete pressedKeys[event.key];
-		});
+		}
 	});
+
+	document.addEventListener('keyup', (event) => {
+		delete pressedKeys[event.key];
+	});
+});
