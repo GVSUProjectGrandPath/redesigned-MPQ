@@ -13,7 +13,6 @@ let totalPoints = {
 
 document.addEventListener('DOMContentLoaded', () => {
 	const welcomeScreen = document.getElementById('welcome-screen2');
-	// const descContainer = document.getElementById('desc-container');
 	const quizContainer = document.getElementById('quiz-container');
 	const startButton = document.getElementById('start-button2');
 	const progressContainer = document.getElementById('progress-container');
@@ -28,18 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Starts the quiz when the start button is clicked
 	startButton.addEventListener('click', () => {
 		welcomeScreen.style.display = 'none';
-		// mainContainer.style.display = 'flex';
 		quizContainer.style.display = 'flex';
 		loadQuestion(currentQuestionIndex); // Load the first question
 	});
-	//backbutton
+
+	// Back button
 	const backButton = document.getElementById('back-button');
 	backButton.addEventListener('click', () => {
 
 		if (MobileDevice()) {
-			backButton.classList.remove("mobile-click")
-			void backButton.offsetWidth
-			backButton.classList.add("mobile-click")
+			backButton.classList.remove("mobile-click");
+			void backButton.offsetWidth;
+			backButton.classList.add("mobile-click");
 		}
 
 		if (currentQuestionIndex > 0) {
@@ -50,10 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			quizContainer.style.display = 'none';
 			welcomeScreen.style.display = 'flex';
 			document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
-			backButton.classList.remove("mobile-click")
+			backButton.classList.remove("mobile-click");
 		}
 	});
-	//backbutton
 
 	document.getElementById('restart-button').addEventListener('click', restartQuiz);
 
@@ -62,25 +60,31 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	if (MobileDevice()) {
-		// bodyElement.style.backgroundColor = '#b4efff';
 		bodyElement.style.backgroundColor = 'black';
 		document.querySelectorAll('#feedback-form label').forEach(label => {
-			label.style.fontWeight = '550'
+			label.style.fontWeight = '550';
 		});
 	}
-
+	// Show Next Steps Popup
 	document.getElementById('next-steps-button').addEventListener('click', function () {
-		window.open('/src/assets/Money_Mindset_Meetup.jpg', '_blank');
+		document.querySelector('.overlay').style.display = 'block';
+		document.getElementById('next-steps-popup').style.display = 'block';
+		document.documentElement.style.overflow = 'hidden';
+		document.body.style.overflow = 'hidden';
 	});
 
-	// for audio
-	// const sound = document.getElementById('hoverSound');
-	// const startButtonElement = document.getElementById('start-button2');
+	// Close Next Steps Popup
+	document.getElementById('closeNextStepsPopup').addEventListener('click', function () {
+		document.querySelector('.overlay').style.display = 'none';
+		document.getElementById('next-steps-popup').style.display = 'none';
+		document.documentElement.style.overflow = 'auto';
+		document.body.style.overflow = 'auto';
+	});
 
-	// startButtonElement.addEventListener('mouseenter', () => {
-	// 	sound.currentTime = 0;
-	// 	sound.play();
-	//   });
+	// Open Money Mindset Meetup JPG in new window
+	document.getElementById('meetup-jpg-btn').addEventListener('click', function () {
+		window.open('/src/assets/money_mindset_meetup.jpg', '_blank');
+	});
 
 	// Sets up event listeners for answer buttons
 	document.querySelectorAll('.answer-button').forEach(button => {
@@ -88,12 +92,31 @@ document.addEventListener('DOMContentLoaded', () => {
 			recordAnswer(this.value);
 
 			if (MobileDevice()) {
-				button.classList.remove("mobile-click")
-				void button.offsetWidth
-				button.classList.add("mobile-click")
+				button.classList.remove("mobile-click");
+				void button.offsetWidth;
+				button.classList.add("mobile-click");
 			}
 		});
 	});
+
+	// Attach Download Results button handler ONCE (no nested DOMContentLoaded)
+	const downloadBtn = document.getElementById("downloadResultsBtn");
+	if (downloadBtn) {
+		downloadBtn.addEventListener("click", function () {
+			// Use what showResults() stored earlier
+			const userPersonalityType = window.userPersonalityType || "saver";
+			// Make sure the path and extension match your files exactly
+			const fileName = `${userPersonalityType}.jpg`;
+			const fileUrl = `/src/assets/animal_results/${fileName}`;
+
+			const link = document.createElement("a");
+			link.href = fileUrl;
+			link.download = fileName;
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+		});
+	}
 
 	// Updates the progress bar based on current question index
 	function updateProgressBar() {
@@ -109,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('question-text').innerText = question.value;
 		document.getElementById('step-indicator').innerText = `${index + 1} of  ${totalQuestions}`;
 
-
 		updateProgressBar();
 
 		document.getElementById('answer-sa').value = "sa";
@@ -117,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('answer-n').value = "n";
 		document.getElementById('answer-d').value = "d";
 		document.getElementById('answer-sd').value = "sd";
+
 		// Clear any previously active buttons and previous mobile clicks
 		document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
 		document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('mobile-click'));
@@ -125,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const selected = selectedAnswers[index];
 		if (selected) {
 			const button = document.querySelector(`.answer-button[value="${selected}"]`);
-			button.classList.add('active');
+			button?.classList.add('active');
 		}
 	}
 
@@ -176,9 +199,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
+		// 👉 Make the personalityType available to the Download button
+		window.userPersonalityType = personalityType;
+
 		const personalityData = personalitiesData.descriptions[personalityType];
 
-		//display none when result page is shown.
+		// Hide quiz UI, show results UI
 		progressContainer.style.display = 'none';
 		document.getElementById('step-indicator').style.display = 'none';
 		document.getElementById('question-container').style.display = 'none';
@@ -187,13 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('result-container').style.display = 'block';
 		document.getElementById('quiz-header').style.display = 'none';
 
-		// document.getElementById('result-header').innerText = `You are most similar to the ${capitalize(personalityData.animal)}`;
 		document.getElementById('result-header').innerHTML = `You are most similar to the ${capitalize(personalityData.animal)} 
-		<span id="scrollTextHeader">(Scroll for more)</span>`;
+      <span id="scrollTextHeader">(Scroll for more)</span>`;
 
 		const total = getTotalPoints();
 		const resultsContainer = document.getElementById('detailed-results');
-
 		resultsContainer.innerHTML = '';
 
 		// Sort personality types by percentage
@@ -202,10 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			return { type, percentage };
 		}).sort((a, b) => b.percentage - a.percentage);
 
-		console.log(sortedTypes)
-
-
-
 		// Create buttons for each personality type
 		let scaleFactor = 0;
 		let count = 0;
@@ -213,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const animalName = personalitiesData.descriptions[type].animal;
 			const activeSymbol = '<i class="fa-solid fa-eye"></i>';
 			const inactiveSymbol = '';
-			const click = ''
+			const click = '';
 
 			const button = document.createElement('button');
 			button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
@@ -241,24 +261,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				count = 1;
 				scaleFactor = 100 / percentage;
-				console.log(scaleFactor);
 				button.style.width = '155%';
-			}
-			else {
+			} else {
 				const buttonWidth = Math.max(105 + (percentage * scaleFactor * 0.6));
-				console.log(buttonWidth);
 				button.style.width = `${buttonWidth}%`;
 			}
 
-			resultsContainer.appendChild(button)
+			resultsContainer.appendChild(button);
 		});
 
 		const scrollDownText1 = document.getElementById('scroll-down-text1');
 		const scrollDownText2 = document.getElementById('scroll-down-text');
 		let scrollTextcount = 0;
-		let scrollTextList = [scrollDownText1, scrollDownText2]
+		let scrollTextList = [scrollDownText1, scrollDownText2];
 
 		scrollTextList.forEach(text => {
+			if (!text) return;
 			const rect = text.getBoundingClientRect();
 			if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
 				scrollTextcount++;
@@ -268,17 +286,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 
-		const scrollTextHeader = document.getElementById('scrollTextHeader')
+		const scrollTextHeader = document.getElementById('scrollTextHeader');
 
-		if (scrollTextcount === 0) {
+		if (scrollTextcount === 0 && scrollTextHeader) {
 			scrollTextHeader.style.display = 'inline-block';
-		} else {
+		} else if (scrollTextHeader) {
 			scrollTextHeader.style.display = 'none';
 		}
 
 		const resultsPageContainer = document.getElementById('result-container');
 
 		function onFirstScroll() {
+			if (!scrollTextHeader) return;
 			const currentDisplay = getComputedStyle(scrollTextHeader).display;
 			if (resultsPageContainer.scrollTop > 0 && currentDisplay === "inline-block") {
 				scrollTextHeader.style.display = 'none';
@@ -306,9 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			indifferent: totalPoints.indifferent
 		};
 
-		saveQuizResult(quizResult);  // Call the new function to save the result
-		// saveResultToFirestore(quizResult);
-
+		saveQuizResult(quizResult); // Call the new function to save the result
 
 		function saveQuizResult(quizResult) {
 			fetch("/api/save-result", {
@@ -323,32 +340,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				.catch(err => console.error("❌ Error saving to backend:", err));
 		}
 
-		// function saveResultToFirestore(quizResult) {
-		//     const collectionName = "finlit_results"; // New Firestore collection
-		//     const docRef = db.collection(collectionName).doc(quizResult.personalityType);
-
-		//     docRef.get().then((doc) => {
-		//         if (doc.exists) {
-		//             return docRef.update({
-		//                 resultCount: firebase.firestore.FieldValue.increment(1)
-		//             });
-		//         } else {
-		//             return docRef.set({
-		//                 personalityType: quizResult.personalityType,
-		//                 resultCount: 1
-		//             });
-		//         }
-		//     }).then(() => {
-		//         console.log(`✅ Firestore saved to ${collectionName}: ${quizResult.personalityType}`);
-		//     }).catch((error) => {
-		//         console.error("❌ Firestore error:", error);
-		//     });
-		// }
-
-
-		async function saveQuizResult(quizResult) {
+		async function saveQuizResultLegacy(quizResult) {
 			try {
-				const response = await fetch('https://mpq-backend.onrender.com/save-quiz-result', { //need to get the link from new backend on render
+				const response = await fetch('https://mpq-backend.onrender.com/save-quiz-result', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -377,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const chars = Array.from(text);
 			const foundWord = words.some(word => inappropriateWords[word] || inappropriateEmojis[word]);
 			const foundEmoji = chars.some(char => inappropriateEmojis[char]);
-			return foundEmoji || foundWord
+			return foundEmoji || foundWord;
 		}
 
 		document.getElementById('feedback-form').addEventListener('submit', async (event) => {
@@ -387,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const cleanedComment = profanityCleaner.clean(unCleanComment);
 
 			if (unCleanComment === "") {
-				console.log("User ain't comment nothin!");
+				console.log("User didn't comment anything.");
 			}
 
 			const foundCustomProfanity = containsCustomProfanity(unCleanComment);
@@ -395,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (foundLibraryProfanity || foundCustomProfanity) {
 				console.warn('Profanity detected!!');
-				catchedBadInput = false
+				catchedBadInput = false;
 			} else {
 				console.log(cleanedComment);
 			}
@@ -410,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			};
 
 			try {
-				const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', { //need to get the link from new backend on render
+				const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -422,17 +416,16 @@ document.addEventListener('DOMContentLoaded', () => {
 				if (response.ok) {
 					alert(result.message);
 				} else {
-					const unfilledLabels = []
-					let keyNumber = 1
+					const unfilledLabels = [];
+					let keyNumber = 1;
 					for (const key in feedbackData) {
 						if (feedbackData[key].length == 0) {
-							unfilledLabels.push(`${keyNumber} | `)
+							unfilledLabels.push(`${keyNumber} | `);
 						}
-						keyNumber += 1
+						keyNumber += 1;
 					}
-					const unfilledLabels_str = unfilledLabels.join('')
+					const unfilledLabels_str = unfilledLabels.join('');
 					alert(`${result.error} Here are the unanswered questions: ${unfilledLabels_str}`);
-
 				}
 			} catch (error) {
 				console.error('Error submitting feedback:', error);
@@ -457,16 +450,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			// Create a resize observer
 			const observer = new ResizeObserver(entries => {
 				for (let entry of entries) {
-					// const height = entry.contentRect.height;
 					const height = entry.target.getBoundingClientRect().height;
-					console.log(`New height: ${height}px`);
-					// const animalIconSymbol = document.querySelector('.animal_assets');
 					animalIconSymbol.style.top = (height + 5) + 'px';
 				}
 			});
 
-			observer.observe(blueAdvantage);
-			//   console.log(blueAdvantage.getBoundingClientRect().height)
+			if (blueAdvantage && animalIconSymbol) {
+				observer.observe(blueAdvantage);
+			}
 
 			const resultImage = document.getElementById("polaroid-animal-image");
 			const imageMap = {
@@ -480,8 +471,11 @@ document.addEventListener('DOMContentLoaded', () => {
 				"indifferent": "/src/assets/animal_pngs/polaroid/past_panda.png"
 			};
 
-			resultImage.src = imageMap[personalityType] || "assets/futuresqu.png";
-			resultImage.alt = data.animal;
+			if (resultImage) {
+				resultImage.src = imageMap[personalityType] || "assets/futuresqu.png";
+				resultImage.alt = data.animal;
+			}
+
 			// Update large image in desc-container dynamically
 			const futureAnimalImg = document.querySelector(".desc-container .topsection .image img");
 			if (futureAnimalImg) {
@@ -489,10 +483,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				futureAnimalImg.src = `/src/assets/animal_pngs/futureAnimal_Profiles/Future_${capitalizedAnimal}.png`;
 				futureAnimalImg.alt = `Future ${capitalizedAnimal}`;
 			}
+
 			// for the animal icons
-
 			const personalityIconImg = document.getElementById("personality-icon");
-
 			const iconMap = {
 				"saver": "acorn.png",
 				"spender": "diamond.png",
@@ -508,11 +501,11 @@ document.addEventListener('DOMContentLoaded', () => {
 				personalityIconImg.src = `/src/assets/animal_pngs/animal_assets/${iconMap[personalityType]}`;
 				personalityIconImg.alt = data.animal;
 			}
-
 		}
 
 		function injectList(id, items) {
 			const ul = document.getElementById(id);
+			if (!ul) return;
 			ul.innerHTML = "";
 			items.forEach(item => {
 				const li = document.createElement("li");
@@ -520,13 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				ul.appendChild(li);
 			});
 		}
-
 		// pushpa ends
-
-		// Just a function to capitalize certain text
-		function capitalize(str) {
-			return str.charAt(0).toUpperCase() + str.slice(1);
-		}
 	}
 
 	// Gets collective points
@@ -535,12 +522,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	document.getElementById('feedback-button').addEventListener('click', function () {
-
 		let feedbackPopup = document.getElementById('feedback-popup');
 		const overlay = document.querySelector('.overlay');
 
 		feedbackPopup.classList.add('active');
-		overlay.classList.add('visible')
+		overlay.classList.add('visible');
 		document.documentElement.style.overflow = 'hidden'; // html
 		document.body.style.overflow = 'hidden'; // body
 	});
@@ -551,7 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
 			feedbackPopup.classList.remove('active');
-			overlay.classList.remove('visible')
+			overlay.classList.remove('visible');
 			document.documentElement.style.overflow = 'auto'; // html
 			document.body.style.overflow = 'auto'; // body
 		}
@@ -562,20 +548,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		const overlay = document.querySelector('.overlay');
 
 		feedbackPopup.classList.remove('active');
-		overlay.classList.remove('visible')
+		overlay.classList.remove('visible');
 		document.documentElement.style.overflow = 'auto'; // html
 		document.body.style.overflow = 'auto'; // body
 	});
 
 	document.getElementById('userCommentBtn').addEventListener('click', function () {
 		document.getElementById('userInput').style.display = 'block';
-		document.getElementById('userCommentBtn').style.display = 'none'
+		document.getElementById('userCommentBtn').style.display = 'none';
 	});
 
 	document.querySelectorAll('select').forEach(select => {
 		select.addEventListener('change', () => {
 			const selectedValue = select.value;
-
 			if (selectedValue !== "") {
 				select.style.backgroundColor = '#FEDB04';
 			}
@@ -595,18 +580,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			"shopper": 0,
 			"indifferent": 0
 		};
+		selectedAnswers = [];
 		progressBar.style.width = '0%';
 		progressContainer.style.display = 'block';
 		document.getElementById('answers').style.display = 'block';
 		document.getElementById('question-container').style.display = 'block';
 		document.getElementById('result-container').style.display = 'none';
 		loadQuestion(currentQuestionIndex);
-		location.reload(); // Placeholder - need to just reset quiz like how I am trying above, but it screws up formatting, FIX
+		location.reload(); // TODO: Ideally remove this and just reset state
 	}
 
 	// Keyboard shortcut to instantly finish quiz
 	let pressedKeys = {};
-
 	document.addEventListener('keydown', (event) => {
 		pressedKeys[event.key] = true;
 		// Check for specific key combinations
@@ -632,4 +617,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.addEventListener('keyup', (event) => {
 		delete pressedKeys[event.key];
 	});
+
 });
+
+// Utility
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
