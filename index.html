@@ -163,11 +163,11 @@
                
           
                 <div class="buttons">
-                  <button class="feedback" id="feedback-button">Give feedback</button>
-                  <button class="restart" id="restart-button">Restart quiz</button>
                   <button id="next-steps-button" class="results-btn">Next steps</button>
                   <button id="send-button">Send Results</button>
-
+                  <button id="downloadResultsBtn">Download Result</button>
+                  <button class="restart" id="restart-button">Restart quiz</button>
+                  <button class="feedback" id="feedback-button">Give feedback</button>
                 </div>
               </div>
             </div>
@@ -238,6 +238,30 @@
                         <button id="submitBtn" type="submit">Submit Feedback</button>
                     </form>
                 </div>
+            </div>
+            <!-- Next Steps Popup -->
+            <div id="next-steps-popup" style="display:none;">
+            <div class="testTopBar">
+                <h2 class="surveyTitle">Next Steps</h2>
+                <button id="closeNextStepsPopup">
+                <i class="fa-solid fa-x X-icon"></i>
+                </button>
+            </div>
+            <div class="form-content">
+                <p>
+                Thank you for taking the REP4ⓇFinLit Money Mindset Quiz.<br>
+                You've taken the first step on your journey to financial wellness!<br><br>
+                <strong>Next Steps:</strong><br>
+                - Join the REP4ⓇFinLit learning community if you are a GVSU student<br>
+                - Share the Money Mindset Quiz with friends and family<br>
+                - Discuss your results with friends and family<br>
+                - Signup for our newsletter to stay in the loop and receive more Money Mindset Meetup sample tools<br>
+                - Have ideas about how we can make a bigger impact with REP4ⓇFinLit? Contact us at <a href="mailto:hello@rep4finlit.org">hello@rep4finlit.org</a>
+                </p>
+                <button id="meetup-jpg-btn" class="results-btn" style="background:#FEDB04; color:#222; margin-top:16px;">
+                Money Mindset Meetup
+                </button>
+            </div>
             </div>
             <!-- <button id="restart-button" class="restart-button">Restart Quiz</button> -->
         </div>
