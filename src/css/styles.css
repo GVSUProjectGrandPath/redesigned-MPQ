@@ -525,26 +525,38 @@ textarea#userInput:focus {
 
 .restart-button {
   font-family: 'Jura', sans-serif;
-  font-size: 3dvh;
+  font-size: 1rem;
   font-weight: bold;
-  padding: 1.5%;
-  margin-top: 2.5%;
-  margin-left: 1vw;
-  margin-bottom: 2.5%;
+  padding: 12px 22px;
+  margin-top: 8px;
+  margin-left: 8px;
+  margin-bottom: 8px;
   border: none;
-  border-radius: 4dvh;
-  background-color: #5bc2e7; /* Same color as answer buttons */
+  border-radius: 8px;
+  background-color: #5bc2e7;
   color: black;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 .restart-button:hover {
+  
   background-color: #FEDB04; /* Same hover color as answer buttons */
 }
 .restart-button:active {
   background-color: #54c9cd;
 }
 
+.next-steps-list {
+  margin: 12px 0 18px 0;
+  padding-left: 22px;
+  font-size: 1rem;
+  color: #222;
+}
+
+.next-steps-list li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
 /* #result-header{
 
   font:poppins;
