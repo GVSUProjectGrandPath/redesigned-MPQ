@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Open Money Mindset Meetup JPG in new window
 	document.getElementById('meetup-jpg-btn').addEventListener('click', function () {
-		window.open('/src/assets/money_mindset_meetup.jpg', '_blank');
+		window.open('/src/assets/Money_Mindset_Meetup.jpg', '_blank');
 	});
 
 	// Sets up event listeners for answer buttons
