@@ -50,6 +50,15 @@
   background: #ffe25c;
 }
 
+#send-button {
+  background: #8adffd;
+  color: black;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
 #feedback-popup {
   position: fixed;
   display: none; /* Hidden by default */
