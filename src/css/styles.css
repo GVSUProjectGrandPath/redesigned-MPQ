@@ -141,6 +141,10 @@ textarea#userInput {
   position: fixed;
   top: 50%;
   left: 50%;
+  max-width: clamp(320px, 500px, 90%);
+  max-height: clamp(60%, 80vh, 85%); /* Limit the height to allow scrolling */
+  overflow-y: scroll; /* Enable vertical scrolling */
+  scrollbar-width: none; 
   transform: translate(-50%, -50%);
   background: #fff;
   border-radius: 12px;
@@ -151,6 +155,17 @@ textarea#userInput {
   max-width: 400px;
 }
 #next-steps-popup .testTopBar {
+  position: sticky;
+  top: 0;
+  background-color: #8adffd;
+  z-index: 100;
+  height: 50px;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: default;
+  padding-top: 30px;
+  padding-bottom: 33px;
+  padding-right: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -164,14 +179,11 @@ textarea#userInput {
   margin-bottom: 12px;
 }
 
-/* Base styles for results page buttons */
-.results-btn,
+/* Consistent button shape and spacing */
+#next-steps-button,
 #downloadResultsBtn,
-#feedback-button,
-#next-steps-button {
-  display: inline-block;
-  background: #0070f3; /* Brand color, adjust as needed */
-  color: #fff;
+#restart-button,
+#feedback-button {
   border: none;
   padding: 12px 22px;
   border-radius: 8px;
@@ -182,20 +194,24 @@ textarea#userInput {
   transition: background 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
-
+/* Feedback button */
 #feedback-button {
-  background: #FEDB04; /* Feedback button color */
+  background: #FEDB04;
   color: #222;
 }
-
 #downloadResultsBtn {
-  background: #0070f3; /* Brand color */
-  color: #fff;
+  background: #00c48c;
+   color: #222;
 }
 
 #next-steps-button {
-  background: #0070f3;
-  color: #fff;
+
+   color: #222;
+}
+
+#restart-button {
+  background: #5bc2e7;
+   color: #222;
 }
 
 /* Popup styles */
@@ -205,7 +221,7 @@ textarea#userInput {
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.13);
-  padding: 24px 18px;
+  padding: 2px 18px;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -215,6 +231,23 @@ textarea#userInput {
 }
 
 #next-steps-popup .testTopBar {
+  position: sticky;
+  /* margin: 0; */
+  top: 0;
+  background-color: #8adffd;
+  /* color: black; */
+  z-index: 100;
+  height: 50px;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: default;
+  display: flex;
+  justify-content: space-between;
+  /* flex-direction: row; */
+  padding-top: 30px;
+  padding-bottom: 33px;
+  /* padding-left: 15px; */
+  padding-right: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -268,7 +301,8 @@ textarea#userInput {
   #downloadResultsBtn,
   #feedback-button,
   #next-steps-button,
-  #meetup-jpg-btn {
+  #meetup-jpg-btn 
+  .restart-button {
     font-size: 0.95rem;
     padding: 10px 14px;
     border-radius: 7px;
@@ -277,7 +311,7 @@ textarea#userInput {
 
   #next-steps-popup {
     max-width: 98vw;
-    padding: 16px 6px;
+    padding: 5px 6px;
     font-size: 0.97rem;
   }
 
@@ -291,14 +325,15 @@ textarea#userInput {
   #downloadResultsBtn,
   #feedback-button,
   #next-steps-button,
-  #meetup-jpg-btn {
+  #meetup-jpg-btn
+  .restart-button {
     font-size: 0.88rem;
     padding: 8px 8px;
     border-radius: 6px;
   }
 
   #next-steps-popup {
-    padding: 8px 2px;
+    padding: 2px 2px;
     font-size: 0.93rem;
   }
 }
@@ -534,26 +569,36 @@ textarea#userInput:focus {
 
 .restart-button {
   font-family: 'Jura', sans-serif;
-  font-size: 3dvh;
+  font-size: 1rem;
   font-weight: bold;
-  padding: 1.5%;
-  margin-top: 2.5%;
-  margin-left: 1vw;
-  margin-bottom: 2.5%;
+  padding: 12px 22px;
   border: none;
-  border-radius: 4dvh;
-  background-color: #5bc2e7; /* Same color as answer buttons */
+  border-radius: 8px;
+  background-color: #5bc2e7;
   color: black;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 .restart-button:hover {
+  
   background-color: #FEDB04; /* Same hover color as answer buttons */
 }
 .restart-button:active {
   background-color: #54c9cd;
+   color: #222;
 }
 
+.next-steps-list {
+  margin: 12px 0 18px 0;
+  padding-left: 22px;
+  font-size: 1rem;
+  color: #222;
+}
+
+.next-steps-list li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
 /* #result-header{
 
   font:poppins;
