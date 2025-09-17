@@ -150,11 +150,11 @@ textarea#userInput {
   top: 0;
   background-color: #8adffd;
   z-index: 100;
-  height: 30px;
+  height: 50px;
   width: 100%;
   box-sizing: border-box;
   cursor: default;
-  padding-top: 10px;
+  padding-top: 30px;
   padding-bottom: 33px;
   padding-right: 15px;
   display: flex;
@@ -212,7 +212,7 @@ textarea#userInput {
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.13);
-  padding: 24px 18px;
+  padding: 2px 18px;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -228,14 +228,14 @@ textarea#userInput {
   background-color: #8adffd;
   /* color: black; */
   z-index: 100;
-  height: 30px;
+  height: 50px;
   width: 100%;
   box-sizing: border-box;
   cursor: default;
   display: flex;
   justify-content: space-between;
   /* flex-direction: row; */
-  padding-top: 10px;
+  padding-top: 30px;
   padding-bottom: 33px;
   /* padding-left: 15px; */
   padding-right: 15px;
@@ -324,7 +324,7 @@ textarea#userInput {
   }
 
   #next-steps-popup {
-    padding: 5px 2px;
+    padding: 2px 2px;
     font-size: 0.93rem;
   }
 }
