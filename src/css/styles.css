@@ -155,14 +155,11 @@ textarea#userInput {
   margin-bottom: 12px;
 }
 
-/* Base styles for results page buttons */
-.results-btn,
+/* Consistent button shape and spacing */
+#next-steps-button,
 #downloadResultsBtn,
-#feedback-button,
-#next-steps-button {
-  display: inline-block;
-  background: #0070f3; /* Brand color, adjust as needed */
-  color: #fff;
+#restart-button,
+#feedback-button {
   border: none;
   padding: 12px 22px;
   border-radius: 8px;
@@ -173,20 +170,24 @@ textarea#userInput {
   transition: background 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
-
+/* Feedback button */
 #feedback-button {
-  background: #FEDB04; /* Feedback button color */
+  background: #FEDB04;
   color: #222;
 }
-
 #downloadResultsBtn {
-  background: #0070f3; /* Brand color */
-  color: #fff;
+  background: #00c48c;
+   color: #222;
 }
 
 #next-steps-button {
-  background: #0070f3;
-  color: #fff;
+
+   color: #222;
+}
+
+#restart-button {
+  background: #5bc2e7;
+   color: #222;
 }
 
 /* Popup styles */
@@ -259,7 +260,8 @@ textarea#userInput {
   #downloadResultsBtn,
   #feedback-button,
   #next-steps-button,
-  #meetup-jpg-btn {
+  #meetup-jpg-btn 
+  .restart-button {
     font-size: 0.95rem;
     padding: 10px 14px;
     border-radius: 7px;
@@ -282,7 +284,8 @@ textarea#userInput {
   #downloadResultsBtn,
   #feedback-button,
   #next-steps-button,
-  #meetup-jpg-btn {
+  #meetup-jpg-btn
+  .restart-button {
     font-size: 0.88rem;
     padding: 8px 8px;
     border-radius: 6px;
@@ -528,9 +531,6 @@ textarea#userInput:focus {
   font-size: 1rem;
   font-weight: bold;
   padding: 12px 22px;
-  margin-top: 8px;
-  margin-left: 8px;
-  margin-bottom: 8px;
   border: none;
   border-radius: 8px;
   background-color: #5bc2e7;
@@ -544,6 +544,7 @@ textarea#userInput:focus {
 }
 .restart-button:active {
   background-color: #54c9cd;
+   color: #222;
 }
 
 .next-steps-list {
