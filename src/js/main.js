@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cityInput.disabled = true;
         cityInput.value = '';
         cityList.innerHTML = '';
-        cityInput.placeholder = 'Select a state first';
+        cityInput.placeholder = 'Type and select a state first';
     
         stateSelect.innerHTML = `<option value="" disabled selected>Loading states…</option>`;
     
