@@ -1,29 +1,103 @@
 let currentQuestionIndex = 0; // Tracks the current question index
 let selectedAnswers = []; // array for selected answers
 let totalPoints = {
-	"saver": 0,
-	"spender": 0,
-	"investor": 0,
-	"compulsive": 0,
-	"gambler": 0,
-	"debtor": 0,
-	"shopper": 0,
-	"indifferent": 0
+  "saver": 0,
+  "spender": 0,
+  "investor": 0,
+  "compulsive": 0,
+  "gambler": 0,
+  "debtor": 0,
+  "shopper": 0,
+  "indifferent": 0
 }; // Stores total points for each personality type
 
+//api for location(states,city-pushpa)
+const US_STATES_URL = 'https://countriesnow.space/api/v0.1/countries/states';
+const US_CITIES_URL = 'https://countriesnow.space/api/v0.1/countries/state/cities';
+
+let mpqPreResult = {
+  userType: null,
+  location: { state: null, city: null },
+  email: null
+};
+// Tiny utilities used ONLY in the modal for subtle pause/feedback Pushpa
+function pauseThen(fn, ms = 240) { setTimeout(fn, ms); }
+function microTap(el, dur = 140) {
+  el.style.transform = 'scale(0.98)';
+  setTimeout(() => { el.style.transform = ''; }, dur);
+}
+// Google Sheet endpoint Pushpa //
+const SHEET_WEBAPP_URL =
+  'https://script.google.com/macros/s/AKfycbzSKTZddXKensvnHYAB1q_qj8VtUcTaELh_gLgsj4YMWMXZ9EpUZHA4oH7DtndhK0pSpw/exec';
+
+  async function savePreResultsToSheet(pre) {
+    const payload = {
+      userType: pre.userType || '',
+      state: pre.location?.state || '',
+      city:  pre.location?.city || '',
+      email: pre.email || '',
+      ua: navigator.userAgent || ''
+    };
+  
+    const body = new URLSearchParams({ data: JSON.stringify(payload) }).toString();
+  
+    try {
+      // Fire-and-forget: no preflight, opaque response, no console error
+      await fetch(SHEET_WEBAPP_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, // allowed in no-cors
+        body
+      });
+      // Don't read res; in no-cors it's opaque.
+      return true;
+    } catch (e) {
+      // Even if the browser reports an error, don't break the UX.
+      console.warn('Sheet log skipped:', e?.message || e);
+      return false;
+    }
+  }
+  
+  
+//google sheet pushpa//
 document.addEventListener('DOMContentLoaded', () => {
+<<<<<<< HEAD
 	const welcomeScreen = document.getElementById('welcome-screen2');
 	const quizContainer = document.getElementById('quiz-container');
 	const startButton = document.getElementById('start-button2');
 	const progressContainer = document.getElementById('progress-container');
 	const progressBar = document.getElementById('progress-bar');
 	const bodyElement = document.body;
+=======
+  const welcomeScreen = document.getElementById('welcome-screen2');
+  const quizContainer = document.getElementById('quiz-container');
+  const startButton = document.getElementById('start-button2');
+  const progressContainer = document.getElementById('progress-container');
+  const progressBar = document.getElementById('progress-bar');
+  // ===== Pre-Results (multi-step: user type → location → email) =====
+const overlayEl   = document.getElementById('pre-results-overlay');
+const modalEl     = document.getElementById('pre-results-modal');
+const backBtn     = document.getElementById('mpqBackBtn');
+const skipBtn     = document.getElementById('mpqSkipBtn');
+const nextBtn     = document.getElementById('mpqNextBtn');
+const finishBtn   = document.getElementById('mpqFinishBtn');
+// inputs
+const userTypeSelect = document.getElementById('mpqUserType');
+const emailInput     = document.getElementById('mpqEmail');
+const stateSelect    = document.getElementById('mpqState');  
+>>>>>>> puspha_work
 
-	const totalQuestions = questions.length;
+// local state
+let mpqStepIndex = 0;          
+let mpqStatesLoaded = false;  
+let mpqWired = false;          
+let cityAllOptions = []; 
 
-	// forces Safari to recognize :active for start button on mobile devices
-	document.addEventListener("touchstart", function () { }, true);
+// Build suggestions only when the user types
+const cityInput = document.getElementById('mpqCity');
+const cityList  = document.getElementById('mpqCityList');
 
+<<<<<<< HEAD
 	// Starts the quiz when the start button is clicked
 	startButton.addEventListener('click', () => {
 		welcomeScreen.style.display = 'none';
@@ -52,13 +126,146 @@ document.addEventListener('DOMContentLoaded', () => {
 			backButton.classList.remove("mobile-click");
 		}
 	});
+=======
+function updateCitySuggestions(q) {
+  // Hide list until at least 2 chars (tweak if you want 1)
+  if (!q || q.trim().length < 2) {
+    cityList.innerHTML = '';            // no options => no dropdown
+    return;
+  }
+  const ql = q.toLowerCase();
+  const filtered = cityAllOptions
+    .filter(c => c.toLowerCase().includes(ql))
+    .slice(0, 50); // cap results for UX
+  cityList.innerHTML = filtered.map(c => `<option value="${c}">`).join('');
+}
 
-	document.getElementById('restart-button').addEventListener('click', restartQuiz);
+// As user types, update suggestions and revalidate
+cityInput.addEventListener('input', () => {
+  updateCitySuggestions(cityInput.value);
+  validateCurrentStep();
+});
 
-	function MobileDevice() {
-		return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-	}
+// When user confirms the value (enter/tab/click), store if valid
+cityInput.addEventListener('change', () => {
+  const val = cityInput.value.trim();
+  mpqPreResult.location.city = cityAllOptions.includes(val) ? val : null;
+  validateCurrentStep();
+});
+>>>>>>> puspha_work
 
+  //popup questions start
+  async function populateStates() {
+    try {
+      stateSelect.disabled = true;
+      // control city INPUT + DATALIST (not a select)
+      cityInput.disabled = true;
+      cityInput.value = '';
+      cityList.innerHTML = '';
+      cityInput.placeholder = 'Select a state first';
+  
+      stateSelect.innerHTML = `<option value="" disabled selected>Loading states…</option>`;
+  
+      const res  = await fetch(US_STATES_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country: 'United States' })
+      });
+      const json = await res.json();
+  
+      const states = (json?.data?.states || [])
+        .map(s => s.name)
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b));
+  
+      stateSelect.innerHTML =
+        `<option value="" disabled selected>Select state</option>` +
+        states.map(s => `<option value="${s}">${s}</option>`).join('');
+  
+      stateSelect.disabled = false;
+      mpqStatesLoaded = true;
+    } catch (e) {
+      console.error('Failed to load states:', e);
+      stateSelect.innerHTML = `
+        <option value="" disabled selected>Could not load — pick fallback</option>
+        <option value="California">California</option>
+        <option value="Florida">Florida</option>
+        <option value="Michigan">Michigan</option>
+        <option value="New York">New York</option>
+        <option value="Texas">Texas</option>
+      `;
+      stateSelect.disabled = false;
+    }
+  }
+  
+  async function populateCities(stateName) {
+    try {
+      cityInput.disabled = true;
+      cityInput.value = '';
+      cityList.innerHTML = '';    // keep empty until user types
+      cityAllOptions = [];
+  
+      const res  = await fetch(US_CITIES_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country: 'United States', state: stateName })
+      });
+      const json = await res.json();
+  
+      cityAllOptions = (json?.data || [])
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b));
+  
+      cityInput.disabled = false;
+      cityInput.focus();
+    } catch (e) {
+      console.error('Failed to load cities:', e);
+      cityAllOptions = [];
+      cityInput.disabled = false;
+    }
+  }
+  
+  //opens your preresult modal
+  function showPreResultsFlow() {
+    if (!overlayEl || !modalEl) {
+      console.warn('Pre-results UI missing; showing results directly.');
+      return showResults();
+    }
+    overlayEl.style.display = 'block';
+    modalEl.style.display   = 'flex';
+  
+    // lock scroll
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  
+    wirePreResultsControls();
+    setActiveStep(0);
+  }
+  
+  function hidePreResultsFlow() {
+    if (overlayEl) overlayEl.style.display = 'none';
+    if (modalEl)   modalEl.style.display   = 'none';
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+  // Wire all modal controls once (Back / Next / Finish / Skip + inputs)
+function wirePreResultsControls() {
+  if (mpqWired) return;
+  mpqWired = true;
+
+  // Skip → treat as skipped and show results
+  skipBtn.addEventListener('click', () => {
+    microTap(skipBtn);
+    skipBtn.disabled = true;
+    // logModalAnswer('skipped');
+    pauseThen(() => {
+      hidePreResultsFlow();
+      showResults();
+      skipBtn.disabled = false;
+    }, 300);
+  });
+
+<<<<<<< HEAD
 	if (MobileDevice()) {
 		bodyElement.style.backgroundColor = 'black';
 		document.querySelectorAll('#feedback-form label').forEach(label => {
@@ -151,54 +358,137 @@ document.addEventListener('DOMContentLoaded', () => {
 			button?.classList.add('active');
 		}
 	}
+=======
+  // Back
+  backBtn.addEventListener('click', () => {
+    microTap(backBtn);
+    if (mpqStepIndex > 0) setActiveStep(mpqStepIndex - 1);
+  });
 
-	// Records the answer and updates the total points
-	function recordAnswer(answer) {
-		const question = questions[currentQuestionIndex];
+  // Next (step 0 → 1, step 1 → 2)
+  nextBtn.addEventListener('click', () => {
+    microTap(nextBtn);
+  
+    if (mpqStepIndex === 0) {
+      mpqPreResult.userType = userTypeSelect.value || null;
+    } else if (mpqStepIndex === 1) {
+      const val = (cityInput.value || '').trim();
+      mpqPreResult.location = {
+        state: stateSelect.value || null,
+        city:  cityAllOptions.includes(val) ? val : null
+      };
+    }
+  
+    setActiveStep(mpqStepIndex + 1);
+  });
+  
 
-		// If a previous answer exists for this question, subtract its points first
-		const previousAnswer = selectedAnswers[currentQuestionIndex];
-		if (previousAnswer) {
-			const prevPoints = question.points[previousAnswer];
-			for (const key in prevPoints) {
-				if (totalPoints.hasOwnProperty(key)) {
-					totalPoints[key] -= prevPoints[key]; // Subtract old points
-				}
-			}
-		}
+ // Finish (step 2)
+finishBtn.addEventListener('click', async () => {
+  microTap(finishBtn);
+  const emailVal = (emailInput.value || '').trim();
+  mpqPreResult.email = emailVal.length ? emailVal : null;
 
-		// Save the new selected answer
-		selectedAnswers[currentQuestionIndex] = answer;
+  // Send the 3 pre-results answers to Google Sheets
+  try {
+    await savePreResultsToSheet(mpqPreResult);
+  } catch (e) {
+    console.error('Sheet logging failed:', e);
+  }
 
-		// Add new points
-		const newPoints = question.points[answer];
-		for (const key in newPoints) {
-			if (totalPoints.hasOwnProperty(key)) {
-				totalPoints[key] += newPoints[key];
-			}
-		}
+  hidePreResultsFlow();
+  showResults();
+});
 
-		currentQuestionIndex++;
-		if (currentQuestionIndex < questions.length) {
-			loadQuestion(currentQuestionIndex);
-		} else {
-			showResults();
-		}
-	}
 
-	// Displays the quiz results and personality type
-	function showResults() {
-		let maxPoints = 0;
-		let personalityType = '';
+  // Live validation + dynamics
+  userTypeSelect?.addEventListener('change', () => {
+    const wrap = document.querySelector('.mpq-select-wrap') || userTypeSelect;
+    wrap.style.opacity = '0.85';
+    setTimeout(() => { wrap.style.opacity = ''; }, 140);
+    validateCurrentStep();
+  });
 
-		// Determine the personality type with the highest points
-		for (const type in totalPoints) {
-			if (totalPoints[type] > maxPoints) {
-				maxPoints = totalPoints[type];
-				personalityType = type;
-			}
-		}
+  stateSelect?.addEventListener('change', async () => {
+    const stateName = stateSelect.value;
+    if (stateName) {
+      await populateCities(stateName);
+      mpqPreResult.location.city = null; // reset city until user selects
+    }
+    validateCurrentStep();
+  });
 
+  // Click outside overlay → skip once
+  overlayEl?.addEventListener('click', async () => {
+    // logModalAnswer('skipped');
+    try { await savePreResultsToSheet(mpqPreResult); } catch {}
+    hidePreResultsFlow();
+    showResults();
+  }, { once: true });
+}
+>>>>>>> puspha_work
+
+  // ===== Pre-Results (single question) =====
+
+  function setActiveStep(step) {
+    mpqStepIndex = step;
+  
+    document.querySelectorAll('.mpq-step').forEach(s => {
+      s.style.display = Number(s.dataset.step) === step ? 'block' : 'none';
+    });
+  
+    backBtn.style.display   = step === 0 ? 'none' : 'inline-flex';
+    nextBtn.style.display   = step < 2 ? 'inline-flex' : 'none';
+    finishBtn.style.display = step === 2 ? 'inline-flex' : 'none';
+  
+    if (step === 1 && !mpqStatesLoaded) {
+      populateStates();
+    }
+    validateCurrentStep();
+  }
+  
+  function validateCurrentStep() {
+    if (mpqStepIndex === 0) {
+      nextBtn.disabled = !(userTypeSelect && userTypeSelect.value);
+      finishBtn.disabled = true;
+    } else if (mpqStepIndex === 1) {
+      const stateOk = !!stateSelect?.value;
+      const cityVal = (cityInput?.value || '').trim();
+      const cityOk  = cityAllOptions.includes(cityVal);
+      nextBtn.disabled = !(stateOk && cityOk);
+      finishBtn.disabled = true;
+    } else {
+      nextBtn.disabled = true;
+      finishBtn.disabled = false; // email optional
+    }
+  }
+  
+  //popup questions end
+
+  const bodyElement = document.body;
+
+  const totalQuestions = questions.length;
+
+  // forces Safari to recognize :active for start button on mobile devices
+  document.addEventListener("touchstart", function () { }, true);
+
+  // Starts the quiz when the start button is clicked
+  startButton.addEventListener('click', () => {
+    welcomeScreen.style.display = 'none';
+    quizContainer.style.display = 'flex';
+    loadQuestion(currentQuestionIndex); // Load the first question
+  });
+
+  // backbutton
+  const backButton = document.getElementById('back-button');
+  backButton.addEventListener('click', () => {
+    if (MobileDevice()) {
+      backButton.classList.remove("mobile-click");
+      void backButton.offsetWidth;
+      backButton.classList.add("mobile-click");
+    }
+
+<<<<<<< HEAD
 		// 👉 Make the personalityType available to the Download button
 		window.userPersonalityType = personalityType;
 
@@ -222,10 +512,157 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		// Sort personality types by percentage
 		const sortedTypes = Object.keys(totalPoints).map(type => {
+=======
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      loadQuestion(currentQuestionIndex);
+    } else {
+      // Return to welcome screen if on first question
+      quizContainer.style.display = 'none';
+      welcomeScreen.style.display = 'flex';
+      document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
+      backButton.classList.remove("mobile-click");
+    }
+  });
+
+  document.getElementById('restart-button').addEventListener('click', restartQuiz);
+
+  function MobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
+  if (MobileDevice()) {
+    bodyElement.style.backgroundColor = 'black';
+    document.querySelectorAll('#feedback-form label').forEach(label => {
+      label.style.fontWeight = '550';
+    });
+  }
+
+  document.getElementById('next-steps-button').addEventListener('click', function () {
+    window.open('/src/assets/Money_Mindset_Meetup.jpg', '_blank');
+  });
+
+  // Sets up event listeners for answer buttons (NO pause here, per your request)
+  document.querySelectorAll('.answer-button').forEach(button => {
+    button.addEventListener('click', function () {
+      recordAnswer(this.value);
+
+      if (MobileDevice()) {
+        button.classList.remove("mobile-click");
+        void button.offsetWidth;
+        button.classList.add("mobile-click");
+      }
+    });
+  });
+
+  // Updates the progress bar based on current question index
+  function updateProgressBar() {
+    if (totalQuestions > 0) {
+      const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
+  }
+
+  // Loads the question at the specified index
+  function loadQuestion(index) {
+    const question = questions[index];
+    document.getElementById('question-text').innerText = question.value;
+    document.getElementById('step-indicator').innerText = `${index + 1} of  ${totalQuestions}`;
+
+    updateProgressBar();
+
+    document.getElementById('answer-sa').value = "sa";
+    document.getElementById('answer-a').value = "a";
+    document.getElementById('answer-n').value = "n";
+    document.getElementById('answer-d').value = "d";
+    document.getElementById('answer-sd').value = "sd";
+
+    // Clear any previously active buttons and previous mobile clicks
+    document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('mobile-click'));
+
+    // Highlight the previously selected answer if it exists
+    const selected = selectedAnswers[index];
+    if (selected) {
+      const button = document.querySelector(`.answer-button[value="${selected}"]`);
+      if (button) button.classList.add('active');
+    }
+  }
+
+  // Records the answer and updates the total points
+  function recordAnswer(answer) {
+    const question = questions[currentQuestionIndex];
+
+    // If a previous answer exists for this question, subtract its points first
+    const previousAnswer = selectedAnswers[currentQuestionIndex];
+    if (previousAnswer) {
+      const prevPoints = question.points[previousAnswer];
+      for (const key in prevPoints) {
+        if (totalPoints.hasOwnProperty(key)) {
+          totalPoints[key] -= prevPoints[key]; // Subtract old points
+        }
+      }
+    }
+
+    // Save the new selected answer
+    selectedAnswers[currentQuestionIndex] = answer;
+
+    // Add new points
+    const newPoints = question.points[answer];
+    for (const key in newPoints) {
+      if (totalPoints.hasOwnProperty(key)) {
+        totalPoints[key] += newPoints[key];
+      }
+    }
+
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      loadQuestion(currentQuestionIndex);
+    } else {
+      // Show single-step modal BEFORE results
+      showPreResultsFlow();
+    }
+  }
+
+  // Displays the quiz results and personality type
+  function showResults() {
+    let maxPoints = -Infinity;
+    let personalityType = '';
+
+    // Determine the personality type with the highest points
+    for (const type in totalPoints) {
+      if (totalPoints[type] > maxPoints) {
+        maxPoints = totalPoints[type];
+        personalityType = type;
+      }
+    }
+
+    const personalityData = personalitiesData.descriptions[personalityType];
+
+    //display none when result page is shown.
+    progressContainer.style.display = 'none';
+    document.getElementById('step-indicator').style.display = 'none';
+    document.getElementById('question-container').style.display = 'none';
+    document.getElementById('back-button').style.display = 'none';
+    document.getElementById('answers').style.display = 'none';
+    document.getElementById('result-container').style.display = 'block';
+    document.getElementById('quiz-header').style.display = 'none';
+
+    document.getElementById('result-header').innerHTML = `You are most similar to the ${capitalize(personalityData.animal)} 
+		<span id="scrollTextHeader">(Scroll for more)</span>`;
+
+    const total = getTotalPoints();
+    const resultsContainer = document.getElementById('detailed-results');
+    resultsContainer.innerHTML = '';
+
+    // Sort personality types by percentage
+    const sortedTypes = Object.keys(totalPoints).map(type => {
+>>>>>>> puspha_work
 			const percentage = (totalPoints[type] / total) * 100;
 			return { type, percentage };
 		}).sort((a, b) => b.percentage - a.percentage);
 
+<<<<<<< HEAD
 		// Create buttons for each personality type
 		let scaleFactor = 0;
 		let count = 0;
@@ -234,33 +671,44 @@ document.addEventListener('DOMContentLoaded', () => {
 			const activeSymbol = '<i class="fa-solid fa-eye"></i>';
 			const inactiveSymbol = '';
 			const click = '';
+=======
+    // Create buttons for each personality type
+    let scaleFactor = 0;
+    let count = 0;
+    sortedTypes.forEach(({ type, percentage }) => {
+      const animalName = personalitiesData.descriptions[type].animal;
+      const activeSymbol = '<i class="fa-solid fa-eye"></i>';
+      const inactiveSymbol = '';
+      const click = '';
 
-			const button = document.createElement('button');
-			button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
+      const button = document.createElement('button');
+      button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
 
-			button.onclick = () => {
-				showPersonalityDetails(type);
-				for (const btn of resultsContainer.children) {
-					btn.classList.remove('active');
-					btn.style.animation = 'none';
-					btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
-					btn.innerHTML = btn.innerHTML.replace(click, inactiveSymbol);
-				}
-				button.classList.add('active');
-				button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
-			};
+      button.onclick = () => {
+        showPersonalityDetails(type);
+        for (const btn of resultsContainer.children) {
+          btn.classList.remove('active');
+          btn.style.animation = 'none';
+          btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
+          btn.innerHTML = btn.innerHTML.replace(click, inactiveSymbol);
+        }
+        button.classList.add('active');
+        button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
+      };
 
-			if (count === 1) {
-				button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${click}`;
-				count = 2;
-			}
+      if (count === 1) {
+        button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${click}`;
+        count = 2;
+      }
+>>>>>>> puspha_work
 
-			if (count === 0 && type === personalityType) {
-				button.classList.add('active');
-				button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
+      if (count === 0 && type === personalityType) {
+        button.classList.add('active');
+        button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
 
-				count = 1;
+        count = 1;
 				scaleFactor = 100 / percentage;
+<<<<<<< HEAD
 				button.style.width = '155%';
 			} else {
 				const buttonWidth = Math.max(105 + (percentage * scaleFactor * 0.6));
@@ -289,13 +737,45 @@ document.addEventListener('DOMContentLoaded', () => {
 		const scrollTextHeader = document.getElementById('scrollTextHeader');
 
 		if (scrollTextcount === 0 && scrollTextHeader) {
+=======
+        button.style.width = '155%';
+      }
+      else {
+        const buttonWidth = Math.max(105 + (percentage * (scaleFactor || 1) * 0.6));
+        button.style.width = `${buttonWidth}%`;
+      }
+
+      resultsContainer.appendChild(button);
+    });
+
+    const scrollDownText1 = document.getElementById('scroll-down-text1');
+    const scrollDownText2 = document.getElementById('scroll-down-text');
+    let scrollTextcount = 0;
+    let scrollTextList = [scrollDownText1, scrollDownText2];
+
+    scrollTextList.forEach(text => {
+      if (!text) return;
+      const rect = text.getBoundingClientRect();
+      if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+        scrollTextcount++;
+      }
+      if (getComputedStyle(text).display === "none") {
+        scrollTextcount--;
+      }
+    });
+
+    const scrollTextHeader = document.getElementById('scrollTextHeader');
+
+    if (scrollTextcount === 0 && scrollTextHeader) {
+>>>>>>> puspha_work
 			scrollTextHeader.style.display = 'inline-block';
 		} else if (scrollTextHeader) {
 			scrollTextHeader.style.display = 'none';
 		}
 
-		const resultsPageContainer = document.getElementById('result-container');
+    const resultsPageContainer = document.getElementById('result-container');
 
+<<<<<<< HEAD
 		function onFirstScroll() {
 			if (!scrollTextHeader) return;
 			const currentDisplay = getComputedStyle(scrollTextHeader).display;
@@ -304,9 +784,20 @@ document.addEventListener('DOMContentLoaded', () => {
 				resultsPageContainer.removeEventListener('scroll', onFirstScroll);
 			}
 		}
+=======
+    function onFirstScroll() {
+      if (!scrollTextHeader) return;
+      const currentDisplay = getComputedStyle(scrollTextHeader).display;
+      if (resultsPageContainer.scrollTop > 0 && currentDisplay === "inline-block") {
+        scrollTextHeader.style.display = 'none';
+        resultsPageContainer.removeEventListener('scroll', onFirstScroll);
+      }
+    }
+>>>>>>> puspha_work
 
-		resultsPageContainer.addEventListener('scroll', onFirstScroll);
+    resultsPageContainer.addEventListener('scroll', onFirstScroll);
 
+<<<<<<< HEAD
 		showPersonalityDetails(personalityType);
 
 		// Save quiz result to the Node.js backend
@@ -326,6 +817,27 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 
 		saveQuizResult(quizResult); // Call the new function to save the result
+=======
+    showPersonalityDetails(personalityType);
+
+    // Save quiz result to the backend
+    const currentDate = new Date().toISOString();
+    const quizResult = {
+      ResultId: Date.now().toString(),
+      date: currentDate,
+      personalityType: personalityType,
+      saver: totalPoints.saver,
+      spender: totalPoints.spender,
+      investor: totalPoints.investor,
+      compulsive: totalPoints.compulsive,
+      gambler: totalPoints.gambler,
+      debtor: totalPoints.debtor,
+      shopper: totalPoints.shopper,
+      indifferent: totalPoints.indifferent,     
+    };
+    
+    saveQuizResult(quizResult); // Call the new function to save the result
+>>>>>>> puspha_work
 
 		function saveQuizResult(quizResult) {
 			fetch("/api/save-result", {
@@ -338,8 +850,13 @@ document.addEventListener('DOMContentLoaded', () => {
 				.then(res => res.json())
 				.then(data => console.log("✅ Result saved to backend:", data))
 				.catch(err => console.error("❌ Error saving to backend:", err));
+<<<<<<< HEAD
 		}
 
+=======
+    }
+    
+>>>>>>> puspha_work
 		async function saveQuizResultLegacy(quizResult) {
 			try {
 				const response = await fetch('https://mpq-backend.onrender.com/save-quiz-result', {
@@ -361,10 +878,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
-		const userCommentArea = document.getElementById('userInput');
-		const inappropriateWords = obscenity['badWords'];
-		const inappropriateEmojis = obscenity['badEmojis'];
+    const userCommentArea = document.getElementById('userInput');
+    const inappropriateWords = obscenity['badWords'];
+    const inappropriateEmojis = obscenity['badEmojis'];
 
+<<<<<<< HEAD
 		// This checks for the custom profanity (words & emojis) created in profanity.js
 		function containsCustomProfanity(text) {
 			const words = text.toLowerCase().split(/\s+/);
@@ -373,36 +891,61 @@ document.addEventListener('DOMContentLoaded', () => {
 			const foundEmoji = chars.some(char => inappropriateEmojis[char]);
 			return foundEmoji || foundWord;
 		}
+=======
+    // This checks for the custom profanity (words & emojis) created in profanity.js
+    function containsCustomProfanity(text) {
+      const words = text.toLowerCase().split(/\s+/);
+      const chars = Array.from(text);
+      const foundWord = words.some(word => inappropriateWords[word] || inappropriateEmojis[word]);
+      const foundEmoji = chars.some(char => inappropriateEmojis[char]);
+      return foundEmoji || foundWord;
+    }
+>>>>>>> puspha_work
 
-		document.getElementById('feedback-form').addEventListener('submit', async (event) => {
-			event.preventDefault(); // Prevent default form submission
+    document.getElementById('feedback-form').addEventListener('submit', async (event) => {
+      event.preventDefault(); // Prevent default form submission
 
-			const unCleanComment = userCommentArea.value.trim();
-			const cleanedComment = profanityCleaner.clean(unCleanComment);
+      const unCleanComment = userCommentArea.value.trim();
+      const cleanedComment = profanityCleaner.clean(unCleanComment);
 
+<<<<<<< HEAD
 			if (unCleanComment === "") {
 				console.log("User didn't comment anything.");
 			}
+=======
+      if (unCleanComment === "") {
+        console.log("User didn't leave a comment.");
+      }
+>>>>>>> puspha_work
 
-			const foundCustomProfanity = containsCustomProfanity(unCleanComment);
-			const foundLibraryProfanity = cleanedComment !== unCleanComment;
+      const foundCustomProfanity = containsCustomProfanity(unCleanComment);
+      const foundLibraryProfanity = cleanedComment !== unCleanComment;
 
+<<<<<<< HEAD
 			if (foundLibraryProfanity || foundCustomProfanity) {
 				console.warn('Profanity detected!!');
 				catchedBadInput = false;
 			} else {
 				console.log(cleanedComment);
 			}
+=======
+      if (foundLibraryProfanity || foundCustomProfanity) {
+        console.warn('Profanity detected!!');
+      } else {
+        console.log(cleanedComment);
+      }
+>>>>>>> puspha_work
 
-			const feedbackData = {
-				shareHabits: event.target.shareHabits.value,
-				recommendSurvey: event.target.recommendSurvey.value,
-				resultsAccurate: event.target.resultsAccurate.value,
-				resultsHelpful: event.target.resultsHelpful.value,
-				practicalSteps: event.target.practicalSteps.value,
-				timestamp: currentDate  // Add the current timestamp to the feedback data
-			};
+      const feedbackData = {
+        shareHabits: event.target.shareHabits.value,
+        recommendSurvey: event.target.recommendSurvey.value,
+        resultsAccurate: event.target.resultsAccurate.value,
+        resultsHelpful: event.target.resultsHelpful.value,
+        practicalSteps: event.target.practicalSteps.value,
+        timestamp: currentDate  // Add the current timestamp to the feedback data
+      };
 
+<<<<<<< HEAD
 			try {
 				const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', {
 					method: 'POST',
@@ -432,21 +975,61 @@ document.addEventListener('DOMContentLoaded', () => {
 				alert('Failed to submit feedback. Please try again later.');
 			}
 		});
+=======
+      try {
+        const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json' ,
+          },
+          body: JSON.stringify(feedbackData),
+        });
 
-		// pushpa starts
-		function showPersonalityDetails(personalityType) {
-			const data = personalitiesData.descriptions[personalityType];
-			if (!data) return;
+        const result = await response.json();
+        if (response.ok) {
+          alert(result.message);
+        } else {
+          const unfilledLabels = [];
+          let keyNumber = 1;
+          for (const key in feedbackData) {
+            if (feedbackData[key].length === 0) {
+              unfilledLabels.push(`${keyNumber} | `);
+            }
+            keyNumber += 1;
+          }
+          const unfilledLabels_str = unfilledLabels.join('');
+          alert(`${result.error} Here are the unanswered questions: ${unfilledLabels_str}`);
+        }
+      } catch (error) {
+        console.error('Error submitting feedback:', error);
+        alert('Failed to submit feedback. Please try again later.');
+      }
+    });
 
-			document.getElementById("descriptionText").textContent = data.description;
-			injectList("advantagesList", data.advantages);
-			injectList("disadvantagesList", data.disadvantages);
-			injectList("motivatorsList", data.motivators);
-			injectList("demotivatorsList", data.demotivators);
+    // pushpa starts
+    function showPersonalityDetails(personalityType) {
+      const data = personalitiesData.descriptions[personalityType];
+      if (!data) return;
+>>>>>>> puspha_work
 
-			const blueAdvantage = document.querySelector('.advantages.card.blue');
-			const animalIconSymbol = document.querySelector('.animal_assets');
+      document.getElementById("descriptionText").textContent = data.description;
+      injectList("advantagesList", data.advantages);
+      injectList("disadvantagesList", data.disadvantages);
+      injectList("motivatorsList", data.motivators);
+      injectList("demotivatorsList", data.demotivators);
 
+      const blueAdvantage = document.querySelector('.advantages.card.blue');
+      const animalIconSymbol = document.querySelector('.animal_assets');
+
+      // Create a resize observer
+        const observer = new ResizeObserver(entries => {
+          for (let entry of entries) {
+            const height = entry.target.getBoundingClientRect().height;
+            animalIconSymbol.style.top = (height + 5) + 'px';
+          }
+        });
+
+<<<<<<< HEAD
 			// Create a resize observer
 			const observer = new ResizeObserver(entries => {
 				for (let entry of entries) {
@@ -458,19 +1041,30 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (blueAdvantage && animalIconSymbol) {
 				observer.observe(blueAdvantage);
 			}
+=======
+        if (blueAdvantage && animalIconSymbol) {
+          observer.observe(blueAdvantage);
+        }
 
-			const resultImage = document.getElementById("polaroid-animal-image");
-			const imageMap = {
-				"saver": "/src/assets/animal_pngs/polaroid/past_squirrel.png",
-				"spender": "/src/assets/animal_pngs/polaroid/past_poodle.png",
-				"investor": "/src/assets/animal_pngs/polaroid/past_owl.png",
-				"compulsive": "/src/assets/animal_pngs/polaroid/past_bee.png",
-				"gambler": "/src/assets/animal_pngs/polaroid/past_rabbit.png",
-				"debtor": "/src/assets/animal_pngs/polaroid/past_armadillo.png",
-				"shopper": "/src/assets/animal_pngs/polaroid/past_octopus.png",
-				"indifferent": "/src/assets/animal_pngs/polaroid/past_panda.png"
-			};
+      const resultImage = document.getElementById("polaroid-animal-image");
+      const imageMap = {
+        "saver": "/src/assets/animal_pngs/polaroid/past_squirrel.png",
+        "spender": "/src/assets/animal_pngs/polaroid/past_poodle.png",
+        "investor": "/src/assets/animal_pngs/polaroid/past_owl.png",
+        "compulsive": "/src/assets/animal_pngs/polaroid/past_bee.png",
+        "gambler": "/src/assets/animal_pngs/polaroid/past_rabbit.png",
+        "debtor": "/src/assets/animal_pngs/polaroid/past_armadillo.png",
+        "shopper": "/src/assets/animal_pngs/polaroid/past_octopus.png",
+        "indifferent": "/src/assets/animal_pngs/polaroid/past_panda.png"
+      };
+>>>>>>> puspha_work
 
+      if (resultImage) {
+        resultImage.src = imageMap[personalityType] || "assets/futuresqu.png";
+        resultImage.alt = data.animal;
+      }
+
+<<<<<<< HEAD
 			if (resultImage) {
 				resultImage.src = imageMap[personalityType] || "assets/futuresqu.png";
 				resultImage.alt = data.animal;
@@ -515,12 +1109,70 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		// pushpa ends
 	}
+=======
+      // Update large image in desc-container dynamically
+      const futureAnimalImg = document.querySelector(".desc-container .topsection .image img");
+      if (futureAnimalImg) {
+        const capitalizedAnimal = data.animal.charAt(0).toUpperCase() + data.animal.slice(1); // e.g., "Squirrel"
+        futureAnimalImg.src = `/src/assets/animal_pngs/futureAnimal_Profiles/Future_${capitalizedAnimal}.png`;
+        futureAnimalImg.alt = `Future ${capitalizedAnimal}`;
+      }
 
-	// Gets collective points
-	function getTotalPoints() {
-		return Object.values(totalPoints).reduce((sum, points) => sum + points, 0);
-	}
+      // for the animal icons
+      const personalityIconImg = document.getElementById("personality-icon");
+      const iconMap = {
+        "saver": "acorn.png",
+        "spender": "diamond.png",
+        "investor": "feather.png",
+        "compulsive": "beehive.png",
+        "gambler": "carrot.png",
+        "debtor": "Piggy Bank.png",
+        "shopper": "Seasell.png",
+        "indifferent": "panda paw.png"
+      };
 
+      if (personalityIconImg && iconMap[personalityType]) {
+        personalityIconImg.src = `/src/assets/animal_pngs/animal_assets/${iconMap[personalityType]}`;
+        personalityIconImg.alt = data.animal;
+      }
+    }
+
+    function injectList(id, items) {
+      const ul = document.getElementById(id);
+      if (!ul) return;
+      ul.innerHTML = "";
+      items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+    }
+    // pushpa ends
+
+  
+  }
+
+  // Gets collective points
+  function getTotalPoints() {
+    return Object.values(totalPoints).reduce((sum, points) => sum + points, 0);
+  }
+
+  document.getElementById('feedback-button').addEventListener('click', function () {
+    let feedbackPopup = document.getElementById('feedback-popup');
+    const overlay = document.querySelector('.overlay');
+
+    feedbackPopup.classList.add('active');
+    overlay.classList.add('visible');
+    document.documentElement.style.overflow = 'hidden'; // html
+    document.body.style.overflow = 'hidden'; // body
+  });
+>>>>>>> puspha_work
+
+  document.addEventListener('click', function (event) {
+    let feedbackPopup = document.getElementById('feedback-popup');
+    const overlay = document.querySelector('.overlay');
+
+<<<<<<< HEAD
 	document.getElementById('feedback-button').addEventListener('click', function () {
 		let feedbackPopup = document.getElementById('feedback-popup');
 		const overlay = document.querySelector('.overlay');
@@ -530,11 +1182,32 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.documentElement.style.overflow = 'hidden'; // html
 		document.body.style.overflow = 'hidden'; // body
 	});
+=======
+    if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
+      feedbackPopup.classList.remove('active');
+      overlay.classList.remove('visible');
+      document.documentElement.style.overflow = 'auto'; // html
+      document.body.style.overflow = 'auto'; // body
+    }
+  });
 
-	document.addEventListener('click', function (event) {
-		let feedbackPopup = document.getElementById('feedback-popup');
-		const overlay = document.querySelector('.overlay');
+  document.getElementById('closeXbutton').addEventListener('click', function () {
+    let feedbackPopup = document.getElementById('feedback-popup');
+    const overlay = document.querySelector('.overlay');
 
+    feedbackPopup.classList.remove('active');
+    overlay.classList.remove('visible');
+    document.documentElement.style.overflow = 'auto'; // html
+    document.body.style.overflow = 'auto'; // body
+  });
+>>>>>>> puspha_work
+
+  document.getElementById('userCommentBtn').addEventListener('click', function () {
+    document.getElementById('userInput').style.display = 'block';
+    document.getElementById('userCommentBtn').style.display = 'none';
+  });
+
+<<<<<<< HEAD
 		if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
 			feedbackPopup.classList.remove('active');
 			overlay.classList.remove('visible');
@@ -542,11 +1215,41 @@ document.addEventListener('DOMContentLoaded', () => {
 			document.body.style.overflow = 'auto'; // body
 		}
 	});
+=======
+  document.querySelectorAll('select').forEach(select => {
+    select.addEventListener('change', () => {
+      const selectedValue = select.value;
+      if (selectedValue !== "") {
+        select.style.backgroundColor = '#FEDB04';
+      }
+    });
+  });
+>>>>>>> puspha_work
 
-	document.getElementById('closeXbutton').addEventListener('click', function () {
-		let feedbackPopup = document.getElementById('feedback-popup');
-		const overlay = document.querySelector('.overlay');
+  // Restarts the quiz
+  function restartQuiz() {
+    currentQuestionIndex = 0;
+    selectedAnswers = []; // reset selections
+    totalPoints = {
+      "saver": 0,
+      "spender": 0,
+      "investor": 0,
+      "compulsive": 0,
+      "gambler": 0,
+      "debtor": 0,
+      "shopper": 0,
+      "indifferent": 0
+    };
+    progressBar.style.width = '0%';
+    progressContainer.style.display = 'block';
+    document.getElementById('answers').style.display = 'block';
+    document.getElementById('question-container').style.display = 'block';
+    document.getElementById('result-container').style.display = 'none';
+    loadQuestion(currentQuestionIndex);
+    location.reload(); // Placeholder - can be removed once formatting reset is solved
+  }
 
+<<<<<<< HEAD
 		feedbackPopup.classList.remove('active');
 		overlay.classList.remove('visible');
 		document.documentElement.style.overflow = 'auto'; // html
@@ -624,3 +1327,39 @@ document.addEventListener('DOMContentLoaded', () => {
 function capitalize(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
+=======
+  // Keyboard shortcut to instantly finish quiz
+  let pressedKeys = {};
+
+  document.addEventListener('keydown', (event) => {
+    pressedKeys[event.key] = true;
+    // Check for specific key combinations
+    if (pressedKeys['s'] && pressedKeys['k']) {
+      if (welcomeScreen.style.display !== 'none') {
+        welcomeScreen.style.display = 'none';
+        quizContainer.style.display = 'flex';
+      }
+      totalPoints = {
+        "saver": 10,
+        "spender": 7,
+        "investor": 5,
+        "compulsive": 4,
+        "gambler": 3,
+        "debtor": 2,
+        "shopper": 1,
+        "indifferent": 1
+      };
+      showResults();
+    }
+  });
+
+  document.addEventListener('keyup', (event) => {
+    delete pressedKeys[event.key];
+  });
+});
+
+//Utility
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+>>>>>>> puspha_work
