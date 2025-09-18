@@ -241,6 +241,78 @@
             <!-- <button id="restart-button" class="restart-button">Restart Quiz</button> -->
         </div>
     </div>
+    
+<!-- ===== Pre-Results Modal (3 steps) Pushpa===== -->
+<div id="pre-results-overlay" class="mpq-overlay" style="display:none;"></div>
+
+<div id="pre-results-modal" class="mpq-modal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="mpqModalTitle">
+  <div class="mpq-modal-inner">
+    <div class="mpq-modal-header">
+      <img src="/src/assets/Logo.png" alt="Logo" class="mpq-modal-logo" />
+      <h2 id="mpqModalTitle" class="mpq-modal-title">Before we reveal your Money Personality… 🪄</h2>
+    </div>
+
+    <!-- Step 0: user type -->
+    <div class="mpq-step" data-step="0">
+      <h3 class="mpq-q-title">Pick your squad</h3>
+      <div class="mpq-field">
+        <label class="mpq-label" for="mpqUserType">I’m a…</label>
+        <div class="mpq-select-wrap">
+          <select id="mpqUserType" class="mpq-select" autocomplete="off">
+            <option value="" disabled selected>Select one</option>
+            <option value="college_student">🎓 College Student</option>
+            <option value="high_school">🏫 High-School Student</option>
+            <option value="community_member">🏙️ Community Member</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1: address -->
+    <div class="mpq-step" data-step="1" style="display:none">
+      <h3 class="mpq-q-title">Where are you located?</h3>
+    
+      <div class="mpq-field">
+        <label class="mpq-label" for="mpqState">State</label>
+        <select id="mpqState" class="mpq-input">
+          <option value="" disabled selected>Loading states…</option>
+        </select>
+      </div>
+    
+      <div class="mpq-field">
+        <label class="mpq-label" for="mpqCity">City</label>
+        <input
+          id="mpqCity"
+          class="mpq-input"
+          list="mpqCityList"
+          placeholder="Start typing your city…"
+          autocomplete="off"
+          disabled
+        />
+        <datalist id="mpqCityList"></datalist>
+      </div>
+    
+    </div>
+
+    <!-- Step 2: email -->
+    <div class="mpq-step" data-step="2" style="display:none">
+      <h3 class="mpq-q-title">What’s your email?</h3>
+      <div class="mpq-field">
+        <label class="mpq-label" for="mpqEmail">Email </label>
+        <input id="mpqEmail" type="email" class="mpq-input" placeholder="you@example.com" autocomplete="email">
+        
+      </div>
+    </div>
+
+    <div class="mpq-modal-footer">
+      <button id="mpqBackBtn" class="mpq-btn" style="display:none">Back</button>
+      <button id="mpqSkipBtn" class="mpq-btn mpq-btn--ghost">Skip</button>
+      <button id="mpqNextBtn" class="mpq-btn mpq-btn--primary">Next</button>
+      <button id="mpqFinishBtn" class="mpq-btn mpq-btn--primary" style="display:none">Reveal my result</button>
+    </div>
+  </div>
+</div>
+<!-- ===== End Pre-Results Modal Pushpa===== -->
 
     <!-- Firebase SDKs -->
     <!-- <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -259,6 +331,8 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
     </script> -->
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/profanity-cleaner/dist/profanity-cleaner.js"></script>
     <script src="/src/js/profanity.js"></script>
