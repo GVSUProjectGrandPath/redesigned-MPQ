@@ -88,6 +88,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const cityInput = document.getElementById('mpqCity');
   const cityList  = document.getElementById('mpqCityList');
 
+  function setBtnLoading(btn, isLoading, text = 'Saving…'){
+    if (isLoading){
+      if (!btn.dataset.origText) btn.dataset.origText = btn.textContent;
+      btn.textContent = text;
+      btn.classList.add('loading');
+      btn.disabled = true;
+    } else {
+      btn.textContent = btn.dataset.origText || btn.textContent;
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+  
+
   function updateCitySuggestions(q) {
     // Hide list until at least 2 chars (tweak if you want 1)
     if (!q || q.trim().length < 2) {
@@ -222,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hidePreResultsFlow();
         showResults();
         skipBtn.disabled = false;
-      }, 300);
+      }, 100);
     });
 
     // Back
@@ -246,27 +260,29 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     
       setActiveStep(mpqStepIndex + 1);
-    });
-    
+    }); 
 
   // Finish (step 2)
   finishBtn.addEventListener('click', async () => {
     microTap(finishBtn);
     const emailVal = (emailInput.value || '').trim();
     mpqPreResult.email = emailVal.length ? emailVal : null;
-
-    // Send the 3 pre-results answers to Google Sheets
+  
+    // show button loader + timebox the wait so UI never feels stuck
+    setBtnLoading(finishBtn, true, 'Saving…');
     try {
-      await savePreResultsToSheet(mpqPreResult);
-    } catch (e) {
-      console.error('Sheet logging failed:', e);
+      await Promise.race([
+        savePreResultsToSheet(mpqPreResult),      // your existing logger
+        new Promise(r => setTimeout(r, 1200))     // cap perceived wait
+      ]);
+    } finally {
+      setBtnLoading(finishBtn, false);
     }
-
+  
     hidePreResultsFlow();
-    showResults();
+    showResults();  // keep or guard with your flag if you don’t want to show results here
   });
-
-
+  
     // Live validation + dynamics
     userTypeSelect?.addEventListener('change', () => {
       const wrap = document.querySelector('.mpq-select-wrap') || userTypeSelect;

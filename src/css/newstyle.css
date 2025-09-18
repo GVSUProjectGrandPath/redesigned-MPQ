@@ -716,7 +716,7 @@
 }
 
 .mpq-modal-title{
-
+ font-size: 1.4rem;
   margin:10px 0 4px; 
   letter-spacing:.4px;
 }
@@ -926,6 +926,26 @@
 #mpqBackBtn, #mpqNextBtn, #mpqFinishBtn {
   justify-content: center;
 }
+button.loading{
+  position:relative;
+  pointer-events:none;  /* block double clicks */
+  opacity:.8;
+}
+button.loading::after{
+  content:"";
+  position:absolute;
+  right:12px;           /* adjust if your buttons are narrow */
+  top:50%;
+  width:14px;
+  height:14px;
+  border:2px solid currentColor;
+  border-top-color: transparent;
+  border-radius:50%;
+  transform:translateY(-50%);
+  animation:mpqspin .8s linear infinite;
+}
+@keyframes mpqspin{ to{ transform:translateY(-50%) rotate(360deg) } }
+
 
 @media (max-width:480px){
 
@@ -939,6 +959,7 @@
     font-size:18px; 
   }
 }
+
 
 
   @media (hover: hover) { /* Ensures hover styles only apply on non-touch devices (Ex: laptop) and
