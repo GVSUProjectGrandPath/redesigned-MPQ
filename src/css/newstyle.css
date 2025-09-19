@@ -946,6 +946,10 @@ button.loading::after{
   transform:translateY(-50%);
   animation:mpqspin .8s linear infinite;
 }
+.beforewe{
+  font-size: 1.4rem;
+  color: #A52C87;
+}
 @keyframes mpqspin{ to{ transform:translateY(-50%) rotate(360deg) } }
 
 @media (max-width: 768px) {
@@ -961,6 +965,17 @@ button.loading::after{
     font-size: 16px;     
     line-height: 1.4;
   }
+  .mpq-modal-header{
+    gap: 30px;
+  }
+  .beforewe{
+    font-size: 16px;
+    color: #A52C87;
+  }
+  .mpq-modal-logo {
+    height: 30px;
+}
+
 }
 @media (max-width:480px){
 
@@ -969,6 +984,16 @@ button.loading::after{
     padding:18px 14px 12px; 
     border-radius:20px;
    }
+   .mpq-modal-header{
+    gap: 15px;
+  }
+  .beforewe{
+    font-size: 14px;
+    color: #A52C87;
+  }
+  .mpq-modal-logo {
+    height: 26px;
+}
   /* .mpq-modal-title
   { 
     font-size:18px; 
