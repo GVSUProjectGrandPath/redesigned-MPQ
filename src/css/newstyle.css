@@ -950,6 +950,32 @@ button.loading::after{
   font-size: 1.4rem;
   color: #A52C87;
 }
+.next-steps-list {
+  list-style: none;        /* remove default browser bullets */
+  padding: 0;
+  margin: 0;
+}
+
+.next-steps-list li {
+  position: relative;
+  padding-left: 1.2em;     /* space for bullet */
+  margin-bottom: 0.6em;    /* spacing between bullets */
+}
+
+.next-steps-list li::before {
+  content: "•";            /* add custom bullet */
+  position: absolute;
+  left: 0;
+  color: black;            /* adjust color as needed */
+  font-size: 1.2em;        /* adjust size as needed */
+  line-height: 1; 
+}
+.cta-center{
+  display: flex;
+  justify-content: center;
+}
+
+
 @keyframes mpqspin{ to{ transform:translateY(-50%) rotate(360deg) } }
 
 @media (max-width: 768px) {

@@ -164,7 +164,7 @@
           
                 <div class="buttons">
                   <button id="next-steps-button" class="results-btn">Next steps</button>
-                  <button id="downloadResultsBtn">Download Results</button>
+                  <button id="downloadResultsBtn">Download</button>
                   <button class="restart" id="restart-button">Restart quiz</button>
                   <button class="feedback" id="feedback-button">Give feedback</button>
                   
@@ -251,19 +251,23 @@
             <div class="form-content">
                 <p>
                     Thank you for taking the REP4ⓇFinLit Money Mindset Quiz.<br>
+                    <br>
                     You've taken the first step on your journey to financial wellness!<br><br>
                     <strong>Next Steps:</strong>
                 </p>
                 <ul class="next-steps-list">
                     <li>Join the REP4ⓇFinLit learning community if you are a GVSU student</li>
                     <li>Share the Money Mindset Quiz with friends and family</li>
-                    <li>Discuss your results with friends and family</li>
-                    <li>Signup for our newsletter to stay in the loop and receive more Money Mindset Meetup sample tools</li>
+                    <li>Discuss your results with friends and family by downloading the free Money Mindset Worksheet below.</li>
+                    <li>Signup to stay in the loop and receive more Money Mindset Meetup sample tools</li>
                     <li>Have ideas about how we can make a bigger impact with REP4ⓇFinLit? Contact us at <a href="mailto:hello@rep4finlit.org">hello@rep4finlit.org</a></li>
                 </ul>
-                <button id="meetup-jpg-btn" class="results-btn" style="background:#FEDB04; color:#222; margin-top:16px;">
-                    Money Mindset Meetup
+                <div class="cta-center">
+                  <button id="meetup-jpg-btn" class="results-btn" style="background:#FEDB04; color:#222; margin-top:16px;">
+                    Free Worksheet Download
                 </button>
+                </div>
+             
             </div>
             </div>
             <!-- <button id="restart-button" class="restart-button">Restart Quiz</button> -->
@@ -300,14 +304,32 @@
     <div class="mpq-step" data-step="1" style="display:none">
       <h3 class="mpq-q-title">Where are you located?</h3>
     
+      <!-- Country (required) -->
       <div class="mpq-field">
-        <label class="mpq-label" for="mpqState">State</label>
-        <select id="mpqState" class="mpq-input">
-          <option id="mpq_state_options" value="" disabled selected>Loading states…</option>
+        <label class="mpq-label" for="mpqCountry">Country</label>
+        <select id="mpqCountry" class="mpq-input">
+          <option value="" disabled selected>Select country</option>
         </select>
       </div>
     
+      <!-- State (optional, only shown for United States) -->
+      <div class="mpq-field" id="mpqStateWrap" style="display:none">
+        <label class="mpq-label" for="mpqState">State <span style="opacity:.7">(Optional)</span></label>
+        <select id="mpqState" class="mpq-input" disabled>
+          <option value="" selected>(Optional) Select state</option>
+        </select>
+      </div>
+    
+      <!-- City (required) -->
       <div class="mpq-field">
+        <label class="mpq-label" for="mpqCity">City</label>
+        <input id="mpqCity" class="mpq-input" type="text"
+               placeholder="Type your city" list="mpqCityList" autocomplete="off" />
+        <datalist id="mpqCityList"></datalist>
+      </div>
+    </div>
+    
+      <!-- <div class="mpq-field">
         <label class="mpq-label" for="mpqCity">City</label>
         <input
           id="mpqCity"
@@ -318,9 +340,9 @@
           disabled
         />
         <datalist id="mpqCityList"></datalist>
-      </div>
+      </div> -->
     
-    </div>
+    <!-- </div> -->
 
     <!-- Step 2: email -->
     <div class="mpq-step" data-step="2" style="display:none">

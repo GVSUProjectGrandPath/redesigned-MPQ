@@ -12,14 +12,16 @@ let totalPoints = {
 }; // Stores total points for each personality type
 
 //api for location(states,city-pushpa)
+const COUNTRIES_URL = 'https://countriesnow.space/api/v0.1/countries';
 const US_STATES_URL = 'https://countriesnow.space/api/v0.1/countries/states';
 const US_CITIES_URL = 'https://countriesnow.space/api/v0.1/countries/state/cities';
 
 let mpqPreResult = {
   userType: null,
-  location: { state: null, city: null },
+  location: { country: null, state: null, city: null },
   email: null
 };
+
 // Tiny utilities used ONLY in the modal for subtle pause/feedback Pushpa
 function pauseThen(fn, ms = 240) { setTimeout(fn, ms); }
 function microTap(el, dur = 140) {
@@ -33,11 +35,13 @@ const SHEET_WEBAPP_URL =
   async function savePreResultsToSheet(pre) {
     const payload = {
       userType: pre.userType || '',
-      state: pre.location?.state || '',
-      city:  pre.location?.city || '',
-      email: pre.email || '',
-      ua: navigator.userAgent || ''
+      country:  pre.location?.country || '',  
+      state:    pre.location?.state || '',
+      city:     pre.location?.city || '',
+      email:    pre.email || '',
+      ua:       navigator.userAgent || ''
     };
+    
   
     const body = new URLSearchParams({ data: JSON.stringify(payload) }).toString();
   
@@ -77,6 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const userTypeSelect = document.getElementById('mpqUserType');
   const emailInput     = document.getElementById('mpqEmail');
   const stateSelect    = document.getElementById('mpqState');  
+  const countrySelect = document.getElementById('mpqCountry');
+  const stateWrap     = document.getElementById('mpqStateWrap'); // wrapper can be hidden
+  let mpqCountriesLoaded = false;
+
 
   // local state
   let mpqStepIndex = 0;          
@@ -123,11 +131,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // When user confirms the value (enter/tab/click), store if valid
   cityInput.addEventListener('change', () => {
-    const val = cityInput.value.trim();
-    mpqPreResult.location.city = cityAllOptions.includes(val) ? val : null;
+    const val = (cityInput.value || '').trim();
+    // If we have a list (US + state chosen + cities loaded), enforce match; else free text (>=2 chars)
+    if (cityAllOptions.length) {
+      mpqPreResult.location.city = cityAllOptions.includes(val) ? val : null;
+    } else {
+      mpqPreResult.location.city = val.length >= 2 ? val : null;
+    }
     validateCurrentStep();
   });
 
+  // When Country changes
+countrySelect?.addEventListener('change', async () => {
+  mpqPreResult.location.country = countrySelect.value || null;
+
+  // reset dependent fields
+  stateSelect.value = '';
+  mpqPreResult.location.state = null;
+  cityInput.value = '';
+  mpqPreResult.location.city = null;
+  cityAllOptions = [];
+  cityList.innerHTML = '';
+
+  if (countrySelect.value === 'United States') {
+    // show state, load US states
+    if (stateWrap) stateWrap.style.display = '';
+    await populateStates();                 // your existing US-only loader
+    // City: wait for state if they want suggestions, but allow free-text too
+    cityInput.disabled = false;
+    cityInput.placeholder = 'Type your city (select a state for suggestions)';
+  } else {
+    // hide/disable state for non-US
+    if (stateWrap) stateWrap.style.display = 'none';
+    stateSelect.disabled = true;
+    cityInput.disabled = false;
+    cityInput.placeholder = 'Type your city';
+    // City: free text
+    cityAllOptions = [];
+}
+
+  validateCurrentStep();
+});
+
+// When State changes (US only, still optional)
+stateSelect?.addEventListener('change', async () => {
+  const stateName = stateSelect.value || null;
+  mpqPreResult.location.state = stateName;
+
+  if (countrySelect.value === 'United States' && stateName) {
+    await populateCities(stateName);          // fills cityAllOptions
+    cityInput.disabled = false;
+    cityInput.placeholder = 'Start typing your city';
+  } else {
+    // cleared state → allow free text city
+    cityAllOptions = [];
+    cityInput.disabled = false;
+    cityInput.placeholder = 'Type your city';
+  }
+  validateCurrentStep();
+});
+
+
+  async function populateCountries() {
+    try {
+      countrySelect.disabled = true;
+      countrySelect.innerHTML = `<option value="" disabled selected>Loading countries…</option>`;
+      const res  = await fetch(COUNTRIES_URL);
+      const json = await res.json();
+      const countries = (json?.data || [])
+        .map(c => c.country || c.name)
+        .filter(Boolean)
+        .sort((a,b) => a.localeCompare(b));
+  
+      countrySelect.innerHTML =
+        `<option value="" disabled selected>Select country</option>` +
+        countries.map(c => `<option value="${c}">${c}</option>`).join('');
+    } catch (e) {
+      console.error('Failed to load countries:', e);
+      countrySelect.innerHTML = `
+        <option value="" disabled selected>Could not load — pick fallback</option>
+        <option value="United States">United States</option>
+        <option value="Canada">Canada</option>
+        <option value="United Kingdom">United Kingdom</option>
+        <option value="Australia">Australia</option>
+        <option value="India">India</option>
+      `;
+    } finally {
+      countrySelect.disabled = false;
+      mpqCountriesLoaded = true;
+    }
+  }
+  
     //popup questions start
     async function populateStates() {
       try {
@@ -251,14 +345,19 @@ document.addEventListener('DOMContentLoaded', () => {
     
       if (mpqStepIndex === 0) {
         mpqPreResult.userType = userTypeSelect.value || null;
-      } else if (mpqStepIndex === 1) {
-        const val = (cityInput.value || '').trim();
+      }  else if (mpqStepIndex === 1) {
+        const country = countrySelect.value || null;
+        const state   = (country === 'United States') ? (stateSelect.value || null) : null;
+        const cityVal = (cityInput.value || '').trim();
+      
         mpqPreResult.location = {
-          state: stateSelect.value || null,
-          city:  cityAllOptions.includes(val) ? val : null
+          country,
+          state,   // may be null (optional)
+          city: cityAllOptions.length
+            ? (cityAllOptions.includes(cityVal) ? cityVal : null)
+            : (cityVal || null)
         };
-      }
-    
+      }  
       setActiveStep(mpqStepIndex + 1);
     }); 
 
@@ -291,15 +390,6 @@ document.addEventListener('DOMContentLoaded', () => {
       validateCurrentStep();
     });
 
-    stateSelect?.addEventListener('change', async () => {
-      const stateName = stateSelect.value;
-      if (stateName) {
-        await populateCities(stateName);
-        mpqPreResult.location.city = null; // reset city until user selects
-      }
-      validateCurrentStep();
-    });
-
     // Click outside overlay → skip once
     overlayEl?.addEventListener('click', async () => {
       // logModalAnswer('skipped');
@@ -311,38 +401,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== Pre-Results (single question) =====
 
-    function setActiveStep(step) {
-      mpqStepIndex = step;
-    
-      document.querySelectorAll('.mpq-step').forEach(s => {
-        s.style.display = Number(s.dataset.step) === step ? 'block' : 'none';
-      });
-    
-      backBtn.style.display   = step === 0 ? 'none' : 'inline-flex';
-      nextBtn.style.display   = step < 2 ? 'inline-flex' : 'none';
-      finishBtn.style.display = step === 2 ? 'inline-flex' : 'none';
-    
-      if (step === 1 && !mpqStatesLoaded) {
-        populateStates();
-      }
-      validateCurrentStep();
-    }
-    
-    function validateCurrentStep() {
-      if (mpqStepIndex === 0) {
-        nextBtn.disabled = !(userTypeSelect && userTypeSelect.value);
-        finishBtn.disabled = true;
-      } else if (mpqStepIndex === 1) {
-        const stateOk = !!stateSelect?.value;
-        const cityVal = (cityInput?.value || '').trim();
-        const cityOk  = cityAllOptions.includes(cityVal);
-        nextBtn.disabled = !(stateOk && cityOk);
-        finishBtn.disabled = true;
-      } else {
-        nextBtn.disabled = true;
-        finishBtn.disabled = false; // email optional
-      }
-    }
+function setActiveStep(step) {
+  mpqStepIndex = step;
+
+  document.querySelectorAll('.mpq-step').forEach(s => {
+    s.style.display = Number(s.dataset.step) === step ? 'block' : 'none';
+  });
+
+  backBtn.style.display   = step === 0 ? 'none' : 'inline-flex';
+  nextBtn.style.display   = step < 2 ? 'inline-flex' : 'none';
+  finishBtn.style.display = step === 2 ? 'inline-flex' : 'none';
+
+  if (step === 1) {
+    if (!mpqCountriesLoaded) populateCountries();
+    // do NOT call populateStates() here anymore
+  }
+  validateCurrentStep();
+}
+
+function validateCurrentStep() {
+  if (mpqStepIndex === 0) {
+    nextBtn.disabled = !(userTypeSelect && userTypeSelect.value);
+    finishBtn.disabled = true;
+    return;
+  }
+
+  if (mpqStepIndex === 1) {
+    const countryOk = !!countrySelect?.value;
+
+    const hasCityList = cityAllOptions.length > 0;
+    const cityVal = (cityInput?.value || '').trim();
+    const cityOk = hasCityList ? cityAllOptions.includes(cityVal) : cityVal.length >= 2;
+
+    // State is OPTIONAL always
+    nextBtn.disabled   = !(countryOk && cityOk);
+    finishBtn.disabled = true;
+    return;
+  }
+
+  // step 2 (email) — unchanged
+  nextBtn.disabled = true;
+  finishBtn.disabled = false;
+}
+
   
   //popup questions end
 
