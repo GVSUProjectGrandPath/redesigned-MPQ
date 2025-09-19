@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         count = 1;
 				scaleFactor = 100 / percentage;
-        button.style.width = '155%';
+        button.style.width = '165%';
       }
       else {
         const buttonWidth = Math.max(105 + (percentage * (scaleFactor || 1) * 0.6));
