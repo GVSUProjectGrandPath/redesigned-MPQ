@@ -1,71 +1,399 @@
 let currentQuestionIndex = 0; // Tracks the current question index
 let selectedAnswers = []; // array for selected answers
 let totalPoints = {
-	"saver": 0,
-	"spender": 0,
-	"investor": 0,
-	"compulsive": 0,
-	"gambler": 0,
-	"debtor": 0,
-	"shopper": 0,
-	"indifferent": 0
+  "saver": 0,
+  "spender": 0,
+  "investor": 0,
+  "compulsive": 0,
+  "gambler": 0,
+  "debtor": 0,
+  "shopper": 0,
+  "indifferent": 0
 }; // Stores total points for each personality type
 
+//api for location(states,city-pushpa)
+const US_STATES_URL = 'https://countriesnow.space/api/v0.1/countries/states';
+const US_CITIES_URL = 'https://countriesnow.space/api/v0.1/countries/state/cities';
+
+let mpqPreResult = {
+  userType: null,
+  location: { state: null, city: null },
+  email: null
+};
+// Tiny utilities used ONLY in the modal for subtle pause/feedback Pushpa
+function pauseThen(fn, ms = 240) { setTimeout(fn, ms); }
+function microTap(el, dur = 140) {
+  el.style.transform = 'scale(0.98)';
+  setTimeout(() => { el.style.transform = ''; }, dur);
+}
+// Google Sheet endpoint Pushpa //
+const SHEET_WEBAPP_URL =
+  'https://script.google.com/macros/s/AKfycbzSKTZddXKensvnHYAB1q_qj8VtUcTaELh_gLgsj4YMWMXZ9EpUZHA4oH7DtndhK0pSpw/exec';
+
+  async function savePreResultsToSheet(pre) {
+    const payload = {
+      userType: pre.userType || '',
+      state: pre.location?.state || '',
+      city:  pre.location?.city || '',
+      email: pre.email || '',
+      ua: navigator.userAgent || ''
+    };
+  
+    const body = new URLSearchParams({ data: JSON.stringify(payload) }).toString();
+  
+    try {
+      // Fire-and-forget: no preflight, opaque response, no console error
+      await fetch(SHEET_WEBAPP_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, // allowed in no-cors
+        body
+      });
+      // Don't read res; in no-cors it's opaque.
+      return true;
+    } catch (e) {
+      // Even if the browser reports an error, don't break the UX.
+      console.warn('Sheet log skipped:', e?.message || e);
+      return false;
+    }
+  }
+  
+  
+//google sheet pushpa//
 document.addEventListener('DOMContentLoaded', () => {
-	const welcomeScreen = document.getElementById('welcome-screen2');
-	const quizContainer = document.getElementById('quiz-container');
-	const startButton = document.getElementById('start-button2');
-	const progressContainer = document.getElementById('progress-container');
-	const progressBar = document.getElementById('progress-bar');
-	const bodyElement = document.body;
+  const welcomeScreen = document.getElementById('welcome-screen2');
+  const quizContainer = document.getElementById('quiz-container');
+  const startButton = document.getElementById('start-button2');
+  const progressContainer = document.getElementById('progress-container');
+  const progressBar = document.getElementById('progress-bar');
+  // ===== Pre-Results (multi-step: user type → location → email) =====
+  const overlayEl   = document.getElementById('pre-results-overlay');
+  const modalEl     = document.getElementById('pre-results-modal');
+  const backBtn     = document.getElementById('mpqBackBtn');
+  const skipBtn     = document.getElementById('mpqSkipBtn');
+  const nextBtn     = document.getElementById('mpqNextBtn');
+  const finishBtn   = document.getElementById('mpqFinishBtn');
+  // inputs
+  const userTypeSelect = document.getElementById('mpqUserType');
+  const emailInput     = document.getElementById('mpqEmail');
+  const stateSelect    = document.getElementById('mpqState');  
 
-	const totalQuestions = questions.length;
+  // local state
+  let mpqStepIndex = 0;          
+  let mpqStatesLoaded = false;  
+  let mpqWired = false;          
+  let cityAllOptions = []; 
 
-	// forces Safari to recognize :active for start button on mobile devices
-	document.addEventListener("touchstart", function () { }, true);
+  // Build suggestions only when the user types
+  const cityInput = document.getElementById('mpqCity');
+  const cityList  = document.getElementById('mpqCityList');
 
-	// Starts the quiz when the start button is clicked
-	startButton.addEventListener('click', () => {
-		welcomeScreen.style.display = 'none';
-		quizContainer.style.display = 'flex';
-		loadQuestion(currentQuestionIndex); // Load the first question
-	});
+  function setBtnLoading(btn, isLoading, text = 'Saving…'){
+    if (isLoading){
+      if (!btn.dataset.origText) btn.dataset.origText = btn.textContent;
+      btn.textContent = text;
+      btn.classList.add('loading');
+      btn.disabled = true;
+    } else {
+      btn.textContent = btn.dataset.origText || btn.textContent;
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+  
 
-	// Back button
-	const backButton = document.getElementById('back-button');
-	backButton.addEventListener('click', () => {
+  function updateCitySuggestions(q) {
+    // Hide list until at least 2 chars (tweak if you want 1)
+    if (!q || q.trim().length < 2) {
+      cityList.innerHTML = '';            // no options => no dropdown
+      return;
+    }
+    const ql = q.toLowerCase();
+    const filtered = cityAllOptions
+      .filter(c => c.toLowerCase().includes(ql))
+      .slice(0, 50); // cap results for UX
+    cityList.innerHTML = filtered.map(c => `<option value="${c}">`).join('');
+  }
 
-		if (MobileDevice()) {
-			backButton.classList.remove("mobile-click");
-			void backButton.offsetWidth;
-			backButton.classList.add("mobile-click");
-		}
+  // As user types, update suggestions and revalidate
+  cityInput.addEventListener('input', () => {
+    updateCitySuggestions(cityInput.value);
+    validateCurrentStep();
+  });
 
-		if (currentQuestionIndex > 0) {
-			currentQuestionIndex--;
-			loadQuestion(currentQuestionIndex);
-		} else {
-			// Return to welcome screen if on first question
-			quizContainer.style.display = 'none';
-			welcomeScreen.style.display = 'flex';
-			document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
-			backButton.classList.remove("mobile-click");
-		}
-	});
+  // When user confirms the value (enter/tab/click), store if valid
+  cityInput.addEventListener('change', () => {
+    const val = cityInput.value.trim();
+    mpqPreResult.location.city = cityAllOptions.includes(val) ? val : null;
+    validateCurrentStep();
+  });
 
-	document.getElementById('restart-button').addEventListener('click', restartQuiz);
+    //popup questions start
+    async function populateStates() {
+      try {
+        stateSelect.disabled = true;
+        // control city INPUT + DATALIST (not a select)
+        cityInput.disabled = true;
+        cityInput.value = '';
+        cityList.innerHTML = '';
+        cityInput.placeholder = 'Type and select a state first';
+    
+        stateSelect.innerHTML = `<option value="" disabled selected>Loading states…</option>`;
+    
+        const res  = await fetch(US_STATES_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ country: 'United States' })
+        });
+        const json = await res.json();
+    
+        const states = (json?.data?.states || [])
+          .map(s => s.name)
+          .filter(Boolean)
+          .sort((a, b) => a.localeCompare(b));
+    
+        stateSelect.innerHTML =
+          `<option value="" disabled selected>Select state</option>` +
+          states.map(s => `<option value="${s}">${s}</option>`).join('');
+    
+        stateSelect.disabled = false;
+        mpqStatesLoaded = true;
+      } catch (e) {
+        console.error('Failed to load states:', e);
+        stateSelect.innerHTML = `
+          <option value="" disabled selected>Could not load — pick fallback</option>
+          <option value="California">California</option>
+          <option value="Florida">Florida</option>
+          <option value="Michigan">Michigan</option>
+          <option value="New York">New York</option>
+          <option value="Texas">Texas</option>
+        `;
+        stateSelect.disabled = false;
+      }
+    }
+    
+    async function populateCities(stateName) {
+      try {
+        cityInput.disabled = true;
+        cityInput.value = '';
+        cityList.innerHTML = '';    // keep empty until user types
+        cityAllOptions = [];
+    
+        const res  = await fetch(US_CITIES_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ country: 'United States', state: stateName })
+        });
+        const json = await res.json();
+    
+        cityAllOptions = (json?.data || [])
+          .filter(Boolean)
+          .sort((a, b) => a.localeCompare(b));
+    
+        cityInput.disabled = false;
+        cityInput.focus();
+      } catch (e) {
+        console.error('Failed to load cities:', e);
+        cityAllOptions = [];
+        cityInput.disabled = false;
+      }
+    }
+    
+    //opens your preresult modal
+    function showPreResultsFlow() {
+      if (!overlayEl || !modalEl) {
+        console.warn('Pre-results UI missing; showing results directly.');
+        return showResults();
+      }
+      overlayEl.style.display = 'block';
+      modalEl.style.display   = 'flex';
+    
+      // lock scroll
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    
+      wirePreResultsControls();
+      setActiveStep(0);
+    }
+    
+    function hidePreResultsFlow() {
+      if (overlayEl) overlayEl.style.display = 'none';
+      if (modalEl)   modalEl.style.display   = 'none';
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+    // Wire all modal controls once (Back / Next / Finish / Skip + inputs)
+  function wirePreResultsControls() {
+    if (mpqWired) return;
+    mpqWired = true;
 
-	function MobileDevice() {
-		return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-	}
+    // Skip → treat as skipped and show results
+    skipBtn.addEventListener('click', () => {
+      microTap(skipBtn);
+      skipBtn.disabled = true;
+      // logModalAnswer('skipped');
+      pauseThen(() => {
+        hidePreResultsFlow();
+        showResults();
+        skipBtn.disabled = false;
+      }, 100);
+    });
 
-	if (MobileDevice()) {
-		bodyElement.style.backgroundColor = 'black';
-		document.querySelectorAll('#feedback-form label').forEach(label => {
-			label.style.fontWeight = '550';
-		});
-	}
-	// Show Next Steps Popup
+    // Back
+    backBtn.addEventListener('click', () => {
+      microTap(backBtn);
+      if (mpqStepIndex > 0) setActiveStep(mpqStepIndex - 1);
+    });
+
+    // Next (step 0 → 1, step 1 → 2)
+    nextBtn.addEventListener('click', () => {
+      microTap(nextBtn);
+    
+      if (mpqStepIndex === 0) {
+        mpqPreResult.userType = userTypeSelect.value || null;
+      } else if (mpqStepIndex === 1) {
+        const val = (cityInput.value || '').trim();
+        mpqPreResult.location = {
+          state: stateSelect.value || null,
+          city:  cityAllOptions.includes(val) ? val : null
+        };
+      }
+    
+      setActiveStep(mpqStepIndex + 1);
+    }); 
+
+  // Finish (step 2)
+  finishBtn.addEventListener('click', async () => {
+    microTap(finishBtn);
+    const emailVal = (emailInput.value || '').trim();
+    mpqPreResult.email = emailVal.length ? emailVal : null;
+  
+    // show button loader + timebox the wait so UI never feels stuck
+    setBtnLoading(finishBtn, true, 'Saving…');
+    try {
+      await Promise.race([
+        savePreResultsToSheet(mpqPreResult),      // your existing logger
+        new Promise(r => setTimeout(r, 1200))     // cap perceived wait
+      ]);
+    } finally {
+      setBtnLoading(finishBtn, false);
+    }
+  
+    hidePreResultsFlow();
+    showResults();  // keep or guard with your flag if you don’t want to show results here
+  });
+  
+    // Live validation + dynamics
+    userTypeSelect?.addEventListener('change', () => {
+      const wrap = document.querySelector('.mpq-select-wrap') || userTypeSelect;
+      wrap.style.opacity = '0.85';
+      setTimeout(() => { wrap.style.opacity = ''; }, 140);
+      validateCurrentStep();
+    });
+
+    stateSelect?.addEventListener('change', async () => {
+      const stateName = stateSelect.value;
+      if (stateName) {
+        await populateCities(stateName);
+        mpqPreResult.location.city = null; // reset city until user selects
+      }
+      validateCurrentStep();
+    });
+
+    // Click outside overlay → skip once
+    overlayEl?.addEventListener('click', async () => {
+      // logModalAnswer('skipped');
+      try { await savePreResultsToSheet(mpqPreResult); } catch {}
+      hidePreResultsFlow();
+      showResults();
+    }, { once: true });
+  }
+
+    // ===== Pre-Results (single question) =====
+
+    function setActiveStep(step) {
+      mpqStepIndex = step;
+    
+      document.querySelectorAll('.mpq-step').forEach(s => {
+        s.style.display = Number(s.dataset.step) === step ? 'block' : 'none';
+      });
+    
+      backBtn.style.display   = step === 0 ? 'none' : 'inline-flex';
+      nextBtn.style.display   = step < 2 ? 'inline-flex' : 'none';
+      finishBtn.style.display = step === 2 ? 'inline-flex' : 'none';
+    
+      if (step === 1 && !mpqStatesLoaded) {
+        populateStates();
+      }
+      validateCurrentStep();
+    }
+    
+    function validateCurrentStep() {
+      if (mpqStepIndex === 0) {
+        nextBtn.disabled = !(userTypeSelect && userTypeSelect.value);
+        finishBtn.disabled = true;
+      } else if (mpqStepIndex === 1) {
+        const stateOk = !!stateSelect?.value;
+        const cityVal = (cityInput?.value || '').trim();
+        const cityOk  = cityAllOptions.includes(cityVal);
+        nextBtn.disabled = !(stateOk && cityOk);
+        finishBtn.disabled = true;
+      } else {
+        nextBtn.disabled = true;
+        finishBtn.disabled = false; // email optional
+      }
+    }
+  
+  //popup questions end
+
+  const bodyElement = document.body;
+
+  const totalQuestions = questions.length;
+
+  // forces Safari to recognize :active for start button on mobile devices
+  document.addEventListener("touchstart", function () { }, true);
+
+  // Starts the quiz when the start button is clicked
+  startButton.addEventListener('click', () => {
+    welcomeScreen.style.display = 'none';
+    quizContainer.style.display = 'flex';
+    loadQuestion(currentQuestionIndex); // Load the first question
+  });
+
+  // backbutton
+  const backButton = document.getElementById('back-button');
+  backButton.addEventListener('click', () => {
+    if (MobileDevice()) {
+      backButton.classList.remove("mobile-click");
+      void backButton.offsetWidth;
+      backButton.classList.add("mobile-click");
+    }
+
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      loadQuestion(currentQuestionIndex);
+    } else {
+      // Return to welcome screen if on first question
+      quizContainer.style.display = 'none';
+      welcomeScreen.style.display = 'flex';
+      document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
+      backButton.classList.remove("mobile-click");
+    }
+  });
+
+  document.getElementById('restart-button').addEventListener('click', restartQuiz);
+
+  function MobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
+  if (MobileDevice()) {
+    bodyElement.style.backgroundColor = 'black';
+    document.querySelectorAll('#feedback-form label').forEach(label => {
+      label.style.fontWeight = '550';
+    });
+  }
+  // Show Next Steps Popup
 	document.getElementById('next-steps-button').addEventListener('click', function () {
 		document.querySelector('.overlay').style.display = 'block';
 		document.getElementById('next-steps-popup').style.display = 'block';
@@ -86,20 +414,20 @@ document.addEventListener('DOMContentLoaded', () => {
 		window.open('/src/assets/Money_Mindset_Meetup.jpg', '_blank');
 	});
 
-	// Sets up event listeners for answer buttons
-	document.querySelectorAll('.answer-button').forEach(button => {
-		button.addEventListener('click', function () {
-			recordAnswer(this.value);
+  // Sets up event listeners for answer buttons (NO pause here, per your request)
+  document.querySelectorAll('.answer-button').forEach(button => {
+    button.addEventListener('click', function () {
+      recordAnswer(this.value);
 
-			if (MobileDevice()) {
-				button.classList.remove("mobile-click");
-				void button.offsetWidth;
-				button.classList.add("mobile-click");
-			}
-		});
-	});
+      if (MobileDevice()) {
+        button.classList.remove("mobile-click");
+        void button.offsetWidth;
+        button.classList.add("mobile-click");
+      }
+    });
+  });
 
-	// Attach Download Results button handler ONCE (no nested DOMContentLoaded)
+  // Attach Download Results button handler ONCE (no nested DOMContentLoaded)
 	const downloadBtn = document.getElementById("downloadResultsBtn");
 	if (downloadBtn) {
 		downloadBtn.addEventListener("click", function () {
@@ -118,214 +446,216 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	// Updates the progress bar based on current question index
-	function updateProgressBar() {
-		if (totalQuestions > 0) {
-			const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
-			progressBar.style.width = `${progress}%`;
-		}
-	}
+  // Updates the progress bar based on current question index
+  function updateProgressBar() {
+    if (totalQuestions > 0) {
+      const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
+  }
 
-	// Loads the question at the specified index
-	function loadQuestion(index) {
-		const question = questions[index];
-		document.getElementById('question-text').innerText = question.value;
-		document.getElementById('step-indicator').innerText = `${index + 1} of  ${totalQuestions}`;
+  // Loads the question at the specified index
+  function loadQuestion(index) {
+    const question = questions[index];
+    document.getElementById('question-text').innerText = question.value;
+    document.getElementById('step-indicator').innerText = `${index + 1} of  ${totalQuestions}`;
 
-		updateProgressBar();
+    updateProgressBar();
 
-		document.getElementById('answer-sa').value = "sa";
-		document.getElementById('answer-a').value = "a";
-		document.getElementById('answer-n').value = "n";
-		document.getElementById('answer-d').value = "d";
-		document.getElementById('answer-sd').value = "sd";
+    document.getElementById('answer-sa').value = "sa";
+    document.getElementById('answer-a').value = "a";
+    document.getElementById('answer-n').value = "n";
+    document.getElementById('answer-d').value = "d";
+    document.getElementById('answer-sd').value = "sd";
 
-		// Clear any previously active buttons and previous mobile clicks
-		document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
-		document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('mobile-click'));
+    // Clear any previously active buttons and previous mobile clicks
+    document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('mobile-click'));
 
-		// Highlight the previously selected answer if it exists
-		const selected = selectedAnswers[index];
-		if (selected) {
-			const button = document.querySelector(`.answer-button[value="${selected}"]`);
-			button?.classList.add('active');
-		}
-	}
+    // Highlight the previously selected answer if it exists
+    const selected = selectedAnswers[index];
+    if (selected) {
+      const button = document.querySelector(`.answer-button[value="${selected}"]`);
+      if (button) button.classList.add('active');
+    }
+  }
 
-	// Records the answer and updates the total points
-	function recordAnswer(answer) {
-		const question = questions[currentQuestionIndex];
+  // Records the answer and updates the total points
+  function recordAnswer(answer) {
+    const question = questions[currentQuestionIndex];
 
-		// If a previous answer exists for this question, subtract its points first
-		const previousAnswer = selectedAnswers[currentQuestionIndex];
-		if (previousAnswer) {
-			const prevPoints = question.points[previousAnswer];
-			for (const key in prevPoints) {
-				if (totalPoints.hasOwnProperty(key)) {
-					totalPoints[key] -= prevPoints[key]; // Subtract old points
-				}
-			}
-		}
+    // If a previous answer exists for this question, subtract its points first
+    const previousAnswer = selectedAnswers[currentQuestionIndex];
+    if (previousAnswer) {
+      const prevPoints = question.points[previousAnswer];
+      for (const key in prevPoints) {
+        if (totalPoints.hasOwnProperty(key)) {
+          totalPoints[key] -= prevPoints[key]; // Subtract old points
+        }
+      }
+    }
 
-		// Save the new selected answer
-		selectedAnswers[currentQuestionIndex] = answer;
+    // Save the new selected answer
+    selectedAnswers[currentQuestionIndex] = answer;
 
-		// Add new points
-		const newPoints = question.points[answer];
-		for (const key in newPoints) {
-			if (totalPoints.hasOwnProperty(key)) {
-				totalPoints[key] += newPoints[key];
-			}
-		}
+    // Add new points
+    const newPoints = question.points[answer];
+    for (const key in newPoints) {
+      if (totalPoints.hasOwnProperty(key)) {
+        totalPoints[key] += newPoints[key];
+      }
+    }
 
-		currentQuestionIndex++;
-		if (currentQuestionIndex < questions.length) {
-			loadQuestion(currentQuestionIndex);
-		} else {
-			showResults();
-		}
-	}
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      loadQuestion(currentQuestionIndex);
+    } else {
+      // Show single-step modal BEFORE results
+      showPreResultsFlow();
+    }
+  }
 
-	// Displays the quiz results and personality type
-	function showResults() {
-		let maxPoints = 0;
-		let personalityType = '';
+  // Displays the quiz results and personality type
+  function showResults() {
+    let maxPoints = -Infinity;
+    let personalityType = '';
 
-		// Determine the personality type with the highest points
-		for (const type in totalPoints) {
-			if (totalPoints[type] > maxPoints) {
-				maxPoints = totalPoints[type];
-				personalityType = type;
-			}
-		}
+    // Determine the personality type with the highest points
+    for (const type in totalPoints) {
+      if (totalPoints[type] > maxPoints) {
+        maxPoints = totalPoints[type];
+        personalityType = type;
+      }
+    }
 
-		// 👉 Make the personalityType available to the Download button
+     // 👉 Make the personalityType available to the Download button
 		window.userPersonalityType = personalityType;
 
-		const personalityData = personalitiesData.descriptions[personalityType];
+    const personalityData = personalitiesData.descriptions[personalityType];
 
-		// Hide quiz UI, show results UI
-		progressContainer.style.display = 'none';
-		document.getElementById('step-indicator').style.display = 'none';
-		document.getElementById('question-container').style.display = 'none';
-		document.getElementById('back-button').style.display = 'none';
-		document.getElementById('answers').style.display = 'none';
-		document.getElementById('result-container').style.display = 'block';
-		document.getElementById('quiz-header').style.display = 'none';
+    //display none when result page is shown.
+    progressContainer.style.display = 'none';
+    document.getElementById('step-indicator').style.display = 'none';
+    document.getElementById('question-container').style.display = 'none';
+    document.getElementById('back-button').style.display = 'none';
+    document.getElementById('answers').style.display = 'none';
+    document.getElementById('result-container').style.display = 'block';
+    document.getElementById('quiz-header').style.display = 'none';
 
-		document.getElementById('result-header').innerHTML = `You are most similar to the ${capitalize(personalityData.animal)} 
-      <span id="scrollTextHeader">(Scroll for more)</span>`;
+    document.getElementById('result-header').innerHTML = `You are most similar to the ${capitalize(personalityData.animal)} 
+		<span id="scrollTextHeader">(Scroll for more)</span>`;
 
-		const total = getTotalPoints();
-		const resultsContainer = document.getElementById('detailed-results');
-		resultsContainer.innerHTML = '';
+    const total = getTotalPoints();
+    const resultsContainer = document.getElementById('detailed-results');
+    resultsContainer.innerHTML = '';
 
-		// Sort personality types by percentage
-		const sortedTypes = Object.keys(totalPoints).map(type => {
+    // Sort personality types by percentage
+    const sortedTypes = Object.keys(totalPoints).map(type => {
 			const percentage = (totalPoints[type] / total) * 100;
 			return { type, percentage };
 		}).sort((a, b) => b.percentage - a.percentage);
 
-		// Create buttons for each personality type
-		let scaleFactor = 0;
-		let count = 0;
-		sortedTypes.forEach(({ type, percentage }) => {
-			const animalName = personalitiesData.descriptions[type].animal;
-			const activeSymbol = '<i class="fa-solid fa-eye"></i>';
-			const inactiveSymbol = '';
-			const click = '';
+    // Create buttons for each personality type
+    let scaleFactor = 0;
+    let count = 0;
+    sortedTypes.forEach(({ type, percentage }) => {
+      const animalName = personalitiesData.descriptions[type].animal;
+      const activeSymbol = '<i class="fa-solid fa-eye"></i>';
+      const inactiveSymbol = '';
+      const click = '';
 
-			const button = document.createElement('button');
-			button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
+      const button = document.createElement('button');
+      button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${inactiveSymbol}`;
 
-			button.onclick = () => {
-				showPersonalityDetails(type);
-				for (const btn of resultsContainer.children) {
-					btn.classList.remove('active');
-					btn.style.animation = 'none';
-					btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
-					btn.innerHTML = btn.innerHTML.replace(click, inactiveSymbol);
-				}
-				button.classList.add('active');
-				button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
-			};
+      button.onclick = () => {
+        showPersonalityDetails(type);
+        for (const btn of resultsContainer.children) {
+          btn.classList.remove('active');
+          btn.style.animation = 'none';
+          btn.innerHTML = btn.innerHTML.replace(activeSymbol, inactiveSymbol);
+          btn.innerHTML = btn.innerHTML.replace(click, inactiveSymbol);
+        }
+        button.classList.add('active');
+        button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
+      };
 
-			if (count === 1) {
-				button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${click}`;
-				count = 2;
-			}
+      if (count === 1) {
+        button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${click}`;
+        count = 2;
+      }
 
-			if (count === 0 && type === personalityType) {
-				button.classList.add('active');
-				button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
+      if (count === 0 && type === personalityType) {
+        button.classList.add('active');
+        button.innerHTML = `${capitalize(animalName)}: ${percentage.toFixed(2)}% ${activeSymbol}`;
 
-				count = 1;
+        count = 1;
 				scaleFactor = 100 / percentage;
-				button.style.width = '155%';
-			} else {
-				const buttonWidth = Math.max(105 + (percentage * scaleFactor * 0.6));
-				button.style.width = `${buttonWidth}%`;
-			}
+        button.style.width = '165%';
+      }
+      else {
+        const buttonWidth = Math.max(105 + (percentage * (scaleFactor || 1) * 0.6));
+        button.style.width = `${buttonWidth}%`;
+      }
 
-			resultsContainer.appendChild(button);
-		});
+      resultsContainer.appendChild(button);
+    });
 
-		const scrollDownText1 = document.getElementById('scroll-down-text1');
-		const scrollDownText2 = document.getElementById('scroll-down-text');
-		let scrollTextcount = 0;
-		let scrollTextList = [scrollDownText1, scrollDownText2];
+    const scrollDownText1 = document.getElementById('scroll-down-text1');
+    const scrollDownText2 = document.getElementById('scroll-down-text');
+    let scrollTextcount = 0;
+    let scrollTextList = [scrollDownText1, scrollDownText2];
 
-		scrollTextList.forEach(text => {
-			if (!text) return;
-			const rect = text.getBoundingClientRect();
-			if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-				scrollTextcount++;
-			}
-			if (getComputedStyle(text).display === "none") {
-				scrollTextcount--;
-			}
-		});
+    scrollTextList.forEach(text => {
+      if (!text) return;
+      const rect = text.getBoundingClientRect();
+      if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+        scrollTextcount++;
+      }
+      if (getComputedStyle(text).display === "none") {
+        scrollTextcount--;
+      }
+    });
 
-		const scrollTextHeader = document.getElementById('scrollTextHeader');
+    const scrollTextHeader = document.getElementById('scrollTextHeader');
 
-		if (scrollTextcount === 0 && scrollTextHeader) {
+    if (scrollTextcount === 0 && scrollTextHeader) {
 			scrollTextHeader.style.display = 'inline-block';
 		} else if (scrollTextHeader) {
 			scrollTextHeader.style.display = 'none';
 		}
 
-		const resultsPageContainer = document.getElementById('result-container');
+    const resultsPageContainer = document.getElementById('result-container');
 
-		function onFirstScroll() {
-			if (!scrollTextHeader) return;
-			const currentDisplay = getComputedStyle(scrollTextHeader).display;
-			if (resultsPageContainer.scrollTop > 0 && currentDisplay === "inline-block") {
-				scrollTextHeader.style.display = 'none';
-				resultsPageContainer.removeEventListener('scroll', onFirstScroll);
-			}
-		}
+    function onFirstScroll() {
+      if (!scrollTextHeader) return;
+      const currentDisplay = getComputedStyle(scrollTextHeader).display;
+      if (resultsPageContainer.scrollTop > 0 && currentDisplay === "inline-block") {
+        scrollTextHeader.style.display = 'none';
+        resultsPageContainer.removeEventListener('scroll', onFirstScroll);
+      }
+    }
 
-		resultsPageContainer.addEventListener('scroll', onFirstScroll);
+    resultsPageContainer.addEventListener('scroll', onFirstScroll);
 
-		showPersonalityDetails(personalityType);
+    showPersonalityDetails(personalityType);
 
-		// Save quiz result to the Node.js backend
-		const currentDate = new Date().toISOString();
-		const quizResult = {
-			ResultId: Date.now().toString(),
-			date: currentDate,
-			personalityType: personalityType,
-			saver: totalPoints.saver,
-			spender: totalPoints.spender,
-			investor: totalPoints.investor,
-			compulsive: totalPoints.compulsive,
-			gambler: totalPoints.gambler,
-			debtor: totalPoints.debtor,
-			shopper: totalPoints.shopper,
-			indifferent: totalPoints.indifferent
-		};
-
-		saveQuizResult(quizResult); // Call the new function to save the result
+    // Save quiz result to the backend
+    const currentDate = new Date().toISOString();
+    const quizResult = {
+      ResultId: Date.now().toString(),
+      date: currentDate,
+      personalityType: personalityType,
+      saver: totalPoints.saver,
+      spender: totalPoints.spender,
+      investor: totalPoints.investor,
+      compulsive: totalPoints.compulsive,
+      gambler: totalPoints.gambler,
+      debtor: totalPoints.debtor,
+      shopper: totalPoints.shopper,
+      indifferent: totalPoints.indifferent,     
+    };
+    
+    saveQuizResult(quizResult); // Call the new function to save the result
 
 		function saveQuizResult(quizResult) {
 			fetch("/api/save-result", {
@@ -338,8 +668,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				.then(res => res.json())
 				.then(data => console.log("✅ Result saved to backend:", data))
 				.catch(err => console.error("❌ Error saving to backend:", err));
-		}
-
+    }
+  
 		async function saveQuizResultLegacy(quizResult) {
 			try {
 				const response = await fetch('https://mpq-backend.onrender.com/save-quiz-result', {
@@ -361,9 +691,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
-		const userCommentArea = document.getElementById('userInput');
-		const inappropriateWords = obscenity['badWords'];
-		const inappropriateEmojis = obscenity['badEmojis'];
+    const userCommentArea = document.getElementById('userInput');
+    const inappropriateWords = obscenity['badWords'];
+    const inappropriateEmojis = obscenity['badEmojis'];
 
 		// This checks for the custom profanity (words & emojis) created in profanity.js
 		function containsCustomProfanity(text) {
@@ -374,18 +704,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			return foundEmoji || foundWord;
 		}
 
-		document.getElementById('feedback-form').addEventListener('submit', async (event) => {
-			event.preventDefault(); // Prevent default form submission
+    document.getElementById('feedback-form').addEventListener('submit', async (event) => {
+      event.preventDefault(); // Prevent default form submission
 
-			const unCleanComment = userCommentArea.value.trim();
-			const cleanedComment = profanityCleaner.clean(unCleanComment);
+      const unCleanComment = userCommentArea.value.trim();
+      const cleanedComment = profanityCleaner.clean(unCleanComment);
 
 			if (unCleanComment === "") {
 				console.log("User didn't comment anything.");
 			}
 
-			const foundCustomProfanity = containsCustomProfanity(unCleanComment);
-			const foundLibraryProfanity = cleanedComment !== unCleanComment;
+      const foundCustomProfanity = containsCustomProfanity(unCleanComment);
+      const foundLibraryProfanity = cleanedComment !== unCleanComment;
 
 			if (foundLibraryProfanity || foundCustomProfanity) {
 				console.warn('Profanity detected!!');
@@ -394,14 +724,14 @@ document.addEventListener('DOMContentLoaded', () => {
 				console.log(cleanedComment);
 			}
 
-			const feedbackData = {
-				shareHabits: event.target.shareHabits.value,
-				recommendSurvey: event.target.recommendSurvey.value,
-				resultsAccurate: event.target.resultsAccurate.value,
-				resultsHelpful: event.target.resultsHelpful.value,
-				practicalSteps: event.target.practicalSteps.value,
-				timestamp: currentDate  // Add the current timestamp to the feedback data
-			};
+      const feedbackData = {
+        shareHabits: event.target.shareHabits.value,
+        recommendSurvey: event.target.recommendSurvey.value,
+        resultsAccurate: event.target.resultsAccurate.value,
+        resultsHelpful: event.target.resultsHelpful.value,
+        practicalSteps: event.target.practicalSteps.value,
+        timestamp: currentDate  // Add the current timestamp to the feedback data
+      };
 
 			try {
 				const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', {
@@ -433,33 +763,32 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 
-		// pushpa starts
+    // pushpa starts
 		function showPersonalityDetails(personalityType) {
 			const data = personalitiesData.descriptions[personalityType];
 			if (!data) return;
 
-			document.getElementById("descriptionText").textContent = data.description;
-			injectList("advantagesList", data.advantages);
-			injectList("disadvantagesList", data.disadvantages);
-			injectList("motivatorsList", data.motivators);
-			injectList("demotivatorsList", data.demotivators);
+      document.getElementById("descriptionText").textContent = data.description;
+      injectList("advantagesList", data.advantages);
+      injectList("disadvantagesList", data.disadvantages);
+      injectList("motivatorsList", data.motivators);
+      injectList("demotivatorsList", data.demotivators);
 
-			const blueAdvantage = document.querySelector('.advantages.card.blue');
-			const animalIconSymbol = document.querySelector('.animal_assets');
+      const blueAdvantage = document.querySelector('.advantages.card.blue');
+      const animalIconSymbol = document.querySelector('.animal_assets');
 
-			// Create a resize observer
-			const observer = new ResizeObserver(entries => {
-				for (let entry of entries) {
-					const height = entry.target.getBoundingClientRect().height;
-					animalIconSymbol.style.top = (height + 5) + 'px';
-				}
-			});
+      // Create a resize observer
+        const observer = new ResizeObserver(entries => {
+          for (let entry of entries) {
+            const height = entry.target.getBoundingClientRect().height;
+            animalIconSymbol.style.top = (height + 5) + 'px';
+          }
+        });
 
 			if (blueAdvantage && animalIconSymbol) {
 				observer.observe(blueAdvantage);
 			}
-
-			const resultImage = document.getElementById("polaroid-animal-image");
+      const resultImage = document.getElementById("polaroid-animal-image");
 			const imageMap = {
 				"saver": "/src/assets/animal_pngs/polaroid/past_squirrel.png",
 				"spender": "/src/assets/animal_pngs/polaroid/past_poodle.png",
@@ -514,9 +843,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		}
 		// pushpa ends
-	}
-
-	// Gets collective points
+  }
+  // Gets collective points
 	function getTotalPoints() {
 		return Object.values(totalPoints).reduce((sum, points) => sum + points, 0);
 	}
@@ -531,11 +859,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.body.style.overflow = 'hidden'; // body
 	});
 
-	document.addEventListener('click', function (event) {
-		let feedbackPopup = document.getElementById('feedback-popup');
-		const overlay = document.querySelector('.overlay');
+  document.addEventListener('click', function (event) {
+    let feedbackPopup = document.getElementById('feedback-popup');
+    const overlay = document.querySelector('.overlay');
 
-		if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
+    if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
 			feedbackPopup.classList.remove('active');
 			overlay.classList.remove('visible');
 			document.documentElement.style.overflow = 'auto'; // html
@@ -553,10 +881,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.body.style.overflow = 'auto'; // body
 	});
 
-	document.getElementById('userCommentBtn').addEventListener('click', function () {
-		document.getElementById('userInput').style.display = 'block';
-		document.getElementById('userCommentBtn').style.display = 'none';
-	});
+  document.getElementById('userCommentBtn').addEventListener('click', function () {
+    document.getElementById('userInput').style.display = 'block';
+    document.getElementById('userCommentBtn').style.display = 'none';
+  });
 
 	document.querySelectorAll('select').forEach(select => {
 		select.addEventListener('change', () => {
@@ -619,7 +947,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 });
-
 // Utility
 function capitalize(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);

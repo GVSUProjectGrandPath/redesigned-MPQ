@@ -184,6 +184,8 @@
     display: flex;
     flex-direction: column;
     left: 2%;
+    max-width: 225px;
+    
   }
   #result-section1{
     margin-right: unset;
@@ -208,7 +210,7 @@
     /* margin-top: 2%;*/
   }
   #result-section2{
-    margin-left: 25%;
+    margin-left: 23%;
   }
  
   .restart-button, .feedback-button {
