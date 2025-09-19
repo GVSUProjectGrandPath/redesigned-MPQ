@@ -8,21 +8,21 @@ const questions = [
       },
       "a": {
         "saver": 4,
-        "compulsive": 2,
+        "hustler": 2,
         "indifferent": 2
       },
       "n": {
         "saver": 2,
         "investor": 2,
-        "compulsive": 1,
+        "hustler": 1,
         "indifferent": 1,
         "shopper": 1,
-        "gambler": 1
+        "risk-taker": 1
       },
       "d": {
         "investor": 4,
         "shopper": 2,
-        "gambler": 2
+        "risk-taker": 2
       },
       "sd": {
         "investor": 8
@@ -45,23 +45,23 @@ const questions = [
       "a": {
         "saver": 4,
         "investor": 2,
-        "compulsive": 2
+        "hustler": 2
       },
       "n": {
         "saver": 2,
-        "debtor": 2,
-        "compulsive": 1,
+        "defensive": 2,
+        "hustler": 1,
         "investor": 1,
-        "spender": 1,
-        "gambler": 1
+        "lavish": 1,
+        "risk-taker": 1
       },
       "d": {
-        "debtor": 4,
-        "spender": 2,
-        "gambler": 2
+        "defensive": 4,
+        "lavish": 2,
+        "risk-taker": 2
       },
       "sd": {
-        "debtor": 8
+        "defensive": 8
       }
     },
     "spectrum_points": {
@@ -76,18 +76,18 @@ const questions = [
     "value": "I often spend more money than I actually have because I want to maintain a certain lifestyle.",
     "points": {
       "sa": {
-        "spender": 8
+        "lavish": 8
       },
       "a": {
-        "spender": 4,
-        "gambler": 2,
-        "debtor": 2
+        "lavish": 4,
+        "risk-taker": 2,
+        "defensive": 2
       },
       "n": {
-        "spender": 2,
+        "lavish": 2,
         "saver": 2,
-        "gambler": 1,
-        "debtor": 1,
+        "risk-taker": 1,
+        "defensive": 1,
         "indifferent": 1,
         "investor": 1
       },
@@ -112,17 +112,17 @@ const questions = [
     "value": "What really motivates me to earn more money is having luxury goods.",
     "points": {
       "sa": {
-        "spender": 8
+        "lavish": 8
       },
       "a": {
-        "spender": 4,
-        "compulsive": 2,
+        "lavish": 4,
+        "hustler": 2,
         "shopper": 2
       },
       "n": {
-        "spender": 2,
+        "lavish": 2,
         "indifferent": 2,
-        "compulsive": 1,
+        "hustler": 1,
         "shopper": 1,
         "saver": 1,
         "investor": 1
@@ -152,24 +152,24 @@ const questions = [
       },
       "a": {
         "shopper": 4,
-        "debtor": 2,
+        "defensive": 2,
         "saver": 2
       },
       "n": {
         "shopper": 2,
-        "spender": 2,
-        "debtor": 1,
-        "gambler": 1,
+        "lavish": 2,
+        "defensive": 1,
+        "risk-taker": 1,
         "saver": 1,
         "investor": 1
       },
       "d": {
-        "spender": 4,
-        "gambler": 2,
+        "lavish": 4,
+        "risk-taker": 2,
         "investor": 2
       },
       "sd": {
-        "spender": 8
+        "lavish": 8
       }
     },
     "spectrum_points": {
@@ -188,24 +188,24 @@ const questions = [
       },
       "a": {
         "shopper": 4,
-        "spender": 2,
-        "gambler": 2
+        "lavish": 2,
+        "risk-taker": 2
       },
       "n": {
         "shopper": 2,
-        "compulsive": 2,
-        "debtor": 1,
-        "gambler": 1,
-        "spender": 1,
+        "hustler": 2,
+        "defensive": 1,
+        "risk-taker": 1,
+        "lavish": 1,
         "indifferent": 1
       },
       "d": {
-        "compulsive": 4,
-        "debtor": 2,
+        "hustler": 4,
+        "defensive": 2,
         "indifferent": 2
       },
       "sd": {
-        "compulsive": 8
+        "hustler": 8
       }
     },
     "spectrum_points": {
@@ -220,24 +220,24 @@ const questions = [
     "value": "It makes me anxious to take time off because I could be using my time to make money instead.",
     "points": {
       "sa": {
-        "compulsive": 8
+        "hustler": 8
       },
       "a": {
-        "compulsive": 4,
+        "hustler": 4,
         "investor": 2,
-        "debtor": 2
+        "defensive": 2
       },
       "n": {
-        "compulsive": 2,
+        "hustler": 2,
         "indifferent": 2,
-        "debtor": 1,
-        "spender": 1,
+        "defensive": 1,
+        "lavish": 1,
         "saver": 1,
         "investor": 1
       },
       "d": {
         "indifferent": 4,
-        "spender": 2,
+        "lavish": 2,
         "saver": 2
       },
       "sd": {
@@ -256,28 +256,28 @@ const questions = [
     "value": "It is important to me that others view me as financially successful.",
     "points": {
       "sa": {
-        "compulsive": 8
+        "hustler": 8
       },
       "a": {
-        "compulsive": 4,
+        "hustler": 4,
         "shopper": 2,
-        "spender": 2
+        "lavish": 2
       },
       "n": {
-        "compulsive": 2,
-        "gambler": 2,
-        "debtor": 1,
-        "spender": 1,
+        "hustler": 2,
+        "risk-taker": 2,
+        "defensive": 1,
+        "lavish": 1,
         "shopper": 1,
         "indifferent": 1
       },
       "d": {
-        "gambler": 4,
+        "risk-taker": 4,
         "indifferent": 2,
-        "debtor": 2
+        "defensive": 2
       },
       "sd": {
-        "gambler": 8
+        "risk-taker": 8
       }
     },
     "spectrum_points": {
@@ -292,25 +292,25 @@ const questions = [
     "value": "I avoid looking at my finances because it makes me uncomfortable to see how much money is leaving my account.",
     "points": {
       "sa": {
-        "debtor": 8
+        "defensive": 8
       },
       "a": {
-        "debtor": 4,
-        "gambler": 2,
+        "defensive": 4,
+        "risk-taker": 2,
         "shopper": 2
       },
       "n": {
-        "debtor": 2,
+        "defensive": 2,
         "investor": 2,
-        "gambler": 1,
+        "risk-taker": 1,
         "saver": 1,
         "shopper": 1,
-        "compulsive": 1
+        "hustler": 1
       },
       "d": {
         "investor": 4,
         "saver": 2,
-        "compulsive": 2
+        "hustler": 2
       },
       "sd": {
         "investor": 8
@@ -328,25 +328,25 @@ const questions = [
     "value": "My savings plan is to simply avoid spending money whenever possible.",
     "points": {
       "sa": {
-        "debtor": 8
+        "defensive": 8
       },
       "a": {
-        "debtor": 4,
+        "defensive": 4,
         "saver": 2,
         "indifferent": 2
       },
       "n": {
-        "debtor": 2,
+        "defensive": 2,
         "shopper": 2,
         "indifferent": 1,
         "saver": 1,
-        "spender": 1,
-        "gambler": 1
+        "lavish": 1,
+        "risk-taker": 1
       },
       "d": {
         "shopper": 4,
-        "spender": 2,
-        "gambler": 2
+        "lavish": 2,
+        "risk-taker": 2
       },
       "sd": {
         "shopper": 8
@@ -368,24 +368,24 @@ const questions = [
       },
       "a": {
         "indifferent": 4,
-        "debtor": 2,
+        "defensive": 2,
         "shopper": 2
       },
       "n": {
         "indifferent": 2,
-        "compulsive": 2,
+        "hustler": 2,
         "saver": 1,
         "investor": 1,
-        "debtor": 1,
+        "defensive": 1,
         "shopper": 1
       },
       "d": {
-        "compulsive": 4,
+        "hustler": 4,
         "saver": 2,
         "investor": 2
       },
       "sd": {
-        "compulsive": 8
+        "hustler": 8
       }
     },
     "spectrum_points": {
@@ -404,21 +404,21 @@ const questions = [
       },
       "a": {
         "indifferent": 4,
-        "gambler": 2,
+        "risk-taker": 2,
         "investor": 2
       },
       "n": {
         "indifferent": 2,
         "saver": 2,
-        "gambler": 1,
+        "risk-taker": 1,
         "investor": 1,
-        "spender": 1,
-        "compulsive": 1
+        "lavish": 1,
+        "hustler": 1
       },
       "d": {
         "saver": 4,
-        "spender": 2,
-        "compulsive": 2
+        "lavish": 2,
+        "hustler": 2
       },
       "sd": {
         "saver": 8
@@ -440,24 +440,24 @@ const questions = [
       },
       "a": {
         "investor": 4,
-        "compulsive": 2,
+        "hustler": 2,
         "indifferent": 2
       },
       "n": {
         "investor": 2,
-        "gambler": 2,
-        "compulsive": 1,
+        "risk-taker": 2,
+        "hustler": 1,
         "indifferent": 1,
-        "debtor": 1,
+        "defensive": 1,
         "shopper": 1
       },
       "d": {
-        "gambler": 4,
+        "risk-taker": 4,
         "shopper": 2,
-        "debtor": 2
+        "defensive": 2
       },
       "sd": {
-        "gambler": 8
+        "risk-taker": 8
       }
     },
     "spectrum_points": {
@@ -481,19 +481,19 @@ const questions = [
       },
       "n": {
         "investor": 2,
-        "spender": 2,
+        "lavish": 2,
         "saver": 1,
         "indifferent": 1,
-        "debtor": 1,
+        "defensive": 1,
         "shopper": 1
       },
       "d": {
-        "spender": 4,
+        "lavish": 4,
         "shopper": 2,
-        "debtor": 2
+        "defensive": 2
       },
       "sd": {
-        "spender": 8
+        "lavish": 8
       }
     },
     "spectrum_points": {
@@ -508,25 +508,25 @@ const questions = [
     "value": "When I lose money, it really gets me down and messes with my emotions and/or thoughts. I feel the urge to bounce back fast from these losses, not just for my money but for my mental health too.",
     "points": {
       "sa": {
-        "gambler": 8
+        "risk-taker": 8
       },
       "a": {
-        "gambler": 4,
+        "risk-taker": 4,
         "saver": 2,
-        "spender": 2
+        "lavish": 2
       },
       "n": {
-        "gambler": 2,
+        "risk-taker": 2,
         "shopper": 2,
         "saver": 1,
-        "spender": 1,
+        "lavish": 1,
         "indifferent": 1,
-        "compulsive": 1
+        "hustler": 1
       },
       "d": {
         "shopper": 4,
         "indifferent": 2,
-        "compulsive": 2
+        "hustler": 2
       },
       "sd": {
         "shopper": 8
@@ -544,28 +544,28 @@ const questions = [
     "value": "I’m willing to put a lot of money in risky investments because higher risk means higher rewards.",
     "points": {
       "sa": {
-        "gambler": 8
+        "risk-taker": 8
       },
       "a": {
-        "gambler": 4,
+        "risk-taker": 4,
         "investor": 2,
-        "spender": 2
+        "lavish": 2
       },
       "n": {
-        "gambler": 2,
-        "debtor": 2,
+        "risk-taker": 2,
+        "defensive": 2,
         "investor": 1,
-        "spender": 1,
+        "lavish": 1,
         "shopper": 1,
-        "compulsive": 1
+        "hustler": 1
       },
       "d": {
-        "debtor": 4,
+        "defensive": 4,
         "shopper": 2,
-        "compulsive": 2
+        "hustler": 2
       },
       "sd": {
-        "debtor": 8
+        "defensive": 8
       }
     },
     "spectrum_points": {

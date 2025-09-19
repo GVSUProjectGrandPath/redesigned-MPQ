@@ -2,11 +2,11 @@ let currentQuestionIndex = 0; // Tracks the current question index
 let selectedAnswers = []; // array for selected answers
 let totalPoints = {
   "saver": 0,
-  "spender": 0,
+  "lavish": 0,
   "investor": 0,
-  "compulsive": 0,
-  "gambler": 0,
-  "debtor": 0,
+  "hustler": 0,
+  "risk-taker": 0,
+  "defensive": 0,
   "shopper": 0,
   "indifferent": 0
 }; // Stores total points for each personality type
@@ -387,6 +387,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   }
 
+  function updateScrollLock() {
+    const feedbackPopup = document.getElementById('feedback-popup');
+	  const nextStepsPopup = document.getElementById('next-steps-popup');
+
+    const isFeedbackOpen = feedbackPopup.classList.contains('active');
+    const isNextStepsOpen = window.getComputedStyle(nextStepsPopup).display === "block"; 
+    const isAnyPopupOpen = isFeedbackOpen || isNextStepsOpen;
+
+    if (isAnyPopupOpen) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.documentElement.style.overflow = 'auto';
+      document.body.style.overflow = 'auto';
+    }
+}
+
   if (MobileDevice()) {
     bodyElement.style.backgroundColor = 'black';
     document.querySelectorAll('#feedback-form label').forEach(label => {
@@ -395,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // Show Next Steps Popup
 	document.getElementById('next-steps-button').addEventListener('click', function () {
-		document.querySelector('.overlay').style.display = 'block';
+		document.querySelector('.nextStepsOverlay').style.display = 'block';
 		document.getElementById('next-steps-popup').style.display = 'block';
 		document.documentElement.style.overflow = 'hidden';
 		document.body.style.overflow = 'hidden';
@@ -403,10 +420,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Close Next Steps Popup
 	document.getElementById('closeNextStepsPopup').addEventListener('click', function () {
-		document.querySelector('.overlay').style.display = 'none';
+		document.querySelector('.nextStepsOverlay').style.display = 'none';
 		document.getElementById('next-steps-popup').style.display = 'none';
-		document.documentElement.style.overflow = 'auto';
-		document.body.style.overflow = 'auto';
+    updateScrollLock();
+		// document.documentElement.style.overflow = 'auto';
+		// document.body.style.overflow = 'auto';
 	});
 
 	// Open Money Mindset Meetup JPG in new window
@@ -646,11 +664,11 @@ document.addEventListener('DOMContentLoaded', () => {
       date: currentDate,
       personalityType: personalityType,
       saver: totalPoints.saver,
-      spender: totalPoints.spender,
+      lavish: totalPoints.lavish,
       investor: totalPoints.investor,
-      compulsive: totalPoints.compulsive,
-      gambler: totalPoints.gambler,
-      debtor: totalPoints.debtor,
+      hustler: totalPoints.hustler,
+      risktaker: totalPoints["risk-taker"],
+      defensive: totalPoints.defensive,
       shopper: totalPoints.shopper,
       indifferent: totalPoints.indifferent,     
     };
@@ -691,45 +709,47 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
-    const userCommentArea = document.getElementById('userInput');
-    const inappropriateWords = obscenity['badWords'];
-    const inappropriateEmojis = obscenity['badEmojis'];
+    // comment section code
+    // const userCommentArea = document.getElementById('userInput');
+    // const inappropriateWords = obscenity['badWords'];
+    // const inappropriateEmojis = obscenity['badEmojis'];
 
 		// This checks for the custom profanity (words & emojis) created in profanity.js
-		function containsCustomProfanity(text) {
-			const words = text.toLowerCase().split(/\s+/);
-			const chars = Array.from(text);
-			const foundWord = words.some(word => inappropriateWords[word] || inappropriateEmojis[word]);
-			const foundEmoji = chars.some(char => inappropriateEmojis[char]);
-			return foundEmoji || foundWord;
-		}
+		// function containsCustomProfanity(text) {
+		// 	const words = text.toLowerCase().split(/\s+/);
+		// 	const chars = Array.from(text);
+		// 	const foundWord = words.some(word => inappropriateWords[word] || inappropriateEmojis[word]);
+		// 	const foundEmoji = chars.some(char => inappropriateEmojis[char]);
+		// 	return foundEmoji || foundWord;
+		// }
 
     document.getElementById('feedback-form').addEventListener('submit', async (event) => {
       event.preventDefault(); // Prevent default form submission
 
-      const unCleanComment = userCommentArea.value.trim();
-      const cleanedComment = profanityCleaner.clean(unCleanComment);
+      // comment section code for later
+      // const unCleanComment = userCommentArea.value.trim();
+      // const cleanedComment = profanityCleaner.clean(unCleanComment);
 
-			if (unCleanComment === "") {
-				console.log("User didn't comment anything.");
-			}
+			// if (unCleanComment === "") {
+			// 	console.log("User didn't comment anything.");
+			// }
 
-      const foundCustomProfanity = containsCustomProfanity(unCleanComment);
-      const foundLibraryProfanity = cleanedComment !== unCleanComment;
+      // const foundCustomProfanity = containsCustomProfanity(unCleanComment);
+      // const foundLibraryProfanity = cleanedComment !== unCleanComment;
 
-			if (foundLibraryProfanity || foundCustomProfanity) {
-				console.warn('Profanity detected!!');
-				catchedBadInput = false;
-			} else {
-				console.log(cleanedComment);
-			}
+			// if (foundLibraryProfanity || foundCustomProfanity) {
+			// 	console.warn('Profanity detected!!');
+			// 	catchedBadInput = false;
+			// } else {
+			// 	console.log(cleanedComment);
+			// }
 
       const feedbackData = {
-        shareHabits: event.target.shareHabits.value,
+        // shareHabits: event.target.shareHabits.value,
         recommendSurvey: event.target.recommendSurvey.value,
-        resultsAccurate: event.target.resultsAccurate.value,
+        // resultsAccurate: event.target.resultsAccurate.value,
         resultsHelpful: event.target.resultsHelpful.value,
-        practicalSteps: event.target.practicalSteps.value,
+        // practicalSteps: event.target.practicalSteps.value,
         timestamp: currentDate  // Add the current timestamp to the feedback data
       };
 
@@ -791,11 +811,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const resultImage = document.getElementById("polaroid-animal-image");
 			const imageMap = {
 				"saver": "/src/assets/animal_pngs/polaroid/past_squirrel.png",
-				"spender": "/src/assets/animal_pngs/polaroid/past_poodle.png",
+				"lavish": "/src/assets/animal_pngs/polaroid/past_poodle.png",
 				"investor": "/src/assets/animal_pngs/polaroid/past_owl.png",
-				"compulsive": "/src/assets/animal_pngs/polaroid/past_bee.png",
-				"gambler": "/src/assets/animal_pngs/polaroid/past_rabbit.png",
-				"debtor": "/src/assets/animal_pngs/polaroid/past_armadillo.png",
+				"hustler": "/src/assets/animal_pngs/polaroid/past_bee.png",
+				"risk-taker": "/src/assets/animal_pngs/polaroid/past_rabbit.png",
+				"defensive": "/src/assets/animal_pngs/polaroid/past_armadillo.png",
 				"shopper": "/src/assets/animal_pngs/polaroid/past_octopus.png",
 				"indifferent": "/src/assets/animal_pngs/polaroid/past_panda.png"
 			};
@@ -817,11 +837,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			const personalityIconImg = document.getElementById("personality-icon");
 			const iconMap = {
 				"saver": "acorn.png",
-				"spender": "diamond.png",
+				"lavish": "diamond.png",
 				"investor": "feather.png",
-				"compulsive": "beehive.png",
-				"gambler": "carrot.png",
-				"debtor": "Piggy Bank.png",
+				"hustler": "beehive.png",
+				"risk-taker": "carrot.png",
+				"defensive": "Piggy Bank.png",
 				"shopper": "Seasell.png",
 				"indifferent": "panda paw.png"
 			};
@@ -862,13 +882,24 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', function (event) {
     let feedbackPopup = document.getElementById('feedback-popup');
     const overlay = document.querySelector('.overlay');
+	  let nextStepsPopup = document.getElementById('next-steps-popup');
+    const nextStepsOverlay = document.querySelector('.nextStepsOverlay');
 
     if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
-			feedbackPopup.classList.remove('active');
-			overlay.classList.remove('visible');
-			document.documentElement.style.overflow = 'auto'; // html
-			document.body.style.overflow = 'auto'; // body
-		}
+      feedbackPopup.classList.remove('active');
+      overlay.classList.remove('visible');
+      updateScrollLock();
+      // document.documentElement.style.overflow = 'auto'; // html
+      // document.body.style.overflow = 'auto'; // body
+	  }
+
+    if (!nextStepsPopup.contains(event.target) && event.target.id !== 'next-steps-button') {
+      nextStepsPopup.style.display = 'none';
+      nextStepsOverlay.style.display = 'none';
+      updateScrollLock();
+      // document.documentElement.style.overflow = 'auto'; // html
+      // document.body.style.overflow = 'auto'; // body
+    }
 	});
 
 	document.getElementById('closeXbutton').addEventListener('click', function () {
@@ -877,14 +908,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		feedbackPopup.classList.remove('active');
 		overlay.classList.remove('visible');
-		document.documentElement.style.overflow = 'auto'; // html
-		document.body.style.overflow = 'auto'; // body
+    updateScrollLock();
+		// document.documentElement.style.overflow = 'auto'; // html
+		// document.body.style.overflow = 'auto'; // body
 	});
 
-  document.getElementById('userCommentBtn').addEventListener('click', function () {
-    document.getElementById('userInput').style.display = 'block';
-    document.getElementById('userCommentBtn').style.display = 'none';
-  });
+  // document.getElementById('userCommentBtn').addEventListener('click', function () {
+  //   document.getElementById('userInput').style.display = 'block';
+  //   document.getElementById('userCommentBtn').style.display = 'none';
+  // });
 
 	document.querySelectorAll('select').forEach(select => {
 		select.addEventListener('change', () => {
@@ -900,11 +932,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		currentQuestionIndex = 0;
 		totalPoints = {
 			"saver": 0,
-			"spender": 0,
+			"lavish": 0,
 			"investor": 0,
-			"compulsive": 0,
-			"gambler": 0,
-			"debtor": 0,
+			"hustler": 0,
+			"risk-taker": 0,
+			"defensive": 0,
 			"shopper": 0,
 			"indifferent": 0
 		};
@@ -930,11 +962,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 			totalPoints = {
 				"saver": 10,
-				"spender": 7,
+				"lavish": 7,
 				"investor": 5,
-				"compulsive": 4,
-				"gambler": 3,
-				"debtor": 2,
+				"hustler": 4,
+				"risk-taker": 3,
+				"defensive": 2,
 				"shopper": 1,
 				"indifferent": 1
 			};
@@ -945,7 +977,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.addEventListener('keyup', (event) => {
 		delete pressedKeys[event.key];
 	});
-
 });
 // Utility
 function capitalize(str) {

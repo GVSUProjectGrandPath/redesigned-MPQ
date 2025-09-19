@@ -164,7 +164,7 @@
           
                 <div class="buttons">
                   <button id="next-steps-button" class="results-btn">Next steps</button>
-                  <button id="send-button">Send Results</button>
+                  <!-- <button id="send-button">Send Results</button> -->
                   <button id="downloadResultsBtn">Download Results</button>
                   <button class="restart" id="restart-button">Restart quiz</button>
                   <button class="feedback" id="feedback-button">Give feedback</button>
@@ -184,17 +184,17 @@
                 </div>
                 <div class="form-content">
                     <form id="feedback-form" novalidate>
-                        <label for="shareHabits">1: Does taking the "Money Personality" quiz make you want to share more about your money habits with your friends?</label>
+                        <!-- <label for="shareHabits">1: Does taking the "Money Personality" quiz make you want to share more about your money habits with your friends?</label>
                         <select id="shareHabits" name="shareHabits" required>
-                            <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
+                            <option value="" disabled selected>Select an answer</option> 
                             <option value="Yes!">Yes!</option>
                             <option value="Kind of…">Kind of…</option>
                             <option value="No">No</option>
-                        </select>
+                        </select> -->
                 
                         <label for="recommendSurvey">2: Would you recommend the Money Personality survey to others?</label>
                         <select id="recommendSurvey" name="recommendSurvey" required>
-                            <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
+                            <option value="" disabled selected>Select an answer</option> 
                             <option value="Definitely">Definitely</option>
                             <option value="Probably">Probably</option>
                             <option value="Not sure">Not sure</option>
@@ -202,15 +202,15 @@
                             <option value="Definitely not">Definitely not</option>
                         </select>
                 
-                        <label for="resultsAccurate">3: Do you feel the results of the Money Personality survey accurately reflected your financial habits?</label>
+                        <!-- <label for="resultsAccurate">3: Do you feel the results of the Money Personality survey accurately reflected your financial habits?</label>
                         <select id="resultsAccurate" name="resultsAccurate" required>
-                            <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
+                            <option value="" disabled selected>Select an answer</option>
                             <option value="Yes, very accurate">Yes, very accurate</option>
                             <option value="Mostly accurate">Mostly accurate</option>
                             <option value="Neutral">Neutral</option>
                             <option value="Somewhat inaccurate">Somewhat inaccurate</option>
                             <option value="Very inaccurate">Very inaccurate</option>
-                        </select>
+                        </select> -->
                 
                         <label for="resultsHelpful">4: Did you find the results helpful in understanding your financial habits?</label>
                         <select id="resultsHelpful" name="resultsHelpful" required>
@@ -222,24 +222,25 @@
                             <option value="Not helpful at all">Not helpful at all</option>
                         </select>
                 
-                        <label for="practicalSteps">5: How helpful do you find the money personality type results in providing practical steps for your financial planning?</label>
+                        <!-- <label for="practicalSteps">5: How helpful do you find the money personality type results in providing practical steps for your financial planning?</label>
                         <select id="practicalSteps" name="practicalSteps" required>
-                            <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
+                            <option value="" disabled selected>Select an answer</option>
                             <option value="Very useful">Very useful</option>
                             <option value="Somewhat useful">Somewhat useful</option>
                             <option value="Neutral">Neutral</option>
                             <option value="Not very useful">Not very useful</option>
                             <option value="Not useful at all">Not useful at all</option>
-                        </select>
-                        <br>
-                        <button id="userCommentBtn" type="button">Leave a comment (Optional)</button>
-                        <textarea id="userInput" placeholder="Write here..."></textarea>
-                        <br>
+                        </select> -->
+                        <!-- <br> -->
+                        <!-- <button id="userCommentBtn" type="button">Leave a comment (Optional)</button>
+                        <textarea id="userInput" placeholder="Write here..."></textarea> -->
+                        <!-- <br> -->
                         <button id="submitBtn" type="submit">Submit Feedback</button>
                     </form>
                 </div>
             </div>
             <!-- Next Steps Popup -->
+            <div class="nextStepsOverlay"></div>
             <div id="next-steps-popup" style="display:none;">
                 <div class="testTopBar">
                     <h2 class="surveyTitle">Next Steps</h2>
@@ -257,7 +258,7 @@
                     <li>Join the REP4ⓇFinLit learning community if you are a GVSU student</li>
                     <li>Share the Money Mindset Quiz with friends and family</li>
                     <li>Discuss your results with friends and family</li>
-                    <li>Signup for our newsletter to stay in the loop and receive more Money Mindset Meetup sample tools</li>
+                    <li>Signup to stay in the loop and receive more Money Mindset Meetup sample tools</li>
                     <li>Have ideas about how we can make a bigger impact with REP4ⓇFinLit? Contact us at <a href="mailto:hello@rep4finlit.org">hello@rep4finlit.org</a></li>
                 </ul>
                 <button id="meetup-jpg-btn" class="results-btn" style="background:#FEDB04; color:#222; margin-top:16px;">
