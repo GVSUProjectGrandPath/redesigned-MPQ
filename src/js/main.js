@@ -723,6 +723,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		// 	return foundEmoji || foundWord;
 		// }
 
+    // const response = await fetch('https://mpq-backend.onrender.com/submit-feedback')
+
     document.getElementById('feedback-form').addEventListener('submit', async (event) => {
       event.preventDefault(); // Prevent default form submission
 
@@ -745,15 +747,22 @@ document.addEventListener('DOMContentLoaded', () => {
 			// }
 
       const feedbackData = {
-        // shareHabits: event.target.shareHabits.value,
-        recommendSurvey: event.target.recommendSurvey.value,
-        // resultsAccurate: event.target.resultsAccurate.value,
-        resultsHelpful: event.target.resultsHelpful.value,
-        // practicalSteps: event.target.practicalSteps.value,
-        timestamp: currentDate  // Add the current timestamp to the feedback data
-      };
+				name: "anonymous",
+				question1: document.querySelector('label[for="recommendSurvey"]').textContent,
+				// shareHabits: event.target.shareHabits.value,
+				answer1: event.target.recommendSurvey.value,
+				question2: document.querySelector('label[for="resultsHelpful"]').textContent,
+				// resultsAccurate: event.target.resultsAccurate.value,
+				answer2: event.target.resultsHelpful.value,
+				company: document.querySelector('input[name="company"]').value,
+				// practicalSteps: event.target.practicalSteps.value,
+				// timestamp: currentDate  // Add the current timestamp to the feedback data
+			};
 
 			try {
+				if (feedbackData.answer1 === '' || feedbackData.answer2 === '') {
+					throw new Error("need to answer both questions!")
+				}
 				const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', {
 					method: 'POST',
 					headers: {
@@ -763,23 +772,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				});
 
 				const result = await response.json();
-				if (response.ok) {
-					alert(result.message);
-				} else {
-					const unfilledLabels = [];
-					let keyNumber = 1;
-					for (const key in feedbackData) {
-						if (feedbackData[key].length == 0) {
-							unfilledLabels.push(`${keyNumber} | `);
-						}
-						keyNumber += 1;
-					}
-					const unfilledLabels_str = unfilledLabels.join('');
-					alert(`${result.error} Here are the unanswered questions: ${unfilledLabels_str}`);
-				}
+				alert(result.message);
+
 			} catch (error) {
-				console.error('Error submitting feedback:', error);
-				alert('Failed to submit feedback. Please try again later.');
+				alert(`Failed to submit feedback. ${error}`);
 			}
 		});
 
