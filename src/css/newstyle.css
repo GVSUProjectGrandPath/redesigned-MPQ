@@ -1000,7 +1000,15 @@ button.loading::after{
 /* Dim/lock footer while opt-in is up (but keep it visible) */
 .mpq-modal-footer.is-disabled { opacity: .4; pointer-events: none; }
 
-
+.mpq-input{
+  height:44px;
+  line-height:44px;
+  font-size:16px;          /* prevents iOS zoom */
+  -webkit-appearance:none; /* flattens native look on iOS */
+  appearance:none;
+}
+select.mpq-input{ -webkit-appearance:menulist; appearance:auto; }
+.mpq-input{ padding:0 12px; box-sizing:border-box; width:100%; }
 
 
 @keyframes mpqspin{ to{ transform:translateY(-50%) rotate(360deg) } }
