@@ -1,13 +1,13 @@
 const personalitiesData = {
     "personalities": [
         "investor",
-        "gambler",
+        "risk-taker",
         "saver",
-        "debtor",
+        "defensive",
         "shopper",
-        "compulsive",
+        "hustler",
         "indifferent",
-        "spender"
+        "lavish"
     ],
     "descriptions": {
         "investor": {
@@ -18,7 +18,7 @@ const personalitiesData = {
             "disadvantages": ["Future Not Guaranteed", "Market Volatility", "Lack of Liquid Income"],
             "animal": "owl"
         },
-        "gambler": {
+        "risk-taker": {
             "description": "Thrill-seeking and quick to act, rabbits enjoy high-risk moves but face potential financial losses.",
             "motivators": ["High Risk, High Reward", "Thrill-seeking", "Gamification"],
             "demotivators": ["Superstition", "Losing Streaks", "Mental Health Toll"],
@@ -34,7 +34,7 @@ const personalitiesData = {
             "disadvantages": ["Overlooks Compound Interest", "Hoard Money", "Lack of Investments"],
             "animal": "squirrel"
         },
-        "debtor": {
+        "defensive": {
             "description": "A cautious personality that protects itself from financial challenges but may struggle with debt due to avoidance of financial management.",
             "motivators": ["Financial Freedom", "Career Choice", "Passive Income"],
             "demotivators": ["Bad Credit", "Debt Obligations", "Overwhelming Interest Rates"],
@@ -50,7 +50,7 @@ const personalitiesData = {
             "disadvantages": ["Compulsive Buying Behavior (CBB)", "Lack of Self Control", "Vulnerable to Scams/Schemes"],
             "animal": "octopus"
         },
-        "compulsive": {
+        "hustler": {
             "description": "Highly competitive and hardworking, bees focus on wealth accumulation but risk burnout.",
             "motivators": ["Approval / Acknowledgement", "Routine", "Passive Income"],
             "demotivators": ["Burnout", "Overextend", "Job Loss"],
@@ -66,7 +66,7 @@ const personalitiesData = {
             "disadvantages": ["Careless About Finances", "Poor Budgeting", "Little to No Savings"],
             "animal": "panda"
         },
-        "spender": {
+        "lavish": {
             "description": "Outgoing and driven by success, poodles enjoy luxury but may overspend to maintain their lifestyle.",
             "motivators": ["Material Possessions", "The Jones’s", "Emotional Comfort"],
             "demotivators": ["Failing to Meet Financial Expectations", "Comparing / Competing Self Image", "Expense Reporting"],
