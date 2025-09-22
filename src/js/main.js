@@ -16,6 +16,8 @@ const COUNTRIES_URL = 'https://countriesnow.space/api/v0.1/countries';
 const US_STATES_URL = 'https://countriesnow.space/api/v0.1/countries/states';
 const US_CITIES_URL = 'https://countriesnow.space/api/v0.1/countries/state/cities';
 
+const OPTIN_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycby7t7mIEgDYofIZ2t7qdJWj63kYOX717jEdkISz8L3EaUTjuP-rNHLTI4qjgWnw6cA/exec'; // <-- their endpoint
+
 let mpqPreResult = {
   userType: null,
   location: { country: null, state: null, city: null },
@@ -85,6 +87,77 @@ document.addEventListener('DOMContentLoaded', () => {
   const stateWrap     = document.getElementById('mpqStateWrap'); // wrapper can be hidden
   let mpqCountriesLoaded = false;
 
+  // diego
+  const optinEl    = document.getElementById('opt_in_screen');
+const optYesBtn  = document.getElementById('confirmBtn');
+const optNoBtn   = document.getElementById('cancelBtn');
+
+function showOptIn() {
+  // hide the global nav while opt-in is up
+  backBtn.style.display = 'none';
+  nextBtn.style.display = 'none';
+  finishBtn.style.display = 'none';
+  skipBtn.style.display = 'none';
+
+  optinEl.style.display = 'flex';
+}
+
+function hideOptIn() {
+  optinEl.style.display = 'none';
+
+  // restore normal nav for step 0
+  backBtn.style.display = 'none';
+  nextBtn.style.display = 'inline-flex';
+  skipBtn.style.display = 'none';
+  finishBtn.style.display = 'none';
+}
+
+// fire opt-in overlay as soon as the pre-results modal opens
+const _origShowPre = showPreResultsFlow;
+showPreResultsFlow = function () {
+  // keep your original behavior
+  if (!overlayEl || !modalEl) return showResults();
+  overlayEl.style.display = 'block';
+  modalEl.style.display   = 'flex';
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+  wirePreResultsControls();
+  setActiveStep(0);      // user type is under the overlay
+  showOptIn();           // <-- this makes opt-in appear first
+};
+
+optYesBtn?.addEventListener('click', async () => {
+  optYesBtn.disabled = true;
+  optYesBtn.textContent = 'Saving…';
+
+  try { await sendOptInToSheet(); } catch (_) {}
+
+  optYesBtn.disabled = false;
+  optYesBtn.textContent = 'Confirm';
+
+  hideOptIn();           // hide the opt-in overlay only
+  setActiveStep(0);      // make sure step 0 (user type) is visible
+  // OR if you want to jump right into country/state/email step:
+  // setActiveStep(1);
+});
+
+
+optNoBtn?.addEventListener('click', async () => {
+  microTap(optNoBtn);
+  setBtnLoading(optNoBtn, true, 'Closing…');
+  try {
+    await new Promise(r => setTimeout(r, 500)); // tiny feedback
+  } finally {
+    setBtnLoading(optNoBtn, false);
+  }
+  hideOptIn();          // close the opt-in overlay
+  hidePreResultsFlow(); // close the whole pre-results modal
+  showResults();        // go straight to results
+});
+
+
+
+  // diego end
 
   // local state
   let mpqStepIndex = 0;          
@@ -192,36 +265,44 @@ stateSelect?.addEventListener('change', async () => {
 });
 
 
-  async function populateCountries() {
-    try {
-      countrySelect.disabled = true;
-      countrySelect.innerHTML = `<option value="" disabled selected>Loading countries…</option>`;
-      const res  = await fetch(COUNTRIES_URL);
-      const json = await res.json();
-      const countries = (json?.data || [])
-        .map(c => c.country || c.name)
-        .filter(Boolean)
-        .sort((a,b) => a.localeCompare(b));
-  
-      countrySelect.innerHTML =
-        `<option value="" disabled selected>Select country</option>` +
-        countries.map(c => `<option value="${c}">${c}</option>`).join('');
-    } catch (e) {
-      console.error('Failed to load countries:', e);
-      countrySelect.innerHTML = `
-        <option value="" disabled selected>Could not load — pick fallback</option>
-        <option value="United States">United States</option>
-        <option value="Canada">Canada</option>
-        <option value="United Kingdom">United Kingdom</option>
-        <option value="Australia">Australia</option>
-        <option value="India">India</option>
-      `;
-    } finally {
-      countrySelect.disabled = false;
-      mpqCountriesLoaded = true;
-    }
+async function populateCountries() {
+  try {
+    countrySelect.disabled = true;
+    countrySelect.innerHTML = `<option value="" disabled selected>Loading countries…</option>`;
+
+    const res  = await fetch(COUNTRIES_URL);
+    const json = await res.json();
+
+    // Build and sort list
+    const countries = (json?.data || [])
+      .map(c => c.country || c.name)
+      .filter(Boolean)
+      .sort((a,b) => a.localeCompare(b));
+
+    // Ensure United States appears first
+    const US = 'United States';
+    const ordered = [US, ...countries.filter(c => c !== US)];
+
+    countrySelect.innerHTML =
+      `<option value="" disabled selected>Select country</option>` +
+      ordered.map(c => `<option value="${c}">${c}</option>`).join('');
+  } catch (e) {
+    console.error('Failed to load countries:', e);
+    // Fallback (already has US first)
+    countrySelect.innerHTML = `
+      <option value="" disabled selected>Could not load — pick fallback</option>
+      <option value="United States">United States</option>
+      <option value="Canada">Canada</option>
+      <option value="United Kingdom">United Kingdom</option>
+      <option value="Australia">Australia</option>
+      <option value="India">India</option>
+    `;
+  } finally {
+    countrySelect.disabled = false;
+    mpqCountriesLoaded = true;
   }
-  
+}
+
     //popup questions start
     async function populateStates() {
       try {
@@ -428,18 +509,13 @@ function validateCurrentStep() {
 
   if (mpqStepIndex === 1) {
     const countryOk = !!countrySelect?.value;
-
-    const hasCityList = cityAllOptions.length > 0;
-    const cityVal = (cityInput?.value || '').trim();
-    const cityOk = hasCityList ? cityAllOptions.includes(cityVal) : cityVal.length >= 2;
-
-    // State is OPTIONAL always
-    nextBtn.disabled   = !(countryOk && cityOk);
+    // City & State are optional now
+    nextBtn.disabled   = !countryOk;
     finishBtn.disabled = true;
     return;
   }
 
-  // step 2 (email) — unchanged
+  // step 2 (email optional)
   nextBtn.disabled = true;
   finishBtn.disabled = false;
 }

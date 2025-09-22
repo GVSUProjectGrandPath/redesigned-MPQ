@@ -192,7 +192,7 @@
                             <option value="No">No</option>
                         </select> -->
                 
-                        <label for="recommendSurvey">2: Would you recommend the Money Personality survey to others?</label>
+                        <label for="recommendSurvey">1: Would you recommend the Money Personality survey to others?</label>
                         <select id="recommendSurvey" name="recommendSurvey" required>
                             <option value="" disabled selected>Select an answer</option> 
                             <option value="Definitely">Definitely</option>
@@ -212,7 +212,7 @@
                             <option value="Very inaccurate">Very inaccurate</option>
                         </select> -->
                 
-                        <label for="resultsHelpful">4: Did you find the results helpful in understanding your financial habits?</label>
+                        <label for="resultsHelpful">2: Did you find the results helpful in understanding your financial habits?</label>
                         <select id="resultsHelpful" name="resultsHelpful" required>
                             <option value="" disabled selected>Select an answer</option> <!-- Placeholder option -->
                             <option value="Yes, very helpful">Yes, very helpful</option>
@@ -257,9 +257,9 @@
                     <strong>Next Steps:</strong>
                 </p>
                 <ul class="next-steps-list">
-                    <li>Join the REP4ⓇFinLit learning community if you are a GVSU student</li>
+                    <li>Join the <a href="https://www.rep4finlit.org">REP4ⓇFinLit learning community</a> if you are a GVSU student</li>
                     <li>Share the Money Mindset Quiz with friends and family</li>
-                    <li>Discuss your results with friends and family</li>
+                    <li>Discuss your results with friends and family using the Money Mindset Meetup worksheet below</li>
                     <li>Signup to stay in the loop and receive more Money Mindset Meetup sample tools</li>
                     <li>Have ideas about how we can make a bigger impact with REP4ⓇFinLit? Contact us at <a href="mailto:hello@rep4finlit.org">hello@rep4finlit.org</a></li>
                 </ul>
@@ -280,6 +280,22 @@
 
 <div id="pre-results-modal" class="mpq-modal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="mpqModalTitle">
   <div class="mpq-modal-inner">
+    <!-- diego -->
+     <!-- Opt-in overlay that sits on top of the modal content -->
+<!-- inside .mpq-modal-inner -->
+<div id="opt_in_screen" class="mpq-optin" style="display:none" aria-hidden="true">
+  <div class="mpq-optin-card">
+    <h3 class="mpq-q-title" style="margin:0 0 8px">Allow FinLit to use anonymous user data?</h3>
+    <a class="mpq-link" href="https://www.rep4finlit.org/privacy?site_template_id=68a326466a89662d080438a0" target="_blank">Privacy Policy</a>
+    <div class="mpq-actions">
+      <button id="confirmBtn" class="mpq-btn mpq-btn--primary">Confirm</button>
+      <button id="cancelBtn"  class="mpq-btn mpq-btn--ghost">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+     <!-- diego -->
     <div class="mpq-modal-header">
       <img src="/src/assets/Logo.png" alt="Logo" class="mpq-modal-logo" />
       <h2 id="mpqModalTitle" class="mpq-modal-title beforewe">Before we reveal your Result...</h2>
@@ -287,7 +303,8 @@
 
     <!-- Step 0: user type -->
     <div class="mpq-step" data-step="0">
-      <h3 class="mpq-q-title">Pick your squad</h3>
+      <h3 class="mpq-q-title">Pick your squad<span style="opacity:.7 ;color:red;font-size:0.9rem; font-style:italic;padding-left:5px; padding-bottom:2px"> (required) </span></h3>
+
       <div class="mpq-field">
         <label class="mpq-label" for="mpqUserType">I’m a…</label>
         <div class="mpq-select-wrap">
@@ -307,7 +324,7 @@
     
       <!-- Country (required) -->
       <div class="mpq-field">
-        <label class="mpq-label" for="mpqCountry">Country</label>
+        <label class="mpq-label" for="mpqCountry">Country <span style="opacity:.7 ;color:red;font-size:0.9rem; font-style:italic;padding-left:5px; padding-bottom:2px"> (required) </span></label>
         <select id="mpqCountry" class="mpq-input">
           <option value="" disabled selected>Select country</option>
         </select>
@@ -315,7 +332,7 @@
     
       <!-- State (optional, only shown for United States) -->
       <div class="mpq-field" id="mpqStateWrap" style="display:none">
-        <label class="mpq-label" for="mpqState">State <span style="opacity:.7">(Optional)</span></label>
+        <label class="mpq-label" for="mpqState">State <span style="opacity:.7 ;font-size:0.9rem; font-style:italic;padding-left:5px; padding-bottom:2px"> (optional) </span></label>
         <select id="mpqState" class="mpq-input" disabled>
           <option value="" selected>(Optional) Select state</option>
         </select>
@@ -323,7 +340,7 @@
     
       <!-- City (required) -->
       <div class="mpq-field">
-        <label class="mpq-label" for="mpqCity">City</label>
+        <label class="mpq-label" for="mpqCity">City <span style="opacity:.7 ;font-size:0.9rem; font-style:italic;padding-left:5px; padding-bottom:2px"> (optional) </span></label>
         <input id="mpqCity" class="mpq-input" type="text"
                placeholder="Type your city" list="mpqCityList" autocomplete="off" />
         <datalist id="mpqCityList"></datalist>
@@ -349,7 +366,7 @@
     <div class="mpq-step" data-step="2" style="display:none">
       <h3 class="mpq-q-title">What’s your email?</h3>
       <div class="mpq-field">
-        <label class="mpq-label" for="mpqEmail">Email </label>
+        <label class="mpq-label" for="mpqEmail">Email <span style="opacity:.7 ;font-size:0.9rem; font-style:italic;padding-left:5px; padding-bottom:2px"> (optional) </span></label>
         <input id="mpqEmail" type="email" class="mpq-input" placeholder="you@example.com" autocomplete="email">
         
       </div>
@@ -357,7 +374,9 @@
 
     <div class="mpq-modal-footer">
       <button id="mpqBackBtn" class="mpq-btn" style="display:none">Back</button>
+    
       <button id="mpqSkipBtn" class="mpq-btn mpq-btn--ghost">Skip</button>
+    
       <button id="mpqNextBtn" class="mpq-btn mpq-btn--primary">Next</button>
       <button id="mpqFinishBtn" class="mpq-btn mpq-btn--primary" style="display:none">Reveal my result</button>
     </div>

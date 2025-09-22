@@ -974,6 +974,33 @@ button.loading::after{
   display: flex;
   justify-content: center;
 }
+/* Make modal a positioning context */
+.mpq-modal-inner { position: relative; }
+
+/* Full-screen overlay inside the modal */
+.mpq-optin{
+  position: absolute; inset: 0; z-index: 50;
+  display: none; /* JS toggles to flex */
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,.55); /* same dim as your overlay */
+  font: inherit; color: inherit;
+}
+
+/* The white card */
+.mpq-optin-card{
+  background: #fff; color: #0f2d33; /* same body color */
+  width: min(560px, 92vw);
+  border-radius: 16px; padding: 20px 22px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+}
+
+/* Buttons row */
+.mpq-actions{ display:flex; gap:12px; margin-top:14px; }
+
+/* Dim/lock footer while opt-in is up (but keep it visible) */
+.mpq-modal-footer.is-disabled { opacity: .4; pointer-events: none; }
+
+
 
 
 @keyframes mpqspin{ to{ transform:translateY(-50%) rotate(360deg) } }
