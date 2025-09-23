@@ -530,6 +530,8 @@ function validateCurrentStep() {
   // forces Safari to recognize :active for start button on mobile devices
   document.addEventListener("touchstart", function () { }, true);
 
+  
+
   // Starts the quiz when the start button is clicked
   startButton.addEventListener('click', () => {
     welcomeScreen.style.display = 'none';
@@ -539,13 +541,30 @@ function validateCurrentStep() {
 
   // backbutton
   const backButton = document.getElementById('back-button');
-  backButton.addEventListener('click', () => {
-    if (MobileDevice()) {
-      backButton.classList.remove("mobile-click");
-      void backButton.offsetWidth;
-      backButton.classList.add("mobile-click");
-    }
 
+  if (window.matchMedia('(pointer: coarse)').matches) {
+    backButton.addEventListener('touchstart', () => {
+      backButton.classList.add('touchpress');
+    });
+
+    backButton.addEventListener('touchend', () => {
+      setTimeout(() => {
+        backButton.classList.remove('touchpress');
+      }, 100); // match CSS animation duration
+    });
+
+    startButton.addEventListener('touchstart', () => {
+      startButton.classList.add('touchpress');
+    });
+
+    startButton.addEventListener('touchend', () => {
+      setTimeout(() => {
+        startButton.classList.remove('touchpress');
+      }, 100); // match CSS animation duration
+    });
+  }
+
+  backButton.addEventListener('click', () => {
     if (currentQuestionIndex > 0) {
       currentQuestionIndex--;
       loadQuestion(currentQuestionIndex);
@@ -554,7 +573,6 @@ function validateCurrentStep() {
       quizContainer.style.display = 'none';
       welcomeScreen.style.display = 'flex';
       document.querySelectorAll('.answer-button').forEach(btn => btn.classList.remove('active'));
-      backButton.classList.remove("mobile-click");
     }
   });
 
@@ -611,16 +629,31 @@ function validateCurrentStep() {
 
   // Sets up event listeners for answer buttons (NO pause here, per your request)
   document.querySelectorAll('.answer-button').forEach(button => {
-    button.addEventListener('click', function () {
-      recordAnswer(this.value);
+      button.addEventListener('click', function () {
+        recordAnswer(this.value);
+      });
 
-      if (MobileDevice()) {
-        button.classList.remove("mobile-click");
-        void button.offsetWidth;
-        button.classList.add("mobile-click");
+      if (window.matchMedia('(pointer: coarse)').matches) {
+
+        button.addEventListener('touchstart', () => {
+          button.classList.add('touchpress');
+        });
+
+
+        button.addEventListener('touchend', () => {
+          setTimeout(() => {
+            button.classList.remove('touchpress');
+          }, 100); // match CSS animation duration
+        });
       }
-    });
+
+      // if (MobileDevice()) {
+      //   button.classList.remove("mobile-click");
+      //   void button.offsetWidth;
+      //   button.classList.add("mobile-click");
+      // }
   });
+  // });
 
   // Attach Download Results button handler ONCE (no nested DOMContentLoaded)
 	const downloadBtn = document.getElementById("downloadResultsBtn");
