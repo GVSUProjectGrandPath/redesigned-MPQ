@@ -585,10 +585,12 @@ function validateCurrentStep() {
   function updateScrollLock() {
     const feedbackPopup = document.getElementById('feedback-popup');
 	  const nextStepsPopup = document.getElementById('next-steps-popup');
+    const sendResultsPopup = document.getElementById('resultSending-popup');
 
     const isFeedbackOpen = feedbackPopup.classList.contains('active');
+    const isResultSendingOpen = sendResultsPopup.classList.contains('active');
     const isNextStepsOpen = window.getComputedStyle(nextStepsPopup).display === "block"; 
-    const isAnyPopupOpen = isFeedbackOpen || isNextStepsOpen;
+    const isAnyPopupOpen = isFeedbackOpen || isNextStepsOpen || isResultSendingOpen;
 
     if (isAnyPopupOpen) {
       document.documentElement.style.overflow = 'hidden';
@@ -656,7 +658,7 @@ function validateCurrentStep() {
   // });
 
   // Attach Download Results button handler ONCE (no nested DOMContentLoaded)
-	const downloadBtn = document.getElementById("downloadResultsBtn");
+	const downloadBtn = document.getElementById("downloadBtn");
 	if (downloadBtn) {
 		downloadBtn.addEventListener("click", function () {
 			// Use what showResults() stored earlier
@@ -989,6 +991,48 @@ function validateCurrentStep() {
 			}
 		});
 
+    document.getElementById('emailBtn').addEventListener('click', async (event) => {
+      event.preventDefault();
+
+      const emailInput = document.getElementById('email-input').value.trim();
+      // console.log(`Email Input: ${emailInput}`);
+      const userPersonalityType = personalityType || "saver";
+			// Make sure the path and extension match your files exactly
+			const fileName = `${userPersonalityType}.jpg`;
+
+      const emailData = {
+        input: emailInput,
+        animalResultFile: fileName,
+      };
+
+        // emailData[]
+        // const emailInput = document.getElementById('email-input').value.trim();
+
+      if (validator.isEmail(emailInput)) {
+        console.log(`Valid email: ${emailInput}`);
+        try {
+          const response = await fetch('https://mpq-backend.onrender.com/send-email', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ emailData }),
+          });
+
+          if (response.ok) {
+            alert('Email sent successfully!');
+          } else {
+            alert('Failed to send email.');
+          }
+        } catch (error) {
+          console.error('Error sending email:', error);
+          alert('Error sending email.');
+        }
+      } else {
+        alert(`Invalid email!! : ${emailInput}`);
+      }
+    });
+
     // pushpa starts
 		function showPersonalityDetails(personalityType) {
 			const data = personalitiesData.descriptions[personalityType];
@@ -1075,6 +1119,18 @@ function validateCurrentStep() {
 		return Object.values(totalPoints).reduce((sum, points) => sum + points, 0);
 	}
 
+  document.getElementById('send-button').addEventListener('click', function () {
+		// button that lets user email their results or download their results
+		console.log("Send button clicked!");
+		let sendResultsPopup = document.getElementById('resultSending-popup');
+		const sendWindowOverlay = document.querySelector('.sendWindowOverlay');
+
+		sendResultsPopup.classList.add('active');
+		sendWindowOverlay.classList.add('visible');
+		document.documentElement.style.overflow = 'hidden'; // html
+		document.body.style.overflow = 'hidden'; // body
+	});
+
 	document.getElementById('feedback-button').addEventListener('click', function () {
 		let feedbackPopup = document.getElementById('feedback-popup');
 		const overlay = document.querySelector('.overlay');
@@ -1090,6 +1146,8 @@ function validateCurrentStep() {
     const overlay = document.querySelector('.overlay');
 	  let nextStepsPopup = document.getElementById('next-steps-popup');
     const nextStepsOverlay = document.querySelector('.nextStepsOverlay');
+    let sendResultsPopup = document.getElementById('resultSending-popup');
+		const sendWindowOverlay = document.querySelector('.sendWindowOverlay');
 
     if (!feedbackPopup.contains(event.target) && event.target.id !== 'feedback-button') {
       feedbackPopup.classList.remove('active');
@@ -1106,14 +1164,33 @@ function validateCurrentStep() {
       // document.documentElement.style.overflow = 'auto'; // html
       // document.body.style.overflow = 'auto'; // body
     }
+
+    if (!sendResultsPopup.contains(event.target) && event.target.id !== 'send-button') {
+			sendResultsPopup.classList.remove('active');
+			sendWindowOverlay.classList.remove('visible');
+      updateScrollLock();
+			// document.documentElement.style.overflow = 'auto'; // html
+			// document.body.style.overflow = 'auto'; // body
+		}
 	});
 
-	document.getElementById('closeXbutton').addEventListener('click', function () {
+	document.getElementById('feedback-closeXButton').addEventListener('click', function () {
 		let feedbackPopup = document.getElementById('feedback-popup');
 		const overlay = document.querySelector('.overlay');
 
 		feedbackPopup.classList.remove('active');
 		overlay.classList.remove('visible');
+    updateScrollLock();
+		// document.documentElement.style.overflow = 'auto'; // html
+		// document.body.style.overflow = 'auto'; // body
+	});
+
+  document.getElementById('send-CloseXButton').addEventListener('click', function () {
+		let sendResultsPopup = document.getElementById('resultSending-popup');
+		const sendWindowOverlay = document.querySelector('.sendWindowOverlay');
+
+		sendResultsPopup.classList.remove('active');
+		sendWindowOverlay.classList.remove('visible');
     updateScrollLock();
 		// document.documentElement.style.overflow = 'auto'; // html
 		// document.body.style.overflow = 'auto'; // body
