@@ -114,7 +114,7 @@
   width: 90%; /* Slightly wider for better spacing */
   max-width: clamp(320px, 500px, 90%);
   max-height: clamp(60%, 80vh, 85%); /* Limit the height to allow scrolling */
-  background-color: #FEDB04;
+  background: #fff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   overflow-y: scroll; /* Enable vertical scrolling */
@@ -129,7 +129,7 @@
   position: sticky;
   /* margin: 0; */
   top: 0;
-  background-color: #FEDB04;
+  background-color: #8adffd;
   /* color: black; */
   z-index: 100;
   height: 30px;
@@ -178,23 +178,32 @@
   border: 2px solid #000;
   font-weight: 600;
   color: black;
-  background-color: #8adffd;
+  background-color: #FEDB04;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2);
 }
 
 #email-input {
   all: unset;
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
+  background-color: #8adffd;
+  /* background-color: #FEDB04; */
+  /* background-color: black; */
   font-weight: 500;
-  caret-color: #ad00ab;
+  /* caret-color: #ad00ab; */
+  caret-color: black;
   /* color: black; */
   /* border-radius: 10px; */
   border: 3px solid black;
+  margin-top: 27px;
   /* Ensure consistent box sizing */
   box-sizing: border-box !important;
   padding: 3px;
   font-family: 'roboto';
   font-weight: 500;
+}
+
+#email-input::placeholder {
+  color: black;
 }
 
 .unfilledForm {
