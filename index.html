@@ -164,8 +164,8 @@
           
                 <div class="buttons">
                   <button id="next-steps-button" class="results-btn">Next steps</button>
-                  <!-- <button id="send-button">Send Results</button> -->
-                  <button id="downloadResultsBtn">Download Results</button>
+                  <button id="send-button">Send Results</button>
+                  <!-- <button id="downloadResultsBtn">Download Results</button> -->
                   <button class="restart" id="restart-button">Restart quiz</button>
                   <button class="feedback" id="feedback-button">Give feedback</button>
                 </div>
@@ -174,11 +174,34 @@
       
             <!-- pushpa ends -->
             <!-- <button id="feedback-button" class="feedback-button">Give Feedback</button> -->
+            <div class="sendWindowOverlay"></div>
+            <div id="resultSending-popup">
+                <div class="sendTopBar">
+                    <h2 class="sendTitle">Download/Email Results</h2>
+                    <button id="send-CloseXButton">
+                        <i class="fa-solid fa-x X-icon"></i> 
+                    </button>
+                </div>
+                <div id="send-content">
+                    <div>
+                        If you would like to download your results:
+                    </div>
+                    <button id="downloadBtn">Download Results</button>
+                    <div>
+                        If you would like to email your results:
+                    </div>
+                    <input id="email-input" type="text"
+                    placeholder="Enter email..."
+                    >
+                    <button id="emailBtn">Email Results</button>
+                </div>
+            </div>
+
             <div class="overlay"></div>
             <div id="feedback-popup">
                 <div class="testTopBar">
                     <h2 class="surveyTitle">FeedBack Form</h2>
-                    <button id="closeXbutton">
+                    <button id="feedback-closeXButton">
                         <i class="fa-solid fa-x X-icon"></i> 
                     </button>
                 </div>
@@ -405,6 +428,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/profanity-cleaner/dist/profanity-cleaner.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/validator@13.9.0/validator.min.js"></script>
     <script src="/src/js/profanity.js"></script>
     <script src="/src/js/personalities.js"></script>
     <script src="/src/js/questions.js"></script>
