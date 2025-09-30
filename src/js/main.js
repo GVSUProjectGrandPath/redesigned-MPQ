@@ -658,7 +658,7 @@ function validateCurrentStep() {
   // });
 
   // Attach Download Results button handler ONCE (no nested DOMContentLoaded)
-	const downloadBtn = document.getElementById("downloadBtn");
+	const downloadBtn = document.getElementById("downloadResultsBtn");
 	if (downloadBtn) {
 		downloadBtn.addEventListener("click", function () {
 			// Use what showResults() stored earlier
