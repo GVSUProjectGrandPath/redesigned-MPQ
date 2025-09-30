@@ -940,6 +940,8 @@ function validateCurrentStep() {
     document.getElementById('feedback-form').addEventListener('submit', async (event) => {
       event.preventDefault(); // Prevent default form submission
 
+      const loadingSpinner = document.querySelector('#feedback-form #loadingSpinner');
+
       // comment section code for later
       // const unCleanComment = userCommentArea.value.trim();
       // const cleanedComment = profanityCleaner.clean(unCleanComment);
@@ -972,10 +974,12 @@ function validateCurrentStep() {
 			};
 
 			try {
+        loadingSpinner.classList.toggle('hidden');
 				if (feedbackData.answer1 === '' || feedbackData.answer2 === '') {
 					throw new Error("need to answer both questions!")
 				}
-				const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', {
+				// const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', {
+        const response = await fetch('http://localhost:5000/submit-feedback', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -984,9 +988,16 @@ function validateCurrentStep() {
 				});
 
 				const result = await response.json();
-				alert(result.message);
-
+		
+        if (result.status === 'success') {
+					loadingSpinner.classList.toggle('hidden');
+					alert(result.message);
+				} else {
+					loadingSpinner.classList.toggle('hidden');
+          alert(result.message);
+        }
 			} catch (error) {
+        loadingSpinner.classList.toggle('hidden');
 				alert(`Failed to submit feedback. ${error}`);
 			}
 		});
