@@ -941,6 +941,10 @@ function validateCurrentStep() {
       event.preventDefault(); // Prevent default form submission
 
       const loadingSpinner = document.querySelector('#feedback-form #loadingSpinner');
+      const feedbackForm = document.getElementById('feedback-form');
+      const feedbackPopup = document.getElementById('feedback-popup');
+      // const question1 = document.querySelector('#feedback-form for=recommendSurvey');
+      // const question2 = document.querySelector('#feedback-form for=recommendSurvey');
 
       // comment section code for later
       // const unCleanComment = userCommentArea.value.trim();
@@ -974,11 +978,18 @@ function validateCurrentStep() {
 			};
 
 			try {
+        Array.from(feedbackForm.children).forEach(child => {
+          if (child.id !== "loadingSpinner") {
+            child.style.display = "none";
+          }
+        })
+
+        feedbackPopup.classList.add('load-added');
         loadingSpinner.classList.toggle('hidden');
 				if (feedbackData.answer1 === '' || feedbackData.answer2 === '') {
 					throw new Error("need to answer both questions!")
 				}
-				const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', {
+				const response = await fetch('http://localhost:5000/submit-feedback', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -989,13 +1000,37 @@ function validateCurrentStep() {
 				const result = await response.json();
 		
         if (result.status === 'success') {
+          Array.from(feedbackForm.children).forEach(child => {
+            if (child.name === "company") {
+              return;
+            } else if (child.id !== "loadingSpinner") {
+              child.style.display = "";
+            } 
+          })
+          feedbackPopup.classList.remove('load-added');
 					loadingSpinner.classList.toggle('hidden');
 					alert(result.message);
 				} else {
+          Array.from(feedbackForm.children).forEach(child => {
+            if (child.name === "company") {
+              return;
+            } else if (child.id !== "loadingSpinner") {
+              child.style.display = "";
+            } 
+          })
+          feedbackPopup.classList.remove('load-added');
 					loadingSpinner.classList.toggle('hidden');
           alert(result.message);
         }
 			} catch (error) {
+        Array.from(feedbackForm.children).forEach(child => {
+          if (child.name === "company") {
+            return;
+          } else if (child.id !== "loadingSpinner") {
+            child.style.display = "";
+          } 
+        })
+        feedbackPopup.classList.remove('load-added');
         loadingSpinner.classList.toggle('hidden');
 				alert(`Failed to submit feedback. ${error}`);
 			}

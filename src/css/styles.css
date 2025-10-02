@@ -105,6 +105,11 @@
   z-index: 1001;
 }
 
+#feedback-popup.load-added {
+  height: clamp(60%, 80vh, 85%); /* this stops content deciding the height */
+  overflow-y: hidden !important;
+}
+
 #resultSending-popup {
   position: fixed;
   display: none; /* Hidden by default */
