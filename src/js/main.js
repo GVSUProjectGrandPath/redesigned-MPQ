@@ -989,7 +989,7 @@ function validateCurrentStep() {
 				if (feedbackData.answer1 === '' || feedbackData.answer2 === '') {
 					throw new Error("need to answer both questions!")
 				}
-				const response = await fetch('http://localhost:5000/submit-feedback', {
+				const response = await fetch('https://mpq-backend.onrender.com/submit-feedback', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
