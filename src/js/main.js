@@ -1012,6 +1012,7 @@ function validateCurrentStep() {
         console.log(`Valid email: ${emailInput}`);
         try {
           const response = await fetch('http://localhost:5000/send-email', {
+          // const response = await fetch('https://mpq-backend.onrender.com/send-email', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
