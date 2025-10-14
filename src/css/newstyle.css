@@ -38,6 +38,7 @@
     display: none;
   }
 
+  #email-loadingSpinner,
   #loadingSpinner {
     display: flex;
     flex-direction: column;

@@ -164,8 +164,8 @@
           
                 <div class="buttons">
                   <button id="next-steps-button" class="results-btn">Next steps</button>
-                  <button id="send-button" style="display: none;">Send Results</button>
-                  <button id="downloadResultsBtn">Download Results</button>
+                  <button id="send-button">Send Results</button>
+                  <button id="downloadResultsBtn" style="display: none;">Download Results</button>
                   <button class="restart" id="restart-button">Restart quiz</button>
                   <button class="feedback" id="feedback-button">Give feedback</button>
                 </div>
@@ -194,6 +194,10 @@
                     placeholder="Enter email..."
                     >
                     <button id="emailBtn">Email Results</button>
+                    <div id="email-loadingSpinner" class="hidden">
+                        <div class="spinner"></div>
+                        <p class="loadingText">Sending Email...</p>
+                    </div>
                 </div>
             </div>
 

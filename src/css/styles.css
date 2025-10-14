@@ -130,6 +130,11 @@
   z-index: 1001;
 }
 
+#resultSending-popup.load-added {
+  height: clamp(60%, 80vh, 85%); /* this stops content deciding the height */
+  overflow-y: hidden !important;
+}
+
 .sendTopBar {
   position: sticky;
   /* margin: 0; */

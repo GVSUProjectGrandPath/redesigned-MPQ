@@ -658,7 +658,7 @@ function validateCurrentStep() {
   // });
 
   // Attach Download Results button handler ONCE (no nested DOMContentLoaded)
-	const downloadBtn = document.getElementById("downloadResultsBtn");
+	const downloadBtn = document.getElementById("downloadBtn");
 	if (downloadBtn) {
 		downloadBtn.addEventListener("click", function () {
 			// Use what showResults() stored earlier
@@ -1039,6 +1039,9 @@ function validateCurrentStep() {
     document.getElementById('emailBtn').addEventListener('click', async (event) => {
       event.preventDefault();
 
+      const emailLoadingSpinner = document.getElementById('email-loadingSpinner');
+      const sendContent = document.getElementById('send-content');
+      const resultSendingPopup = document.getElementById('resultSending-popup');
       const emailInput = document.getElementById('email-input').value.trim();
       // console.log(`Email Input: ${emailInput}`);
       const userPersonalityType = personalityType || "saver";
@@ -1056,6 +1059,14 @@ function validateCurrentStep() {
       if (validator.isEmail(emailInput)) {
         console.log(`Valid email: ${emailInput}`);
         try {
+          Array.from(sendContent.children).forEach(child => {
+            if (child.id !== "email-loadingSpinner") {
+              child.style.display = "none";
+            }
+          })
+
+          resultSendingPopup.classList.add('load-added');
+          emailLoadingSpinner.classList.toggle('hidden');
           const response = await fetch('http://localhost:5000/send-email', {
           // const response = await fetch('https://mpq-backend.onrender.com/send-email', {
             method: 'POST',
@@ -1066,13 +1077,37 @@ function validateCurrentStep() {
           });
 
           if (response.ok) {
+            Array.from(sendContent.children).forEach(child => {
+              if (child.id !== "email-loadingSpinner") {
+                child.style.display = "";
+              }
+            })
+
+            resultSendingPopup.classList.remove('load-added');
+            emailLoadingSpinner.classList.toggle('hidden');
             alert('Email sent successfully!');
           } else {
+            Array.from(sendContent.children).forEach(child => {
+              if (child.id !== "email-loadingSpinner") {
+                child.style.display = "";
+              }
+            })
+
+            resultSendingPopup.classList.remove('load-added');
+            emailLoadingSpinner.classList.toggle('hidden');
             alert('Failed to send email.');
           }
         } catch (error) {
-          console.error('Error sending email:', error);
-          alert('Error sending email.');
+            Array.from(sendContent.children).forEach(child => {
+              if (child.id !== "email-loadingSpinner") {
+                child.style.display = "";
+              }
+            })
+
+            resultSendingPopup.classList.remove('load-added');
+            emailLoadingSpinner.classList.toggle('hidden');
+            console.error('Error sending email:', error);
+            alert('Error sending email.');
         }
       } else {
         alert(`Invalid email!! : ${emailInput}`);
