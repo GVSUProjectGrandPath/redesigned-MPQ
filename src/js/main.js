@@ -886,6 +886,9 @@ function validateCurrentStep() {
     };
     
     saveQuizResult(quizResult); // Call the new function to save the result
+    saveResultToFirestore(quizResult);
+
+
 
 		function saveQuizResult(quizResult) {
 			fetch("/api/save-result", {
@@ -900,26 +903,27 @@ function validateCurrentStep() {
 				.catch(err => console.error("❌ Error saving to backend:", err));
     }
   
-		async function saveQuizResultLegacy(quizResult) {
-			try {
-				const response = await fetch('https://mpq-backend.onrender.com/save-quiz-result', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(quizResult),
-				});
+		function saveResultToFirestore(quizResult) {
+            const collectionName = "finlit_results"; // New Firestore collection
+            const docRef = db.collection(collectionName).doc(quizResult.personalityType);
 
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-
-				const data = await response.json();
-				console.log(data.message);  // Log the success message
-			} catch (error) {
-				console.error('Error saving quiz result:', error);
-			}
-		}
+            docRef.get().then((doc) => {
+                if (doc.exists) {
+                    return docRef.update({
+                        resultCount: firebase.firestore.FieldValue.increment(1)
+                    });
+                } else {
+                    return docRef.set({
+                        personalityType: quizResult.personalityType,
+                        resultCount: 1
+                    });
+                }
+            }).then(() => {
+                console.log(`✅ Firestore saved to ${collectionName}: ${quizResult.personalityType}`);
+            }).catch((error) => {
+                console.error("❌ Firestore error:", error);
+            });
+        }
 
     // comment section code
     // const userCommentArea = document.getElementById('userInput');
