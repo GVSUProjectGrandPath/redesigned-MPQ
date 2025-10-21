@@ -411,32 +411,36 @@
 </div>
 <!-- ===== End Pre-Results Modal Pushpa===== -->
 
-    <!-- Firebase SDKs -->
-    <!-- <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDLsfsDodVXkWHTErosKce1vZDRjZAh0Vo",
-            authDomain: "adventurequiz-622cc.firebaseapp.com",
-            projectId: "adventurequiz-622cc",
-            storageBucket: "adventurequiz-622cc.firebasestorage.app",
-            messagingSenderId: "525369177346",
-            appId: "1:525369177346:web:01264fb06b3f8746a6fe1b"
-        };
+  <!-- Firebase init (must come AFTER SDKs, BEFORE your app scripts) -->
+  <script>
+    (function initFirebase() {
+      const config = {
+        apiKey: "AIzaSyDLsfsDodVXkWHTErosKce1vZDRjZAh0Vo",
+        authDomain: "adventurequiz-622cc.firebaseapp.com",
+        projectId: "adventurequiz-622cc",
+        storageBucket: "adventurequiz-622cc.firebasestorage.app",
+        messagingSenderId: "525369177346",
+        appId: "1:525369177346:web:01264fb06b3f8746a6fe1b"
+      };
+      if (!firebase.apps.length) firebase.initializeApp(config);
+      window.db = firebase.firestore();
+    })();
+  </script>
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-    </script> -->
+  <!-- Third-party libs your code uses -->
+  <script src="https://cdn.jsdelivr.net/npm/profanity-cleaner/dist/profanity-cleaner.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/validator@13.9.0/validator.min.js"></script>
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/profanity-cleaner/dist/profanity-cleaner.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/validator@13.9.0/validator.min.js"></script>
-    <script src="/src/js/profanity.js"></script>
-    <script src="/src/js/personalities.js"></script>
-    <script src="/src/js/questions.js"></script>
-    <script src="/src/js/main.js"></script>
+  <!-- Your app scripts (order matters if they depend on each other) -->
+  <script src="/src/js/profanity.js"></script>
+  <script src="/src/js/personalities.js"></script>
+  <script src="/src/js/questions.js"></script>
+  <script src="/src/js/main.js"></script>
 </body>
+
 
 </html>
