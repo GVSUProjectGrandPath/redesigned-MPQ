@@ -51,56 +51,118 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDLsfsDodVXkWHTErosKce1vZDRjZAh0Vo",
-      authDomain: "adventurequiz-622cc.firebaseapp.com",
-      projectId: "adventurequiz-622cc",
-      storageBucket: "adventurequiz-622cc.firebasestorage.app",
-      messagingSenderId: "525369177346",
-      appId: "1:525369177346:web:84f360345c71927c3d7bce"
+  const firebaseConfig = {
+    apiKey: "AIzaSyDLsfsDodVXkWHTErosKce1vZDRjZAh0Vo",
+    authDomain: "adventurequiz-622cc.firebaseapp.com",
+    projectId: "adventurequiz-622cc",
+    storageBucket: "adventurequiz-622cc.firebasestorage.app",
+    messagingSenderId: "525369177346",
+    appId: "1:525369177346:web:84f360345c71927c3d7bce"
+  };
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  const listEl = document.getElementById("resultsList");
+  listEl.innerHTML = "";
+
+  // === 1) FINAL labels you want to SHOW (edit these names as you prefer) ===
+  const DISPLAY_LABEL = {
+    'saver':       'Saver (Squirrel)',
+    'lavish':      'Spender (Poodle)',     // if you call it Lavish, change to 'Lavish (Poodle)'
+    'investor':    'Investor (Owl)',
+    'hustler':     'Hustler (Bee)',        // if old data says "Compulsive", we’ll normalize to hustler
+    'risk-taker':  'Risk-Taker (Rabbit)',  // old "Gambler" -> risk-taker
+    'defensive':   'Defensive (Armadillo)',// old "Debtor" -> defensive
+    'shopper':     'Shopper (Octopus)',
+    'indifferent': 'Indifferent (Panda)'
+  };
+
+  // === 2) Legacy/variant names -> canonical 8 keys ===
+  const LEGACY_TO_KEY = {
+    // canonical already
+    'saver': 'saver',
+    'lavish': 'lavish',
+    'investor': 'investor',
+    'hustler': 'hustler',
+    'risk-taker': 'risk-taker',
+    'risk taker': 'risk-taker',
+    'defensive': 'defensive',
+    'shopper': 'shopper',
+    'indifferent': 'indifferent',
+
+    // legacy old labels
+    'spender': 'lavish',
+    'compulsive': 'hustler',
+    'gambler': 'risk-taker',
+    'debtor': 'defensive',
+
+    // sometimes animal names get stored
+    'squirrel': 'saver',
+    'poodle': 'lavish',
+    'owl': 'investor',
+    'bee': 'hustler',
+    'rabbit': 'risk-taker',
+    'armadillo': 'defensive',
+    'octopus': 'shopper',
+    'panda': 'indifferent',
+  };
+
+  function normalizeToKey(raw) {
+    if (!raw) return null;
+    let s = String(raw).trim().toLowerCase();
+
+    // strip things like " (Bee)" → "compulsive"
+    s = s.replace(/\([^)]*\)/g, '').trim();
+    // collapse spaces/underscores/hyphens
+    s = s.replace(/[_]/g, '-').replace(/\s*-\s*/g, '-').trim();
+    // strip trailing numbers e.g. "defensive 0"
+    s = s.replace(/\s+\d+$/, '').trim();
+
+    if (LEGACY_TO_KEY[s]) return LEGACY_TO_KEY[s];
+    if (DISPLAY_LABEL[s])  return s; // already canonical
+    return null;
+  }
+
+  async function loadAndRender() {
+    // Start with zero for the 8 keys
+    const counts = {
+      'saver': 0, 'lavish': 0, 'investor': 0, 'hustler': 0,
+      'risk-taker': 0, 'defensive': 0, 'shopper': 0, 'indifferent': 0
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    // NOTE: your collection holds pre-aggregated docs (personalityType + resultCount)
+    // If instead you want to count raw quiz docs, swap the collection name.
+    const snap = await db.collection("finlit_results").get();
 
-    const listEl = document.getElementById("resultsList");
-    listEl.innerHTML = "";
-
-    const animalMap = {
-      saver: "Squirrel",
-      spender: "Poodle",
-      investor: "Owl",
-      compulsive: "Bee",
-      gambler: "Rabbit",
-      debtor: "Armadillo",
-      shopper: "Octopus",
-      indifferent: "Panda"
-    };
-
-    db.collection("finlit_results").get()
-      .then(snapshot => {
-        if (snapshot.empty) {
-          listEl.innerHTML = "<li>No data yet</li>";
-        } else {
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            const type = capitalize(data.personalityType);
-            const animal = animalMap[data.personalityType] || "";
-            const li = document.createElement("li");
-            li.textContent = `${type} (${animal}): ${data.resultCount}`;
-            listEl.appendChild(li);
-          });
-        }
-      })
-      .catch(err => {
-        listEl.innerHTML = `<li>Error loading results</li>`;
-        console.error("❌ Firestore error:", err);
-      });
-
-    function capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
+    if (snap.empty) {
+      listEl.innerHTML = "<li>No data yet</li>";
+      return;
     }
-  </script>
 
-</body>
-</html>
+    snap.forEach(doc => {
+      const d = doc.data();
+      const rawType = d.personalityType ?? doc.id ?? '';
+      const key = normalizeToKey(rawType);
+      const n = Number(d.resultCount ?? 0);
+
+      if (key && key in counts) {
+        counts[key] += (Number.isFinite(n) ? n : 0);
+      } else {
+        console.warn('Unknown type encountered:', rawType, 'in doc', doc.id);
+      }
+    });
+
+    // render in a fixed order per DISPLAY_LABEL
+    listEl.innerHTML = "";
+    Object.keys(DISPLAY_LABEL).forEach(key => {
+      const li = document.createElement("li");
+      li.textContent = `${DISPLAY_LABEL[key]}: ${counts[key] || 0}`;
+      listEl.appendChild(li);
+    });
+  }
+
+  loadAndRender().catch(err => {
+    console.error("❌ Firestore error:", err);
+    listEl.innerHTML = `<li>Error loading results</li>`;
+  });
+</script>
